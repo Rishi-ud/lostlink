@@ -807,12 +807,12 @@ app.post('/api/admin/query', (req, res) => {
 // ============================================
 // SERVE STATIC FRONTEND
 // ============================================
-app.use(express.static(path.join(__dirname)));
+app.use(express.static(path.join(__dirname, 'public')));
 
 // 404 handler for unknown HTML routes
 app.use((req, res) => {
   if (req.accepts('html')) {
-    res.status(404).sendFile(path.join(__dirname, '404.html'));
+    res.status(404).sendFile(path.join(__dirname, 'public', '404.html'));
   } else {
     res.status(404).json({ error: 'API route not found' });
   }
