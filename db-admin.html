@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Database Explorer — LostLink (SQLite 3)</title>
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/tokens.css">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/components.css">
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+  <style>
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--font-body);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    .admin-header {
+      background: var(--bg-card);
+      border-bottom: 1.5px solid var(--border);
+      padding: var(--space-4) var(--space-6);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    .admin-layout {
+      display: flex;
+      flex: 1;
+      height: calc(100vh - 65px);
+      overflow: hidden;
+    }
+    .admin-sidebar {
+      width: 260px;
+      background: var(--bg-secondary);
+      border-right: 1.5px solid var(--border);
+      padding: var(--space-4);
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-2);
+      overflow-y: auto;
+    }
+    .table-nav-btn {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 14px;
+      border-radius: var(--radius-md);
+      background: transparent;
+      border: 1px solid transparent;
+      color: var(--text);
+      font-size: var(--text-sm);
+      font-weight: 500;
+      cursor: pointer;
+      text-align: left;
+      transition: all var(--transition-fast);
+      width: 100%;
+    }
+    .table-nav-btn:hover {
+      background: var(--bg-card);
+      border-color: var(--border);
+    }
+    .table-nav-btn.active {
+      background: var(--primary-50);
+      border-color: var(--primary-300);
+      color: var(--primary);
+      font-weight: 700;
+    }
+    .table-count-badge {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      padding: 2px 8px;
+      border-radius: var(--radius-full);
+      font-size: 11px;
+      color: var(--text-secondary);
+      font-family: var(--font-mono, monospace);
+    }
+    .table-nav-btn.active .table-count-badge {
+      background: var(--primary);
+      color: white;
+      border-color: var(--primary);
+    }
+    .admin-main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      background: var(--bg);
+    }
+    .admin-topbar {
+      padding: var(--space-4) var(--space-6);
+      background: var(--bg-card);
+      border-bottom: 1.5px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: var(--space-4);
+      flex-wrap: wrap;
+    }
+    .table-wrapper {
+      flex: 1;
+      overflow: auto;
+      padding: var(--space-6);
+    }
+    .db-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      box-shadow: var(--shadow-sm);
+    }
+    .db-table th {
+      background: var(--bg-secondary);
+      padding: 12px 14px;
+      text-align: left;
+      font-weight: 700;
+      color: var(--text-secondary);
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      border-bottom: 1.5px solid var(--border);
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      white-space: nowrap;
+    }
+    .db-table td {
+      padding: 10px 14px;
+      border-bottom: 1px solid var(--border);
+      color: var(--text);
+      max-width: 320px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .db-table tr:hover td {
+      background: var(--bg-secondary);
+    }
+    .sql-console {
+      background: var(--bg-card);
+      border-bottom: 1.5px solid var(--border);
+      padding: var(--space-4) var(--space-6);
+      display: none;
+    }
+    .sql-editor {
+      width: 100%;
+      font-family: 'JetBrains Mono', Consolas, monospace;
+      font-size: 13px;
+      background: var(--bg-secondary);
+      color: var(--text);
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: var(--space-3);
+      resize: vertical;
+    }
+    .sql-editor:focus {
+      outline: none;
+      border-color: var(--primary);
+    }
+  </style>
+</head>
+<body>
+  <!-- HEADER -->
+  <header class="admin-header">
+    <div style="display:flex; align-items:center; gap:var(--space-3);">
+      <a href="index.html" class="logo" style="text-decoration:none;">
+        <div class="logo-icon"><i data-lucide="database"></i></div>
+        LostLink DB Explorer
+      </a>
+      <span class="badge badge-accent" style="font-size:11px;"><i data-lucide="cpu"></i> SQLite 3</span>
+      <span class="text-xs text-secondary" style="font-family:monospace;">data/lostlink.db</span>
+    </div>
+    <div style="display:flex; align-items:center; gap:var(--space-3);">
+      <button type="button" class="btn btn-secondary btn-sm" id="btn-toggle-sql">
+        <i data-lucide="terminal"></i> SQL Query Console
+      </button>
+      <button type="button" class="btn btn-ghost btn-sm" onclick="location.reload()" title="Refresh data">
+        <i data-lucide="refresh-cw"></i> Refresh
+      </button>
+      <a href="browse.html" class="btn btn-primary btn-sm">
+        <i data-lucide="external-link"></i> Open LostLink App
+      </a>
+    </div>
+  </header>
+
+  <!-- SQL QUERY CONSOLE (COLLAPSIBLE) -->
+  <div class="sql-console" id="sql-console">
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:var(--space-2);">
+      <span style="font-weight:700; font-size:12px; text-transform:uppercase; color:var(--text-secondary);"><i data-lucide="code" style="width:13px;height:13px;display:inline-block;vertical-align:middle;"></i> Run Custom SQL (Read-Only)</span>
+      <div style="display:flex; gap:var(--space-2);">
+        <button type="button" class="btn btn-ghost btn-xs" onclick="setQuery('SELECT * FROM users;')">Users</button>
+        <button type="button" class="btn btn-ghost btn-xs" onclick="setQuery('SELECT id, title, type, status, location FROM items;')">Items</button>
+        <button type="button" class="btn btn-ghost btn-xs" onclick="setQuery('SELECT * FROM messages;')">Messages</button>
+        <button type="button" class="btn btn-ghost btn-xs" onclick="setQuery('SELECT * FROM locations ORDER BY name ASC;')">20 Locations</button>
+      </div>
+    </div>
+    <textarea id="sql-input" class="sql-editor" rows="3">SELECT * FROM items WHERE type = 'lost';</textarea>
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-top:var(--space-2);">
+      <span id="query-status" class="text-xs text-secondary">Press Execute to run query</span>
+      <button type="button" class="btn btn-primary btn-sm" id="btn-run-sql">
+        <i data-lucide="play"></i> Execute Query
+      </button>
+    </div>
+  </div>
+
+  <!-- MAIN ADMIN LAYOUT -->
+  <div class="admin-layout">
+    <!-- SIDEBAR: TABLE LIST -->
+    <aside class="admin-sidebar">
+      <div style="font-size:11px; text-transform:uppercase; font-weight:700; color:var(--text-secondary); padding:4px 8px; margin-bottom:4px;">
+        Database Tables
+      </div>
+      <div id="tables-list" style="display:flex; flex-direction:column; gap:4px;">
+        <div style="padding:12px; text-align:center; color:var(--text-secondary); font-size:12px;">Loading tables...</div>
+      </div>
+    </aside>
+
+    <!-- MAIN VIEW -->
+    <main class="admin-main">
+      <!-- TOPBAR: TABLE STATS & SEARCH & EXPORT -->
+      <div class="admin-topbar">
+        <div style="display:flex; align-items:center; gap:var(--space-3);">
+          <h2 id="active-table-title" style="font-size:var(--text-lg); margin:0;">items</h2>
+          <span class="badge badge-secondary" id="active-table-rows-count">0 rows</span>
+        </div>
+        <div style="display:flex; align-items:center; gap:var(--space-3);">
+          <div class="search-input-wrapper" style="width:240px;">
+            <span class="search-icon"><i data-lucide="search" style="width:14px;height:14px;"></i></span>
+            <input type="text" class="input input-sm" id="table-search" placeholder="Filter rows in view..." style="padding-left:32px; font-size:12px;">
+          </div>
+          <button type="button" class="btn btn-secondary btn-sm" id="btn-export-json" title="Export as JSON">
+            <i data-lucide="download"></i> JSON
+          </button>
+          <button type="button" class="btn btn-secondary btn-sm" id="btn-export-csv" title="Export as CSV">
+            <i data-lucide="file-spreadsheet"></i> CSV
+          </button>
+        </div>
+      </div>
+
+      <!-- TABLE AREA -->
+      <div class="table-wrapper">
+        <table class="db-table" id="db-table">
+          <thead id="db-thead">
+            <tr><th>Loading columns...</th></tr>
+          </thead>
+          <tbody id="db-tbody">
+            <tr><td style="text-align:center; padding:32px; color:var(--text-secondary);">Select a table on the left to inspect records.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </main>
+  </div>
+
+  <script>
+    let currentTable = 'items';
+    let currentData = { columns: [], rows: [] };
+    let filteredRows = [];
+
+    document.addEventListener('DOMContentLoaded', async () => {
+      lucide.createIcons();
+      setupEvents();
+      await loadTablesList();
+      await loadTable(currentTable);
+    });
+
+    function setupEvents() {
+      // Toggle SQL Console
+      const btnToggle = document.getElementById('btn-toggle-sql');
+      const consoleEl = document.getElementById('sql-console');
+      btnToggle.addEventListener('click', () => {
+        const isHidden = consoleEl.style.display === 'none' || !consoleEl.style.display;
+        consoleEl.style.display = isHidden ? 'block' : 'none';
+        btnToggle.classList.toggle('active', isHidden);
+      });
+
+      // Run SQL
+      document.getElementById('btn-run-sql').addEventListener('click', runSqlQuery);
+
+      // Search filter
+      document.getElementById('table-search').addEventListener('input', (e) => {
+        const q = e.target.value.toLowerCase().trim();
+        if (!q) {
+          filteredRows = currentData.rows;
+        } else {
+          filteredRows = currentData.rows.filter(row => {
+            return Object.values(row).some(val => String(val).toLowerCase().includes(q));
+          });
+        }
+        renderTableBody();
+      });
+
+      // Export JSON
+      document.getElementById('btn-export-json').addEventListener('click', () => {
+        const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(currentData.rows, null, 2));
+        const a = document.createElement('a');
+        a.href = dataStr;
+        a.download = `${currentTable}_export.json`;
+        a.click();
+      });
+
+      // Export CSV
+      document.getElementById('btn-export-csv').addEventListener('click', () => {
+        if (!currentData.rows || currentData.rows.length === 0) return;
+        const keys = currentData.columns;
+        const csvRows = [];
+        csvRows.push(keys.join(','));
+        currentData.rows.forEach(row => {
+          const vals = keys.map(k => `"${String(row[k] || '').replace(/"/g, '""')}"`);
+          csvRows.push(vals.join(','));
+        });
+        const csvStr = "data:text/csv;charset=utf-8," + encodeURIComponent(csvRows.join('\n'));
+        const a = document.createElement('a');
+        a.href = csvStr;
+        a.download = `${currentTable}_export.csv`;
+        a.click();
+      });
+    }
+
+    async function loadTablesList() {
+      const container = document.getElementById('tables-list');
+      try {
+        const res = await fetch('/api/admin/tables');
+        const tables = await res.json();
+        
+        const iconMap = {
+          users: 'users',
+          items: 'package',
+          messages: 'message-square',
+          claims: 'shield-check',
+          matches: 'sparkles',
+          notifications: 'bell',
+          locations: 'map-pin',
+          categories: 'tag'
+        };
+
+        container.innerHTML = tables.map(t => `
+          <button type="button" class="table-nav-btn ${t.name === currentTable ? 'active' : ''}" onclick="switchTable('${t.name}')">
+            <span style="display:flex; align-items:center; gap:8px;">
+              <i data-lucide="${iconMap[t.name] || 'table'}" style="width:15px;height:15px;"></i>
+              ${t.name}
+            </span>
+            <span class="table-count-badge">${t.count}</span>
+          </button>
+        `).join('');
+
+        lucide.createIcons();
+      } catch (e) {
+        container.innerHTML = '<div style="color:var(--error); padding:10px; font-size:12px;">Failed to load tables list</div>';
+      }
+    }
+
+    async function switchTable(tableName) {
+      currentTable = tableName;
+      document.querySelectorAll('.table-nav-btn').forEach(btn => {
+        btn.classList.toggle('active', btn.textContent.includes(tableName));
+      });
+      document.getElementById('table-search').value = '';
+      await loadTable(tableName);
+    }
+
+    async function loadTable(tableName) {
+      document.getElementById('active-table-title').textContent = tableName;
+      document.getElementById('active-table-rows-count').textContent = 'Loading...';
+      
+      try {
+        const res = await fetch(`/api/admin/table/${tableName}`);
+        const data = await res.json();
+        currentData = data;
+        filteredRows = data.rows;
+
+        document.getElementById('active-table-rows-count').textContent = `${data.rows.length} rows`;
+        renderTableHead(data.columns);
+        renderTableBody();
+      } catch (err) {
+        console.error('Error loading table:', err);
+      }
+    }
+
+    function renderTableHead(cols) {
+      const thead = document.getElementById('db-thead');
+      thead.innerHTML = `<tr>${cols.map(c => `<th>${c}</th>`).join('')}</tr>`;
+    }
+
+    function renderTableBody() {
+      const tbody = document.getElementById('db-tbody');
+      const cols = currentData.columns;
+
+      if (!filteredRows || filteredRows.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="${cols.length || 1}" style="text-align:center; padding:32px; color:var(--text-secondary);">No records found.</td></tr>`;
+        return;
+      }
+
+      tbody.innerHTML = filteredRows.map(row => {
+        const cells = cols.map(col => {
+          let val = row[col];
+          if (val === null || val === undefined) return '<span style="color:var(--text-tertiary);">NULL</span>';
+          
+          if (col === 'type') {
+            return `<span class="badge badge-${val}">${val.toUpperCase()}</span>`;
+          }
+          if (col === 'status') {
+            return `<span class="badge badge-${val}">${val.toUpperCase()}</span>`;
+          }
+          if (typeof val === 'string' && (val.startsWith('{') || val.startsWith('['))) {
+            return `<code style="font-size:11px; font-family:monospace; color:var(--primary);">${escapeHtml(val)}</code>`;
+          }
+          return escapeHtml(String(val));
+        }).join('');
+        return `<tr>${cells}</tr>`;
+      }).join('');
+    }
+
+    function setQuery(sql) {
+      document.getElementById('sql-input').value = sql;
+      runSqlQuery();
+    }
+
+    async function runSqlQuery() {
+      const sql = document.getElementById('sql-input').value.trim();
+      const statusEl = document.getElementById('query-status');
+      statusEl.textContent = 'Executing query...';
+      statusEl.style.color = 'var(--text-secondary)';
+
+      try {
+        const t0 = performance.now();
+        const res = await fetch('/api/admin/query', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ sql })
+        });
+        const data = await res.json();
+        const t1 = performance.now();
+
+        if (!res.ok) {
+          statusEl.textContent = `❌ ${data.error || 'Query failed'}`;
+          statusEl.style.color = 'var(--error)';
+          return;
+        }
+
+        statusEl.textContent = `✓ Query completed: ${data.count} rows returned in ${(t1 - t0).toFixed(1)}ms`;
+        statusEl.style.color = 'var(--success)';
+
+        document.getElementById('active-table-title').textContent = 'Custom SQL Results';
+        document.getElementById('active-table-rows-count').textContent = `${data.count} rows`;
+
+        currentData = { columns: data.columns, rows: data.rows };
+        filteredRows = data.rows;
+        renderTableHead(data.columns);
+        renderTableBody();
+      } catch (e) {
+        statusEl.textContent = `❌ Connection error: ${e.message}`;
+        statusEl.style.color = 'var(--error)';
+      }
+    }
+
+    function escapeHtml(str) {
+      return str.replace(/[&<>'"]/g, tag => ({
+        '&': '&amp;',
+        '<': '&lt;',
+        '>': '&gt;',
+        "'": '&#39;',
+        '"': '&quot;'
+      }[tag] || tag));
+    }
+  </script>
+</body>
+</html>

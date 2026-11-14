@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bg8" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1E293B"/>
+      <stop offset="100%" stop-color="#0F172A"/>
+    </linearGradient>
+    <linearGradient id="calcBody" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#334155"/>
+      <stop offset="100%" stop-color="#1E293B"/>
+    </linearGradient>
+    <filter id="shadow8" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="12" stdDeviation="16" flood-color="#000" flood-opacity="0.35"/>
+    </filter>
+  </defs>
+  <rect width="400" height="300" fill="url(#bg8)"/>
+  <!-- Calculator Body -->
+  <g filter="url(#shadow8)">
+    <rect x="135" y="45" width="130" height="195" rx="14" fill="url(#calcBody)" stroke="#475569" stroke-width="2"/>
+    <!-- Solar strip & Logo -->
+    <text x="150" y="65" font-family="system-ui, sans-serif" font-size="9" font-weight="800" fill="#FFF">CASIO</text>
+    <rect x="210" y="55" width="45" height="12" rx="2" fill="#78350F" stroke="#B45309" stroke-width="1"/>
+    <!-- Dot Matrix LCD Screen -->
+    <rect x="145" y="75" width="110" height="38" rx="4" fill="#99F6E4" stroke="#0D9488" stroke-width="1.5"/>
+    <text x="152" y="93" font-family="monospace" font-size="11" fill="#134E4A">sin(30°) + √144</text>
+    <text x="245" y="108" text-anchor="end" font-family="monospace" font-size="13" font-weight="800" fill="#042F2E">12.5</text>
+    <!-- Keypad Grid -->
+    <circle cx="160" cy="125" r="7" fill="#64748B"/>
+    <circle cx="180" cy="125" r="7" fill="#64748B"/>
+    <circle cx="200" cy="125" r="7" fill="#64748B"/>
+    <circle cx="220" cy="125" r="7" fill="#64748B"/>
+    <circle cx="240" cy="125" r="7" fill="#DC2626"/>
+    <!-- Number keys -->
+    <rect x="148" y="142" width="20" height="14" rx="3" fill="#475569"/>
+    <rect x="174" y="142" width="20" height="14" rx="3" fill="#475569"/>
+    <rect x="200" y="142" width="20" height="14" rx="3" fill="#475569"/>
+    <rect x="226" y="142" width="24" height="14" rx="3" fill="#D97706"/>
+    <rect x="148" y="162" width="20" height="14" rx="3" fill="#475569"/>
+    <rect x="174" y="162" width="20" height="14" rx="3" fill="#475569"/>
+    <rect x="200" y="162" width="20" height="14" rx="3" fill="#475569"/>
+    <rect x="226" y="162" width="24" height="14" rx="3" fill="#2563EB"/>
+    <rect x="148" y="182" width="20" height="14" rx="3" fill="#475569"/>
+    <rect x="174" y="182" width="20" height="14" rx="3" fill="#475569"/>
+    <rect x="200" y="182" width="20" height="14" rx="3" fill="#475569"/>
+    <rect x="226" y="182" width="24" height="34" rx="3" fill="#2563EB"/>
+    <rect x="148" y="202" width="46" height="14" rx="3" fill="#475569"/>
+    <rect x="200" y="202" width="20" height="14" rx="3" fill="#475569"/>
+  </g>
+  <text x="200" y="270" text-anchor="middle" font-family="system-ui, sans-serif" font-size="12" font-weight="600" fill="#94A3B8" letter-spacing="1">CASIO SCIENTIFIC CALCULATOR</text>
+</svg>

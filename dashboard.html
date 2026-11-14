@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>User Dashboard — LostLink</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/tokens.css">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/pages.css">
+  <link rel="stylesheet" href="css/chatbot.css">
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <meta name="description" content="Manage your lost and found item reports, track claim statuses, and view notifications.">
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+</head>
+<body>
+  <a href="#main" class="skip-to-content">Skip to content</a>
+
+  <div class="page-wrapper">
+    <!-- HEADER -->
+    <header class="header">
+      <div class="header-inner">
+        <a href="index.html" class="logo">
+          <div class="logo-icon"><i data-lucide="link"></i></div>
+          LostLink
+        </a>
+        <nav class="nav" role="navigation">
+          <a href="browse.html" class="nav-link">Browse items</a>
+          <a href="dashboard.html" class="nav-link active">Dashboard</a>
+          <a href="index.html#how-it-works" class="nav-link">How it works</a>
+        </nav>
+        <div class="header-actions">
+          <button class="theme-toggle" aria-label="Toggle dark mode">
+            <i data-lucide="sun" class="icon-sun" style="display:none;"></i>
+            <i data-lucide="moon" class="icon-moon"></i>
+          </button>
+          <a href="report.html" class="btn btn-primary btn-sm">
+            <i data-lucide="plus"></i> Report Item
+          </a>
+          <button class="mobile-menu-btn" aria-label="Toggle menu" aria-expanded="false">
+            <i data-lucide="menu"></i>
+            <i data-lucide="x" style="display:none;"></i>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- MAIN -->
+    <main id="main" class="main-content">
+      <div class="container section-sm">
+
+        <!-- User profile header banner -->
+        <div class="dashboard-header card" style="padding:var(--space-6); background:var(--bg-secondary); border:1px solid var(--border); display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:var(--space-4);">
+          <div class="flex items-center gap-4">
+            <div class="avatar avatar-lg" id="dash-user-avatar">--</div>
+            <div>
+              <div class="flex items-center gap-2">
+                <h1 style="font-size:var(--text-2xl);" id="dash-user-name">Student Account</h1>
+                <span class="badge badge-found" style="text-transform:none;"><i data-lucide="badge-check"></i> SRM Verified</span>
+              </div>
+              <p class="text-sm text-secondary" id="dash-user-email" style="margin-top:2px;">Loading credentials...</p>
+            </div>
+          </div>
+          <div class="flex gap-3">
+            <a href="report.html" class="btn btn-primary"><i data-lucide="plus"></i> File New Report</a>
+            <a href="browse.html" class="btn btn-secondary"><i data-lucide="search"></i> Browse Campus</a>
+            <button type="button" class="btn btn-ghost" id="dash-logout-btn" title="Sign out of LostLink"><i data-lucide="log-out"></i> Logout</button>
+          </div>
+        </div>
+
+        <!-- Metric Stat Cards -->
+        <div class="dashboard-stats" style="margin-top:var(--space-8);">
+          <div class="stat-card">
+            <div class="stat-value" id="stat-reports" style="color:var(--primary-500);">0</div>
+            <div class="stat-label">Active Reports</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-value" id="stat-matches" style="color:var(--accent-500);">0</div>
+            <div class="stat-label">Smart Matches</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-value" id="stat-claims" style="color:var(--info);">0</div>
+            <div class="stat-label">Active Claims</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-value" id="stat-reunited" style="color:var(--success);">0</div>
+            <div class="stat-label">Items Reunited</div>
+          </div>
+        </div>
+
+        <!-- Chunked Tabs (Miller's Law) -->
+        <div class="card" style="margin-top:var(--space-8); padding:var(--space-6);">
+          <div class="tabs" role="tablist">
+            <button class="tab active" data-tab="reports" role="tab" aria-selected="true">
+              <i data-lucide="file-text"></i> My Reports
+              <span class="tab-count" id="tab-count-reports">0</span>
+            </button>
+            <button class="tab" data-tab="claims" role="tab" aria-selected="false">
+              <i data-lucide="shield-check"></i> My Claims
+              <span class="tab-count" id="tab-count-claims">0</span>
+            </button>
+            <button class="tab" data-tab="messages" role="tab" aria-selected="false">
+              <i data-lucide="message-square"></i> Messages
+              <span class="tab-count" id="tab-count-messages" style="background:var(--success-light);color:var(--success);">0</span>
+            </button>
+            <button class="tab" data-tab="notifications" role="tab" aria-selected="false">
+              <i data-lucide="bell"></i> Notifications
+              <span class="tab-count" id="tab-count-notifs" style="background:var(--primary-100);color:var(--primary-700);">0</span>
+            </button>
+          </div>
+
+          <!-- TAB PANEL: MY REPORTS -->
+          <div class="tab-panel active" id="panel-reports" role="tabpanel">
+            <div class="flex-between items-center" style="margin-bottom:var(--space-4);">
+              <h3 style="font-size:var(--text-lg);">Your Reported Items</h3>
+              <span class="text-sm text-secondary">Click any item to view its status details</span>
+            </div>
+            <div id="reports-list-container">
+              <!-- Rendered by JS -->
+            </div>
+          </div>
+
+          <!-- TAB PANEL: MY CLAIMS -->
+          <div class="tab-panel" id="panel-claims" role="tabpanel">
+            <div class="flex-between items-center" style="margin-bottom:var(--space-4);">
+              <h3 style="font-size:var(--text-lg);">Your Ownership Claims</h3>
+              <span class="text-sm text-secondary">Track verification status and collection passes</span>
+            </div>
+            <div id="claims-list-container">
+              <!-- Rendered by JS -->
+            </div>
+          </div>
+
+          <!-- TAB PANEL: HANDOVER MESSAGES -->
+          <div class="tab-panel" id="panel-messages" role="tabpanel">
+            <div class="flex-between items-center" style="margin-bottom:var(--space-4); flex-wrap:wrap; gap:var(--space-2);">
+              <div>
+                <h3 style="font-size:var(--text-lg);">Handover Messages &amp; Direct Chats</h3>
+                <span class="text-sm text-secondary">Coordinate collection with item finders and owners</span>
+              </div>
+              <a href="inbox.html" class="btn btn-primary btn-sm">
+                <i data-lucide="message-square"></i> Open Full 2-Pane Inbox
+              </a>
+            </div>
+            <div id="messages-list-container">
+              <!-- Rendered by JS -->
+            </div>
+          </div>
+
+          <!-- TAB PANEL: NOTIFICATIONS -->
+          <div class="tab-panel" id="panel-notifications" role="tabpanel">
+            <div class="flex-between items-center" style="margin-bottom:var(--space-4);">
+              <h3 style="font-size:var(--text-lg);">Activity & Updates</h3>
+              <button class="btn btn-ghost btn-sm" id="btn-mark-read">Mark all as read</button>
+            </div>
+            <div id="notifications-list-container" class="card" style="overflow:hidden;">
+              <!-- Rendered by JS -->
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+      <div class="container">
+        <div class="footer-grid">
+          <div class="footer-brand">
+            <a href="index.html" class="logo">
+              <div class="logo-icon"><i data-lucide="link"></i></div>
+              LostLink
+            </a>
+            <p>The unified lost & found system for SRMIST Kattankulathur.</p>
+          </div>
+          <div class="footer-col">
+            <h4>Product</h4>
+            <a href="browse.html">Browse items</a>
+            <a href="report.html">Report an item</a>
+            <a href="index.html#how-it-works">How it works</a>
+          </div>
+          <div class="footer-col">
+            <h4>Support</h4>
+            <a href="#">Help Center</a>
+            <a href="#">Contact us</a>
+            <a href="#">Privacy Policy</a>
+          </div>
+          <div class="footer-col">
+            <h4>Connect</h4>
+            <a href="#">Instagram</a>
+            <a href="#">Twitter</a>
+            <a href="#">Email</a>
+          </div>
+        </div>
+        <div class="footer-bottom">
+          <span>© 2026 LostLink — SRMIST KTR. All rights reserved.</span>
+          <span>Built as a UID course project.</span>
+        </div>
+      </div>
+    </footer>
+  </div>
+
+  <script src="js/data.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/main.js"></script>
+  <script src="js/chatbot.js"></script>
+  <script src="js/dashboard.js"></script>
+  <script>document.addEventListener('DOMContentLoaded', function(){ lucide.createIcons(); });</script>
+</body>
+</html>
+
+
+
+
+

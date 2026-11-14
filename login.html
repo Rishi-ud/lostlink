@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Log In — LostLink</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/tokens.css">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/pages.css">
+  <link rel="stylesheet" href="css/chatbot.css">
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <meta name="description" content="Log in to LostLink with your SRMIST university email to manage your reports and claims.">
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+</head>
+<body>
+  <div class="page-wrapper">
+    <!-- HEADER -->
+    <header class="header">
+      <div class="header-inner">
+        <a href="index.html" class="logo">
+          <div class="logo-icon"><i data-lucide="link"></i></div>
+          LostLink
+        </a>
+        <nav class="nav" role="navigation">
+          <a href="browse.html" class="nav-link">Browse items</a>
+        </nav>
+        <div class="header-actions">
+          <button class="theme-toggle" aria-label="Toggle dark mode">
+            <i data-lucide="sun" class="icon-sun" style="display:none;"></i>
+            <i data-lucide="moon" class="icon-moon"></i>
+          </button>
+          <a href="signup.html" class="btn btn-primary btn-sm">Sign up</a>
+        </div>
+      </div>
+    </header>
+
+    <!-- AUTH MAIN -->
+    <main class="main-content">
+      <div class="auth-page">
+        <div class="auth-card card">
+          <div class="auth-header">
+            <div class="logo-icon" style="margin:0 auto; width:48px; height:48px;">
+              <i data-lucide="link" style="width:24px;height:24px;"></i>
+            </div>
+            <h2>Welcome Back</h2>
+            <p>Log in with your SRMIST student or faculty credentials</p>
+          </div>
+
+          <form id="login-form" novalidate>
+            <!-- Email -->
+            <div class="form-group" style="margin-bottom:var(--space-4);">
+              <label class="form-label" for="login-email">SRM University Email <span class="required">*</span></label>
+              <input type="email" class="input" id="login-email" placeholder="e.g. yourname@srmist.edu.in" value="" required autocomplete="email">
+              <span class="form-error" id="err-login-email" style="display:none;"><i data-lucide="alert-circle"></i> Please enter your valid @srmist.edu.in email.</span>
+            </div>
+
+            <!-- Password -->
+            <div class="form-group" style="margin-bottom:var(--space-4);">
+              <div class="flex-between">
+                <label class="form-label" for="login-pass">Password <span class="required">*</span></label>
+                <a href="#" class="text-xs" onclick="event.preventDefault(); showToast('info', 'Password Reset', 'If this email is registered, a password reset link will be sent.');">Forgot password?</a>
+              </div>
+              <input type="password" class="input" id="login-pass" value="" placeholder="Enter your password" required autocomplete="current-password">
+              <span class="form-error" id="err-login-pass" style="display:none;"><i data-lucide="alert-circle"></i> Please enter your password.</span>
+            </div>
+
+            <!-- Remember me -->
+            <div style="margin-bottom:var(--space-6);">
+              <label class="filter-option" style="cursor:pointer;">
+                <input type="checkbox" id="remember-me" checked>
+                <span class="text-sm">Keep me logged in on this browser</span>
+              </label>
+            </div>
+
+            <!-- Submit -->
+            <button type="submit" class="btn btn-primary btn-block btn-lg" id="btn-login">
+              <i data-lucide="log-in"></i> Sign In to LostLink
+            </button>
+          </form>
+
+          <div class="auth-divider">or continue with</div>
+
+          <button type="button" class="btn btn-secondary btn-block" onclick="quickCampusSso()">
+            <i data-lucide="graduation-cap"></i> SRMIST NetID Single Sign-On
+          </button>
+
+          <div class="auth-footer">
+            Don't have an account? <a href="signup.html" style="font-weight:600;">Sign up</a>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <script src="js/data.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/main.js"></script>
+  <script src="js/chatbot.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      if (typeof lucide !== 'undefined') lucide.createIcons();
+
+      // If already logged in, redirect to dashboard
+      const existingUser = LostLinkAPI.getCurrentUser();
+      if (existingUser) {
+        showToast('info', 'Active Session', `Already signed in as ${existingUser.name}.`);
+        setTimeout(() => { window.location.href = 'dashboard.html'; }, 800);
+        return;
+      }
+
+      const email = document.getElementById('login-email');
+      const pass = document.getElementById('login-pass');
+      const errEmail = document.getElementById('err-login-email');
+      const errPass = document.getElementById('err-login-pass');
+
+      if (email) {
+        email.addEventListener('input', () => {
+          email.classList.remove('input-error');
+          if (errEmail) errEmail.style.display = 'none';
+        });
+      }
+
+      if (pass) {
+        pass.addEventListener('input', () => {
+          pass.classList.remove('input-error');
+          if (errPass) errPass.style.display = 'none';
+        });
+      }
+
+      const form = document.getElementById('login-form');
+      if (form) {
+        form.addEventListener('submit', async (e) => {
+          e.preventDefault();
+
+          let valid = true;
+          const emailVal = email.value.trim();
+          const passVal = pass.value;
+
+          if (!emailVal || !emailVal.includes('@')) {
+            email.classList.add('input-error');
+            if (errEmail) {
+              errEmail.innerHTML = '<i data-lucide="alert-circle"></i> Please enter your valid email address.';
+              errEmail.style.display = 'flex';
+            }
+            valid = false;
+          } else {
+            email.classList.remove('input-error');
+            if (errEmail) errEmail.style.display = 'none';
+          }
+
+          if (!passVal) {
+            pass.classList.add('input-error');
+            if (errPass) {
+              errPass.innerHTML = '<i data-lucide="alert-circle"></i> Please enter your password.';
+              errPass.style.display = 'flex';
+            }
+            valid = false;
+          } else {
+            pass.classList.remove('input-error');
+            if (errPass) errPass.style.display = 'none';
+          }
+
+          if (!valid) {
+            if (typeof lucide !== 'undefined') lucide.createIcons();
+            return;
+          }
+
+          const btn = document.getElementById('btn-login');
+          btn.disabled = true;
+          btn.innerHTML = '<span class="spinner"></span> Authenticating...';
+
+          try {
+            const res = await LostLinkAPI.login(emailVal, passVal);
+            showToast('success', 'Welcome Back', `Logged in as ${res.user.name} (${res.user.email}).`);
+            setTimeout(() => {
+              window.location.href = 'dashboard.html';
+            }, 600);
+          } catch (err) {
+            btn.disabled = false;
+            btn.innerHTML = '<i data-lucide="log-in"></i> Sign In to LostLink';
+
+            const msg = err.message || 'Login failed. Please verify credentials.';
+            if (msg.toLowerCase().includes('email') || msg.toLowerCase().includes('account') || msg.toLowerCase().includes('sign up')) {
+              email.classList.add('input-error');
+              if (errEmail) {
+                errEmail.innerHTML = `<i data-lucide="alert-circle"></i> ${msg}`;
+                errEmail.style.display = 'flex';
+              }
+            } else if (msg.toLowerCase().includes('password')) {
+              pass.classList.add('input-error');
+              if (errPass) {
+                errPass.innerHTML = `<i data-lucide="alert-circle"></i> ${msg}`;
+                errPass.style.display = 'flex';
+              }
+            }
+            if (typeof lucide !== 'undefined') lucide.createIcons();
+            showToast('error', 'Login Failed', msg);
+          }
+        });
+      }
+    });
+
+    function quickCampusSso() {
+      showToast('info', 'SRMIST NetID SSO', 'Connecting to SRMIST Central Authentication Service...');
+      setTimeout(() => {
+        showToast('warning', 'SSO Notice', 'Please log in with your registered @srmist.edu.in account or sign up.');
+      }, 1000);
+    }
+  </script>
+</body>
+</html>
+
+
+
+
+

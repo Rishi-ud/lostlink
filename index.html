@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LostLink — Campus Lost &amp; Found | SRMIST KTR</title>
+  <meta name="description" content="LostLink is the unified lost and found system for SRMIST Kattankulathur. Report lost or found items, get matched automatically, and verify claims securely.">
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/tokens.css">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/pages.css">
+  <link rel="stylesheet" href="css/chatbot.css">
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+</head>
+<body>
+  <a href="#main" class="skip-to-content">Skip to content</a>
+
+  <div class="page-wrapper">
+    <!-- ========== HEADER ========== -->
+    <header class="header">
+      <div class="header-inner">
+        <a href="index.html" class="logo">
+          <div class="logo-icon"><i data-lucide="link"></i></div>
+          LostLink
+        </a>
+
+        <nav class="nav" role="navigation" aria-label="Main navigation">
+          <a href="browse.html" class="nav-link">Browse items</a>
+          <a href="#how-it-works" class="nav-link">How it works</a>
+        </nav>
+
+        <div class="header-actions">
+          <button class="theme-toggle" aria-label="Toggle dark mode">
+            <i data-lucide="sun" class="icon-sun" style="display:none;"></i>
+            <i data-lucide="moon" class="icon-moon"></i>
+          </button>
+          <a href="login.html" class="btn btn-secondary btn-sm">Log in</a>
+          <a href="signup.html" class="btn btn-primary btn-sm">Sign up</a>
+          <button class="mobile-menu-btn" aria-label="Toggle menu" aria-expanded="false">
+            <i data-lucide="menu"></i>
+            <i data-lucide="x" style="display:none;"></i>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- ========== MAIN ========== -->
+    <main id="main" class="main-content">
+
+      <!-- ===== HERO ===== -->
+      <section class="hero">
+        <div class="container">
+          <h1>Lost something?<br>Found something?</h1>
+          <p>Our smart matching system automatically connects lost item reports with found item reports, so you get reunited faster.</p>
+
+          <div class="hero-actions">
+            <a href="report.html" class="btn btn-primary btn-lg">
+              <i data-lucide="plus"></i> Report an item
+            </a>
+
+            <div class="hero-search">
+              <form class="search-bar" action="browse.html" method="get" role="search">
+                <span class="search-icon"><i data-lucide="search"></i></span>
+                <input type="text" class="input" name="q" placeholder="Search for an item, e.g. black wallet" aria-label="Search for a lost or found item">
+                <button type="button" class="search-clear" aria-label="Clear search"><i data-lucide="x"></i></button>
+              </form>
+            </div>
+          </div>
+
+          <div class="hero-stats">
+            <div class="hero-stat">
+              <i data-lucide="package-search" style="width:18px;height:18px;color:var(--primary-500);"></i>
+              <span id="hero-stat-reported"><strong>0</strong> items reported</span>
+            </div>
+            <div class="hero-stat">
+              <i data-lucide="check-circle" style="width:18px;height:18px;color:var(--success);"></i>
+              <span id="hero-stat-reunited"><strong>0</strong> reunited</span>
+            </div>
+            <div class="hero-stat">
+              <i data-lucide="shield-check" style="width:18px;height:18px;color:var(--accent-500);"></i>
+              <span id="hero-stat-verified"><strong>100%</strong> campus verified</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== HOW IT WORKS ===== -->
+      <section class="section how-it-works" id="how-it-works">
+        <div class="container">
+          <div class="section-header">
+            <h2>How it works</h2>
+            <p>Three simple steps to get your item back</p>
+          </div>
+
+          <div class="steps-row">
+            <div class="step-item">
+              <div class="step-number">
+                <i data-lucide="file-text" style="width:32px;height:32px;"></i>
+              </div>
+              <div>
+                <h4>1. Report</h4>
+                <p>Describe your lost or found item. Add photos, location and when it happened.</p>
+              </div>
+            </div>
+
+            <div class="step-item">
+              <div class="step-number">
+                <i data-lucide="scan-search" style="width:32px;height:32px;"></i>
+              </div>
+              <div>
+                <h4>2. We match</h4>
+                <p>Our system compares your report against all listings to find possible matches.</p>
+              </div>
+            </div>
+
+            <div class="step-item">
+              <div class="step-number">
+                <i data-lucide="shield-check" style="width:32px;height:32px;"></i>
+              </div>
+              <div>
+                <h4>3. Verify &amp; collect</h4>
+                <p>Prove ownership with our verification quiz, then pick up your item safely.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== BROWSE BY CATEGORY ===== -->
+      <section class="section" id="categories">
+        <div class="container">
+          <div class="section-header">
+            <h2>Browse by category</h2>
+            <p>Find items faster by narrowing your search</p>
+          </div>
+
+          <div class="grid grid-4" id="category-grid">
+            <!-- JS will populate this -->
+          </div>
+
+          <div style="text-align:center; margin-top:var(--space-6);">
+            <button class="btn btn-ghost" id="show-more-btn" aria-expanded="false">
+              <i data-lucide="chevron-down"></i> Show more categories
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== RECENTLY FOUND ===== -->
+      <section class="section-sm" style="background:var(--bg-secondary);">
+        <div class="container">
+          <div class="flex-between" style="margin-bottom:var(--space-8);">
+            <div>
+              <h2>Recently found</h2>
+              <p class="text-secondary" style="margin-top:var(--space-2);">Items found on campus in the last few days</p>
+            </div>
+            <a href="browse.html?type=found" class="btn btn-ghost btn-sm">
+              View all <i data-lucide="arrow-right"></i>
+            </a>
+          </div>
+
+          <div class="recently-found-scroll" id="recently-found">
+            <!-- JS will populate this -->
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== CLOSING CTA ===== -->
+      <section class="section">
+        <div class="container">
+          <div class="cta-banner">
+            <h2>Ready to find your item?</h2>
+            <p>Filing a report takes less than 2 minutes. Our matching system starts working the moment you hit submit.</p>
+            <a href="report.html" class="btn btn-lg">
+              <i data-lucide="arrow-right"></i> Get started
+            </a>
+          </div>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- ========== FOOTER ========== -->
+    <footer class="footer">
+      <div class="container">
+        <div class="footer-grid">
+          <div class="footer-brand">
+            <a href="index.html" class="logo">
+              <div class="logo-icon"><i data-lucide="link"></i></div>
+              LostLink
+            </a>
+            <p>The unified lost &amp; found system for SRMIST Kattankulathur. Report, match, and reclaim your belongings.</p>
+          </div>
+          <div class="footer-col">
+            <h4>Product</h4>
+            <a href="browse.html">Browse items</a>
+            <a href="report.html">Report an item</a>
+            <a href="#how-it-works">How it works</a>
+          </div>
+          <div class="footer-col">
+            <h4>Support</h4>
+            <a href="#">Help Center</a>
+            <a href="#">Contact us</a>
+            <a href="#">Privacy Policy</a>
+          </div>
+          <div class="footer-col">
+            <h4>Connect</h4>
+            <a href="#">Instagram</a>
+            <a href="#">Twitter</a>
+            <a href="#">Email</a>
+          </div>
+        </div>
+        <div class="footer-bottom">
+          <span>© 2026 LostLink — SRMIST KTR. All rights reserved.</span>
+          <span>Built as a UID course project.</span>
+        </div>
+      </div>
+    </footer>
+  </div>
+
+  <!-- SCRIPTS — data and main first, then page logic -->
+  <script src="js/data.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/main.js"></script>
+  <script src="js/chatbot.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', async function () {
+      // Fetch dynamic items and categories
+      let allItems = [];
+      let categories = typeof CATEGORIES !== 'undefined' ? CATEGORIES : [];
+
+      if (typeof LostLinkAPI !== 'undefined') {
+        allItems = await LostLinkAPI.getItems();
+        const apiCats = await LostLinkAPI.getCategories();
+        if (apiCats && apiCats.length > 0) categories = apiCats;
+      } else if (typeof ITEMS !== 'undefined') {
+        allItems = ITEMS;
+      }
+
+      // Update hero metrics
+      const statReported = document.getElementById('hero-stat-reported');
+      const statReunited = document.getElementById('hero-stat-reunited');
+      const statVerified = document.getElementById('hero-stat-verified');
+
+      const reunitedCount = allItems.filter(i => i.status === 'collected' || i.status === 'verified').length;
+      if (statReported) statReported.innerHTML = '<strong>' + allItems.length + '</strong> items reported';
+      if (statReunited) statReunited.innerHTML = '<strong>' + reunitedCount + '</strong> reunited';
+      if (statVerified) statVerified.innerHTML = '<strong>100%</strong> campus verified';
+
+      // ---- Render categories ----
+      const categoryGrid = document.getElementById('category-grid');
+      if (categoryGrid) {
+        categoryGrid.innerHTML = categories.map(function(cat, i) {
+          const hidden = i >= 4;
+          return '<a href="browse.html?category=' + cat.id + '" class="category-card' + (hidden ? ' hidden-item' : '') + '" ' + (hidden ? 'style="display:none;"' : '') + '>'
+            + '<div class="category-icon"><i data-lucide="' + cat.icon + '"></i></div>'
+            + '<span class="category-name">' + cat.name + '</span>'
+            + '<span class="category-count">' + (cat.count || 0) + ' items</span>'
+            + '</a>';
+        }).join('');
+      }
+
+      // ---- Render recently found items ----
+      const recentlyFound = document.getElementById('recently-found');
+      if (recentlyFound) {
+        const foundItems = allItems.filter(function(item) { return item.type === 'found'; }).slice(0, 6);
+        if (foundItems.length > 0) {
+          recentlyFound.innerHTML = foundItems.map(renderItemCard).join('');
+        } else {
+          recentlyFound.innerHTML = '<div class="empty-state" style="width:100%; text-align:center; padding:var(--space-8);">'
+            + '<div class="empty-state-icon" style="margin:0 auto var(--space-3);"><i data-lucide="package-search"></i></div>'
+            + '<h3>No recently found items reported</h3>'
+            + '<p class="text-secondary text-sm">When items found on campus are reported, they will appear here.</p>'
+            + '<a href="report.html" class="btn btn-secondary btn-sm" style="margin-top:var(--space-3);"><i data-lucide="plus"></i> Report an Item</a>'
+            + '</div>';
+        }
+      }
+
+      // ---- Show more / less categories ----
+      const showMoreBtn = document.getElementById('show-more-btn');
+      if (showMoreBtn && categoryGrid) {
+        showMoreBtn.addEventListener('click', function () {
+          const hiddenItems = categoryGrid.querySelectorAll('.hidden-item');
+          const isExpanded = showMoreBtn.getAttribute('aria-expanded') === 'true';
+          hiddenItems.forEach(function(el) {
+            el.style.display = isExpanded ? 'none' : '';
+          });
+          showMoreBtn.setAttribute('aria-expanded', isExpanded ? 'false' : 'true');
+          showMoreBtn.innerHTML = isExpanded
+            ? '<i data-lucide="chevron-down"></i> Show more categories'
+            : '<i data-lucide="chevron-up"></i> Show fewer categories';
+          if (typeof lucide !== 'undefined') lucide.createIcons();
+        });
+      }
+
+      // ---- Hero search form submit ----
+      const heroForm = document.querySelector('.hero .search-bar');
+      if (heroForm) {
+        heroForm.addEventListener('submit', function(e) {
+          const q = heroForm.querySelector('input').value.trim();
+          if (!q) { e.preventDefault(); }
+        });
+      }
+
+      // ---- Init all Lucide icons ----
+      if (typeof lucide !== 'undefined') lucide.createIcons();
+    });
+  </script>
+</body>
+</html>
+
+

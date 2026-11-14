@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bg9" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#451A03"/>
+      <stop offset="100%" stop-color="#1C1917"/>
+    </linearGradient>
+    <linearGradient id="lensGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#14532D"/>
+      <stop offset="70%" stop-color="#064E3B"/>
+      <stop offset="100%" stop-color="#022C22"/>
+    </linearGradient>
+    <filter id="shadow9" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="12" stdDeviation="15" flood-color="#000" flood-opacity="0.4"/>
+    </filter>
+  </defs>
+  <rect width="400" height="300" fill="url(#bg9)"/>
+  <circle cx="200" cy="140" r="100" fill="#F59E0B" opacity="0.08"/>
+  <g filter="url(#shadow9)">
+    <!-- Frames Left & Right -->
+    <rect x="80" y="105" width="105" height="75" rx="18" fill="#18181B" stroke="#27272A" stroke-width="4"/>
+    <rect x="215" y="105" width="105" height="75" rx="18" fill="#18181B" stroke="#27272A" stroke-width="4"/>
+    <!-- Lenses with reflection -->
+    <rect x="90" y="115" width="85" height="55" rx="12" fill="url(#lensGrad)"/>
+    <rect x="225" y="115" width="85" height="55" rx="12" fill="url(#lensGrad)"/>
+    <!-- Reflection gloss -->
+    <path d="M 98 120 L 140 120 L 115 160 L 98 160 Z" fill="#FFF" opacity="0.15"/>
+    <path d="M 233 120 L 275 120 L 250 160 L 233 160 Z" fill="#FFF" opacity="0.15"/>
+    <!-- Bridge -->
+    <path d="M 185 125 Q 200 118 215 125" stroke="#18181B" stroke-width="12" fill="none"/>
+    <!-- Silver studs on hinges -->
+    <ellipse cx="86" cy="115" rx="3" ry="1.5" fill="#E4E4E7"/>
+    <ellipse cx="314" cy="115" rx="3" ry="1.5" fill="#E4E4E7"/>
+    <!-- Temple arms peeking -->
+    <path d="M 80 115 Q 60 100 50 125" stroke="#27272A" stroke-width="8" fill="none"/>
+    <path d="M 320 115 Q 340 100 350 125" stroke="#27272A" stroke-width="8" fill="none"/>
+  </g>
+  <text x="200" y="260" text-anchor="middle" font-family="system-ui, sans-serif" font-size="12" font-weight="600" fill="#D6D3D1" letter-spacing="1">RAY-BAN WAYFARER SUNGLASSES</text>
+</svg>

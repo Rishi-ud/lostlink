@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Smart Match Suggestions — LostLink</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/tokens.css">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/pages.css">
+  <link rel="stylesheet" href="css/chatbot.css">
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <meta name="description" content="View automatically generated match suggestions for your lost or found item report.">
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+</head>
+<body>
+  <a href="#main" class="skip-to-content">Skip to content</a>
+
+  <div class="page-wrapper">
+    <!-- HEADER -->
+    <header class="header">
+      <div class="header-inner">
+        <a href="index.html" class="logo">
+          <div class="logo-icon"><i data-lucide="link"></i></div>
+          LostLink
+        </a>
+        <nav class="nav" role="navigation">
+          <a href="browse.html" class="nav-link">Browse items</a>
+          <a href="dashboard.html" class="nav-link">My Dashboard</a>
+        </nav>
+        <div class="header-actions">
+          <button class="theme-toggle" aria-label="Toggle dark mode">
+            <i data-lucide="sun" class="icon-sun" style="display:none;"></i>
+            <i data-lucide="moon" class="icon-moon"></i>
+          </button>
+          <a href="login.html" class="btn btn-secondary btn-sm">Log in</a>
+          <a href="signup.html" class="btn btn-primary btn-sm">Sign up</a>
+          <button class="mobile-menu-btn" aria-label="Toggle menu" aria-expanded="false">
+            <i data-lucide="menu"></i>
+            <i data-lucide="x" style="display:none;"></i>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- MAIN -->
+    <main id="main" class="main-content">
+      <div class="container section-sm" style="max-width:880px;">
+
+        <!-- Header -->
+        <div class="matches-header">
+          <div class="badge badge-matched" style="margin-bottom:var(--space-3); padding:var(--space-2) var(--space-4);">
+            <i data-lucide="sparkles"></i> AI Smart Matching Engine
+          </div>
+          <h1>Possible Item Matches</h1>
+          <p class="text-secondary" style="margin-top:var(--space-2); max-width:540px; margin-left:auto; margin-right:auto;">
+            We cross-referenced your report against all opposite reports across campus. Review each candidate below.
+          </p>
+        </div>
+
+        <!-- Reference banner -->
+        <div class="card" style="padding:var(--space-4) var(--space-6); margin-bottom:var(--space-8); display:flex; align-items:center; justify-content:space-between; background:var(--bg-secondary); flex-wrap:wrap; gap:var(--space-3);">
+          <div>
+            <div style="font-size:var(--text-xs); text-transform:uppercase; color:var(--text-secondary); font-weight:var(--weight-semibold);">Comparing against your report:</div>
+            <div style="font-weight:var(--weight-semibold); color:var(--text-heading); font-size:var(--text-base);" id="ref-report-title">Black Leather Wallet (Report #1)</div>
+          </div>
+          <a href="report.html" class="btn btn-ghost btn-sm"><i data-lucide="edit"></i> Edit Report</a>
+        </div>
+
+        <!-- Matches list -->
+        <div style="display:flex; flex-direction:column; gap:var(--space-4);" id="matches-container">
+          <!-- Will be rendered by script -->
+        </div>
+
+        <!-- Footer actions -->
+        <div style="margin-top:var(--space-12); padding-top:var(--space-6); border-top:1px solid var(--border); display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:var(--space-4);">
+          <div>
+            <h4 style="font-size:var(--text-base);">None of these look like your item?</h4>
+            <p class="text-secondary text-sm">Don't worry. As new items are found, we'll notify you automatically.</p>
+          </div>
+          <div class="flex gap-3">
+            <a href="browse.html" class="btn btn-secondary">Browse All Items</a>
+            <a href="dashboard.html" class="btn btn-primary">Go to Dashboard</a>
+          </div>
+        </div>
+
+      </div>
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+      <div class="container">
+        <div class="footer-grid">
+          <div class="footer-brand">
+            <a href="index.html" class="logo">
+              <div class="logo-icon"><i data-lucide="link"></i></div>
+              LostLink
+            </a>
+            <p>The unified lost & found system for SRMIST Kattankulathur.</p>
+          </div>
+          <div class="footer-col">
+            <h4>Product</h4>
+            <a href="browse.html">Browse items</a>
+            <a href="report.html">Report an item</a>
+            <a href="index.html#how-it-works">How it works</a>
+          </div>
+          <div class="footer-col">
+            <h4>Support</h4>
+            <a href="#">Help Center</a>
+            <a href="#">Contact us</a>
+            <a href="#">Privacy Policy</a>
+          </div>
+          <div class="footer-col">
+            <h4>Connect</h4>
+            <a href="#">Instagram</a>
+            <a href="#">Twitter</a>
+            <a href="#">Email</a>
+          </div>
+        </div>
+        <div class="footer-bottom">
+          <span>© 2026 LostLink — SRMIST KTR. All rights reserved.</span>
+          <span>Built as a UID course project.</span>
+        </div>
+      </div>
+    </footer>
+  </div>
+
+  <script src="js/data.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/main.js"></script>
+  <script src="js/chatbot.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', async () => {
+      const container = document.getElementById('matches-container');
+      const refTitle = document.getElementById('ref-report-title');
+
+      const idParam = getParam('reportId');
+      const reportId = idParam ? parseInt(idParam, 10) : 0;
+
+      let refItem = null;
+      let topMatches = [];
+
+      if (reportId && typeof LostLinkAPI !== 'undefined') {
+        try {
+          const matchData = await LostLinkAPI.getMatches(reportId);
+          refItem = matchData.referenceItem;
+          topMatches = matchData.matches || [];
+        } catch (e) {
+          console.warn('API getMatches failed:', e);
+        }
+      }
+
+      if (!refItem && typeof ITEMS !== 'undefined' && ITEMS.length > 0) {
+        refItem = ITEMS.find(i => i.id === reportId) || ITEMS[0];
+      }
+
+      if (!refItem) {
+        if (refTitle) refTitle.textContent = 'No reference report specified';
+        if (container) {
+          container.innerHTML = `
+            <div class="empty-state" style="padding:var(--space-8); text-align:center;">
+              <div class="empty-state-icon"><i data-lucide="package-search"></i></div>
+              <h3>No item specified to match</h3>
+              <p>Please select an item from your dashboard or browse items to view smart matches.</p>
+              <div class="flex justify-center gap-3" style="margin-top:var(--space-4);">
+                <a href="dashboard.html" class="btn btn-primary"><i data-lucide="layout-dashboard"></i> My Dashboard</a>
+                <a href="browse.html" class="btn btn-secondary"><i data-lucide="search"></i> Browse Campus</a>
+              </div>
+            </div>
+          `;
+          if (typeof lucide !== 'undefined') lucide.createIcons();
+        }
+        return;
+      }
+
+      if (refTitle) {
+        refTitle.textContent = `${refItem.title} (${refItem.type === 'lost' ? 'Lost Report' : 'Found Report'} #${refItem.id})`;
+      }
+
+      // If topMatches wasn't populated by API, calculate locally
+      if (topMatches.length === 0 && typeof ITEMS !== 'undefined') {
+        const targetType = refItem.type === 'lost' ? 'found' : 'lost';
+        const candidateItems = ITEMS.filter(i => i.type === targetType && i.id !== refItem.id);
+
+        topMatches = candidateItems.map(item => {
+          let confidence = 20;
+          let reasons = [];
+          if (item.matchedWith === refItem.id || refItem.matchedWith === item.id) {
+            confidence = 98;
+            reasons.push('Direct match confirmed by finder');
+          }
+          if (item.category === refItem.category) { confidence += 40; reasons.push('Same category'); }
+          if (item.color && refItem.color && item.color.toLowerCase() === refItem.color.toLowerCase()) { confidence += 20; reasons.push('Same color'); }
+          if (item.location === refItem.location) { confidence += 15; reasons.push('Exact location match'); }
+          else { reasons.push('Campus proximity'); }
+          return { item, confidence: Math.min(confidence, 98), reasons };
+        }).sort((a, b) => b.confidence - a.confidence).slice(0, 3);
+      }
+
+      if (topMatches.length === 0) {
+        container.innerHTML = `
+          <div class="empty-state" style="padding:var(--space-8); text-align:center;">
+            <div class="empty-state-icon"><i data-lucide="search-x"></i></div>
+            <h3>No matches found yet</h3>
+            <p>We haven't found any similar items reported right now. We'll alert you at your SRM email when a match turns up.</p>
+          </div>
+        `;
+      } else {
+        container.innerHTML = topMatches.map(m => {
+          let confColorClass = m.confidence >= 70 ? 'high' : (m.confidence >= 40 ? 'medium' : 'low');
+          let progressFillClass = m.confidence >= 70 ? 'success' : (m.confidence >= 40 ? 'warning' : '');
+          const hasPhoto = m.item.image && m.item.image.trim() !== '' && !m.item.image.includes('assets/images/items/item');
+          const imgMarkup = hasPhoto
+            ? `<img src="${m.item.image}" alt="${m.item.title}">`
+            : `<div class="item-thumb-no-photo" style="width:100%; height:100%; min-height:80px;"><i data-lucide="${typeof getCategoryIcon !== 'undefined' ? getCategoryIcon(m.item.category) : 'package'}" style="width:28px; height:28px;"></i></div>`;
+
+          return `
+            <div class="card match-card" style="align-items:center;">
+              <div class="match-image">
+                ${imgMarkup}
+              </div>
+              <div class="match-info">
+                <div class="flex-between items-center" style="gap:var(--space-2);">
+                  <span class="badge badge-${m.item.type}">${m.item.type.toUpperCase()}</span>
+                  <div class="match-confidence ${confColorClass}">
+                    <i data-lucide="sparkles" style="width:16px;height:16px;"></i>
+                    <span>${m.confidence}% Match Confidence</span>
+                  </div>
+                </div>
+
+                <h3 class="match-title" style="font-size:var(--text-lg); margin-top:2px;">
+                  <a href="item-detail.html?id=${m.item.id}">${m.item.title}</a>
+                </h3>
+
+                <div class="item-meta" style="font-size:var(--text-sm); color:var(--text-secondary); display:flex; gap:var(--space-4);">
+                  <span><i data-lucide="map-pin"></i> ${m.item.location}</span>
+                  <span><i data-lucide="calendar"></i> ${formatDate(m.item.date)}</span>
+                </div>
+
+                <div class="match-reasons" style="margin-top:var(--space-1);">
+                  ${m.reasons.map(r => `<span class="match-reason-pill"><i data-lucide="check" style="width:12px;height:12px;display:inline-block;vertical-align:middle;margin-right:2px;"></i>${r}</span>`).join('')}
+                </div>
+
+                <div class="progress-bar" style="margin-top:var(--space-2);">
+                  <div class="progress-fill ${progressFillClass}" style="width:${m.confidence}%;"></div>
+                </div>
+              </div>
+
+              <div style="flex-shrink:0; margin-left:var(--space-2);">
+                <a href="${m.item.type === 'found' ? 'claim.html?id=' + m.item.id : 'item-detail.html?id=' + m.item.id}" class="btn btn-primary">
+                  ${m.item.type === 'found' ? 'Verify & Claim' : 'View Item'} <i data-lucide="arrow-right"></i>
+                </a>
+              </div>
+            </div>
+          `;
+        }).join('');
+      }
+
+      if (typeof lucide !== 'undefined') lucide.createIcons();
+    });
+  </script>
+</body>
+</html>
+
+
+
+
+

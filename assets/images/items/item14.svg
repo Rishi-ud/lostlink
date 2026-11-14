@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bg14" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0284C7"/>
+      <stop offset="100%" stop-color="#075985"/>
+    </linearGradient>
+    <filter id="shadow14" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="12" stdDeviation="15" flood-color="#000" flood-opacity="0.3"/>
+    </filter>
+  </defs>
+  <rect width="400" height="300" fill="url(#bg14)"/>
+  <!-- Raindrop hints -->
+  <circle cx="90" cy="80" r="2" fill="#BAE6FD" opacity="0.6"/>
+  <circle cx="310" cy="100" r="3" fill="#BAE6FD" opacity="0.6"/>
+  <circle cx="110" cy="180" r="2" fill="#BAE6FD" opacity="0.6"/>
+  <!-- Umbrella Canopy (Dome) -->
+  <g filter="url(#shadow14)">
+    <path d="M 110 145 C 110 70 290 70 290 145 Q 245 138 200 145 Q 155 138 110 145 Z" fill="#E0F2FE" opacity="0.5" stroke="#BAE6FD" stroke-width="2"/>
+    <!-- Canopy ribs -->
+    <path d="M 200 78 Q 155 110 155 142" stroke="#FFF" stroke-width="1.5" fill="none" opacity="0.7"/>
+    <path d="M 200 78 Q 245 110 245 142" stroke="#FFF" stroke-width="1.5" fill="none" opacity="0.7"/>
+    <!-- Central Shaft -->
+    <line x1="200" y1="70" x2="200" y2="205" stroke="#334155" stroke-width="5"/>
+    <!-- Wooden J-Hook Handle -->
+    <path d="M 200 205 Q 200 230 180 230 Q 165 230 165 215" fill="none" stroke="#92400E" stroke-width="8" stroke-linecap="round"/>
+  </g>
+  <text x="200" y="265" text-anchor="middle" font-family="system-ui, sans-serif" font-size="12" font-weight="600" fill="#E0F2FE" letter-spacing="1">TRANSPARENT DOME UMBRELLA</text>
+</svg>

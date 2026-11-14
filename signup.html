@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sign Up — LostLink</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/tokens.css">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/pages.css">
+  <link rel="stylesheet" href="css/chatbot.css">
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <meta name="description" content="Create a LostLink account with your SRMIST email to start reporting lost and found items.">
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+</head>
+<body>
+  <div class="page-wrapper">
+    <!-- HEADER -->
+    <header class="header">
+      <div class="header-inner">
+        <a href="index.html" class="logo">
+          <div class="logo-icon"><i data-lucide="link"></i></div>
+          LostLink
+        </a>
+        <nav class="nav" role="navigation">
+          <a href="browse.html" class="nav-link">Browse items</a>
+        </nav>
+        <div class="header-actions">
+          <button class="theme-toggle" aria-label="Toggle dark mode">
+            <i data-lucide="sun" class="icon-sun" style="display:none;"></i>
+            <i data-lucide="moon" class="icon-moon"></i>
+          </button>
+          <a href="login.html" class="btn btn-secondary btn-sm">Log in</a>
+        </div>
+      </div>
+    </header>
+
+    <!-- AUTH MAIN -->
+    <main class="main-content">
+      <div class="auth-page">
+        <div class="auth-card card">
+          <div class="auth-header">
+            <div class="logo-icon" style="margin:0 auto; width:48px; height:48px;">
+              <i data-lucide="link" style="width:24px;height:24px;"></i>
+            </div>
+            <h2>Create Your Account</h2>
+            <p>Join the verified SRMIST Lost & Found campus network</p>
+          </div>
+
+          <form id="signup-form" novalidate>
+            <!-- Name -->
+            <div class="form-group" style="margin-bottom:var(--space-4);">
+              <label class="form-label" for="signup-name">Full Name <span class="required">*</span></label>
+              <input type="text" class="input" id="signup-name" placeholder="e.g. Arjun Mehta" required>
+              <span class="form-error" id="err-signup-name" style="display:none;"><i data-lucide="alert-circle"></i> Please enter your name.</span>
+            </div>
+
+            <!-- Email -->
+            <div class="form-group" style="margin-bottom:var(--space-4);">
+              <label class="form-label" for="signup-email">SRMIST Official Webmail <span class="required">*</span></label>
+              <input type="email" class="input" id="signup-email" placeholder="e.g. yourname@srmist.edu.in" required>
+              <span class="form-hint">Must end with @srmist.edu.in for automatic campus verification.</span>
+              <span class="form-error" id="err-signup-email" style="display:none;"><i data-lucide="alert-circle"></i> Please provide your SRM student/faculty email (@srmist.edu.in).</span>
+            </div>
+
+            <!-- Reg No / Phone -->
+            <div class="form-row" style="margin-bottom:var(--space-4);">
+              <div class="form-group">
+                <label class="form-label" for="signup-reg">Registration No. <span class="required">*</span></label>
+                <input type="text" class="input" id="signup-reg" placeholder="RA22..." required>
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="signup-phone">Phone Number</label>
+                <input type="tel" class="input" id="signup-phone" placeholder="98765 43210">
+              </div>
+            </div>
+
+            <!-- Password -->
+            <div class="form-group" style="margin-bottom:var(--space-4);">
+              <label class="form-label" for="signup-pass">Password <span class="required">*</span></label>
+              <input type="password" class="input" id="signup-pass" placeholder="At least 8 characters" required>
+              <span class="form-error" id="err-signup-pass" style="display:none;"><i data-lucide="alert-circle"></i> Password must be at least 8 characters.</span>
+            </div>
+
+            <!-- Terms -->
+            <div style="margin-bottom:var(--space-6);">
+              <label class="filter-option" style="cursor:pointer; align-items:flex-start; gap:var(--space-2);">
+                <input type="checkbox" id="signup-terms" required style="margin-top:3px;">
+                <span class="text-xs text-secondary">
+                  I agree to the <a href="#">Terms of Service</a> and confirm I will only file truthful lost and found reports.
+                </span>
+              </label>
+              <span class="form-error" id="err-signup-terms" style="display:none;"><i data-lucide="alert-circle"></i> Please accept the terms to proceed.</span>
+            </div>
+
+            <!-- Submit -->
+            <button type="submit" class="btn btn-primary btn-block btn-lg" id="btn-signup">
+              <i data-lucide="user-plus"></i> Create SRM Account
+            </button>
+          </form>
+
+          <div class="auth-footer">
+            Already have an account? <a href="login.html" style="font-weight:600;">Log in</a>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <script src="js/data.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/main.js"></script>
+  <script src="js/chatbot.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      if (typeof lucide !== 'undefined') lucide.createIcons();
+
+      const name = document.getElementById('signup-name');
+      const email = document.getElementById('signup-email');
+      const pass = document.getElementById('signup-pass');
+      const terms = document.getElementById('signup-terms');
+
+      if (name) {
+        name.addEventListener('input', () => {
+          name.classList.remove('input-error');
+          const err = document.getElementById('err-signup-name');
+          if (err) err.style.display = 'none';
+        });
+      }
+
+      if (email) {
+        email.addEventListener('input', () => {
+          email.classList.remove('input-error');
+          const err = document.getElementById('err-signup-email');
+          if (err) err.style.display = 'none';
+        });
+      }
+
+      if (pass) {
+        pass.addEventListener('input', () => {
+          pass.classList.remove('input-error');
+          const err = document.getElementById('err-signup-pass');
+          if (err) err.style.display = 'none';
+        });
+      }
+
+      if (terms) {
+        terms.addEventListener('change', () => {
+          const err = document.getElementById('err-signup-terms');
+          if (err) err.style.display = 'none';
+        });
+      }
+
+      const form = document.getElementById('signup-form');
+      const regNo = document.getElementById('signup-reg');
+      const phone = document.getElementById('signup-phone');
+
+      if (regNo) {
+        regNo.addEventListener('input', () => {
+          regNo.value = regNo.value.toUpperCase();
+        });
+      }
+
+      if (form) {
+        form.addEventListener('submit', async (e) => {
+          e.preventDefault();
+
+          let valid = true;
+          const nameVal = name.value.trim();
+          const emailVal = email.value.trim();
+          const regVal = regNo ? regNo.value.trim().toUpperCase() : '';
+          const phoneVal = phone ? phone.value.trim() : '';
+          const passVal = pass.value;
+
+          if (!nameVal || nameVal.length < 2) {
+            name.classList.add('input-error');
+            document.getElementById('err-signup-name').style.display = 'flex';
+            valid = false;
+          } else {
+            name.classList.remove('input-error');
+            document.getElementById('err-signup-name').style.display = 'none';
+          }
+
+          if (!emailVal || !emailVal.toLowerCase().endsWith('@srmist.edu.in')) {
+            email.classList.add('input-error');
+            const errEmail = document.getElementById('err-signup-email');
+            errEmail.innerHTML = '<i data-lucide="alert-circle"></i> Must be an official @srmist.edu.in email address.';
+            errEmail.style.display = 'flex';
+            valid = false;
+          } else {
+            email.classList.remove('input-error');
+            document.getElementById('err-signup-email').style.display = 'none';
+          }
+
+          if (!regVal || regVal.length < 5) {
+            if (regNo) regNo.classList.add('input-error');
+            showToast('error', 'Registration Required', 'Please provide your valid SRMIST Registration Number (e.g. RA22...).');
+            valid = false;
+          } else if (regNo) {
+            regNo.classList.remove('input-error');
+          }
+
+          if (!passVal || passVal.length < 6) {
+            pass.classList.add('input-error');
+            const errPass = document.getElementById('err-signup-pass');
+            errPass.innerHTML = '<i data-lucide="alert-circle"></i> Password must be at least 6 characters.';
+            errPass.style.display = 'flex';
+            valid = false;
+          } else {
+            pass.classList.remove('input-error');
+            document.getElementById('err-signup-pass').style.display = 'none';
+          }
+
+          if (!terms.checked) {
+            document.getElementById('err-signup-terms').style.display = 'flex';
+            valid = false;
+          } else {
+            document.getElementById('err-signup-terms').style.display = 'none';
+          }
+
+          if (!valid) {
+            if (typeof lucide !== 'undefined') lucide.createIcons();
+            return;
+          }
+
+          const btn = document.getElementById('btn-signup');
+          btn.disabled = true;
+          btn.innerHTML = '<span class="spinner"></span> Creating Account...';
+
+          try {
+            const res = await LostLinkAPI.signup({
+              name: nameVal,
+              email: emailVal,
+              regNo: regVal,
+              phone: phoneVal,
+              password: passVal
+            });
+
+            showToast('success', 'Account Created', `Welcome to LostLink, ${res.user.name}!`);
+            setTimeout(() => {
+              window.location.href = 'dashboard.html';
+            }, 600);
+          } catch (err) {
+            btn.disabled = false;
+            btn.innerHTML = '<i data-lucide="user-plus"></i> Create SRM Account';
+
+            const msg = err.message || 'Registration failed. Please check inputs.';
+            if (msg.toLowerCase().includes('already exists') || msg.toLowerCase().includes('email')) {
+              email.classList.add('input-error');
+              const errEmail = document.getElementById('err-signup-email');
+              errEmail.innerHTML = `<i data-lucide="alert-circle"></i> ${msg}`;
+              errEmail.style.display = 'flex';
+            }
+            if (typeof lucide !== 'undefined') lucide.createIcons();
+            showToast('error', 'Sign Up Failed', msg);
+          }
+        });
+      }
+    });
+  </script>
+</body>
+</html>
+
+
+
+
+

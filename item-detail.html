@@ -1,0 +1,1121 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Item Details — LostLink</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/tokens.css">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/pages.css">
+  <link rel="stylesheet" href="css/chatbot.css">
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <meta name="description" content="View the full details of a lost or found item report on the SRMIST KTR campus.">
+  <style>
+    .breadcrumb {
+      display: flex;
+      align-items: center;
+      gap: var(--space-2);
+      font-size: var(--text-sm);
+      color: var(--text-secondary);
+      margin-bottom: var(--space-6);
+    }
+    .breadcrumb a {
+      color: var(--text-secondary);
+    }
+    .breadcrumb a:hover {
+      color: var(--primary-500);
+    }
+    .item-meta-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: var(--space-4);
+      background: var(--bg-secondary);
+      padding: var(--space-5);
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--border);
+    }
+    .meta-item {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .meta-item .label {
+      font-size: var(--text-xs);
+      color: var(--text-secondary);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .meta-item .val {
+      font-weight: var(--weight-semibold);
+      color: var(--text-heading);
+      display: flex;
+      align-items: center;
+      gap: var(--space-2);
+    }
+    .meta-item .val svg {
+      width: 16px;
+      height: 16px;
+      color: var(--primary-500);
+    }
+    .reporter-card {
+      display: flex;
+      align-items: center;
+      gap: var(--space-4);
+      padding: var(--space-4);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      background: var(--bg-card);
+    }
+  </style>
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+</head>
+<body>
+  <a href="#main" class="skip-to-content">Skip to content</a>
+
+  <div class="page-wrapper">
+    <!-- HEADER -->
+    <header class="header">
+      <div class="header-inner">
+        <a href="index.html" class="logo">
+          <div class="logo-icon"><i data-lucide="link"></i></div>
+          LostLink
+        </a>
+        <nav class="nav" role="navigation">
+          <a href="browse.html" class="nav-link">Browse items</a>
+          <a href="index.html#how-it-works" class="nav-link">How it works</a>
+        </nav>
+        <div class="header-actions">
+          <button class="theme-toggle" aria-label="Toggle dark mode">
+            <i data-lucide="sun" class="icon-sun" style="display:none;"></i>
+            <i data-lucide="moon" class="icon-moon"></i>
+          </button>
+          <a href="login.html" class="btn btn-secondary btn-sm">Log in</a>
+          <a href="signup.html" class="btn btn-primary btn-sm">Sign up</a>
+          <button class="mobile-menu-btn" aria-label="Toggle menu" aria-expanded="false">
+            <i data-lucide="menu"></i>
+            <i data-lucide="x" style="display:none;"></i>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- MAIN -->
+    <main id="main" class="main-content">
+      <div class="container section-sm">
+        
+        <!-- Breadcrumb -->
+        <nav class="breadcrumb" aria-label="Breadcrumb">
+          <a href="index.html">Home</a>
+          <i data-lucide="chevron-right" style="width:14px;height:14px;"></i>
+          <a href="browse.html">Browse</a>
+          <i data-lucide="chevron-right" style="width:14px;height:14px;"></i>
+          <span id="crumb-title" style="color:var(--text-heading); font-weight:var(--weight-medium);">Item Details</span>
+        </nav>
+
+        <!-- ITEM DETAIL LAYOUT -->
+        <div class="item-detail-grid" id="item-content">
+          <!-- Left: Gallery -->
+          <div>
+            <div class="item-gallery card">
+              <div class="gallery-main" id="gallery-main-box" style="min-height:360px; display:flex; align-items:center; justify-content:center; background:var(--bg-secondary); border-radius:var(--radius-lg); overflow:hidden;">
+                <!-- Dynamically populated: User uploaded photo or clean category badge placeholder -->
+                <div id="gallery-loading" class="item-detail-no-photo">
+                  <span class="spinner" style="margin-bottom:8px;"></span>
+                  <span>Loading item visual...</span>
+                </div>
+              </div>
+              <div class="gallery-thumbs" id="thumb-list" style="display:none;"></div>
+            </div>
+
+            <!-- Ownership Security Notice -->
+            <div style="margin-top:var(--space-6); background:var(--bg-secondary); border-radius:var(--radius-lg); padding:var(--space-4); border:1px solid var(--border); display:flex; gap:var(--space-3); align-items:flex-start;">
+              <i data-lucide="shield-check" style="width:24px;height:24px;color:var(--primary-500);flex-shrink:0;margin-top:2px;"></i>
+              <div>
+                <h4 style="font-size:var(--text-sm); font-weight:var(--weight-semibold); color:var(--text-heading);">SRM Ownership Verification</h4>
+                <p class="text-sm text-secondary" style="margin-top:2px;">To protect students against false claims, claimants must answer specific ownership questions before contact details or collection instructions are revealed.</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Right: Info & Actions -->
+          <div class="item-detail-info">
+            <div class="flex-between items-center" style="gap:var(--space-2);">
+              <div class="flex items-center gap-2">
+                <span id="item-type-badge" class="badge"></span>
+                <span id="item-status-badge" class="badge"></span>
+              </div>
+              <span id="item-posted-time" class="text-sm text-secondary"></span>
+            </div>
+
+            <h1 id="item-title" class="item-detail-title"></h1>
+
+            <!-- Status Timeline -->
+            <div style="background:var(--bg-secondary); padding:var(--space-4) var(--space-6); border-radius:var(--radius-lg); border:1px solid var(--border);">
+              <div style="font-size:var(--text-xs); text-transform:uppercase; font-weight:var(--weight-semibold); color:var(--text-secondary); margin-bottom:var(--space-2);">Claim Lifecycle</div>
+              <div class="status-timeline" id="item-timeline">
+                <div class="timeline-step completed" id="tl-reported">
+                  <div class="timeline-dot"><i data-lucide="check" style="width:14px;height:14px;"></i></div>
+                  <span class="timeline-label">Reported</span>
+                  <div class="timeline-connector"></div>
+                </div>
+                <div class="timeline-step" id="tl-matched">
+                  <div class="timeline-dot"><i data-lucide="check" style="width:14px;height:14px;"></i></div>
+                  <span class="timeline-label">Matched</span>
+                  <div class="timeline-connector"></div>
+                </div>
+                <div class="timeline-step" id="tl-verified">
+                  <div class="timeline-dot"><i data-lucide="check" style="width:14px;height:14px;"></i></div>
+                  <span class="timeline-label">Verification</span>
+                  <div class="timeline-connector"></div>
+                </div>
+                <div class="timeline-step" id="tl-collected">
+                  <div class="timeline-dot"><i data-lucide="check" style="width:14px;height:14px;"></i></div>
+                  <span class="timeline-label">Collected</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Metadata 2x2 grid -->
+            <div class="item-meta-grid">
+              <div class="meta-item">
+                <span class="label">Location</span>
+                <span class="val" id="meta-location"><i data-lucide="map-pin"></i> <span></span></span>
+              </div>
+              <div class="meta-item">
+                <span class="label">Date</span>
+                <span class="val" id="meta-date"><i data-lucide="calendar"></i> <span></span></span>
+              </div>
+              <div class="meta-item">
+                <span class="label">Category</span>
+                <span class="val" id="meta-category"><i data-lucide="tag"></i> <span></span></span>
+              </div>
+              <div class="meta-item">
+                <span class="label">Primary Color</span>
+                <span class="val" id="meta-color"><i data-lucide="palette"></i> <span></span></span>
+              </div>
+            </div>
+
+            <!-- Description -->
+            <div>
+              <h3 style="font-size:var(--text-base); margin-bottom:var(--space-2);">Description</h3>
+              <p id="item-desc" class="item-description"></p>
+            </div>
+
+            <!-- Reported By -->
+            <div class="reporter-card">
+              <div class="avatar" id="reporter-avatar">ST</div>
+              <div style="flex:1;">
+                <div style="font-size:var(--text-xs); color:var(--text-secondary); text-transform:uppercase;">Reported By</div>
+                <div style="font-weight:var(--weight-semibold); color:var(--text-heading);" id="reporter-name">SRM Student</div>
+                <div style="font-size:var(--text-xs); color:var(--text-secondary);">Verified SRMIST Student</div>
+              </div>
+              <div class="badge badge-found" style="text-transform:none;"><i data-lucide="badge-check"></i> Identity Verified</div>
+            </div>
+
+            <!-- Actions (Claim / Contact / Share) -->
+            <div class="flex gap-3" style="margin-top:var(--space-2); flex-wrap:wrap;">
+              <a href="#" id="claim-button" class="btn btn-primary btn-lg" style="flex:2; min-width:200px;">
+                <i data-lucide="shield-alert"></i> This is mine (Claim)
+              </a>
+              <a href="#direct-chat-section" class="btn btn-secondary btn-lg" id="chat-jump-btn" style="flex:1; min-width:140px;">
+                <i data-lucide="message-square"></i> Chat
+              </a>
+              <button class="btn btn-secondary btn-lg btn-icon" id="share-button" aria-label="Share item link" title="Share item">
+                <i data-lucide="share-2"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- FINDER CLAIMS REVIEW PANEL (Visible when finder reviews claims with private proof) -->
+        <div id="finder-claims-panel" style="display:none; margin-top:var(--space-8);">
+          <!-- Injected dynamically by JS -->
+        </div>
+
+        <!-- DIRECT HANDOVER IN-APP CHAT SECTION -->
+        <div class="item-chat-card" id="direct-chat-section">
+          <div class="item-chat-header">
+            <div class="flex items-center gap-3">
+              <div class="avatar" id="chat-recipient-avatar" style="width:40px; height:40px; font-size:14px;">SR</div>
+              <div>
+                <h4 style="font-size:var(--text-base); margin-bottom:2px;" id="chat-recipient-name">Direct Handover Chat</h4>
+                <div class="flex items-center gap-2">
+                  <span class="badge badge-found" id="chat-recipient-role" style="font-size:10px; padding:1px 6px;">Verified SRM Student</span>
+                  <span class="text-xs text-secondary" id="chat-status-indicator">● Active Thread</span>
+                </div>
+              </div>
+            </div>
+            <div class="flex items-center gap-3">
+              <span id="chat-item-context" class="text-xs text-secondary">Topic: <strong id="chat-item-title-badge">Backpack</strong></span>
+              <a href="inbox.html" id="btn-open-full-inbox" class="btn btn-secondary btn-sm" title="Open full 2-pane inbox interface">
+                <i data-lucide="maximize-2" style="width:13px;height:13px;"></i> Full Inbox
+              </a>
+            </div>
+          </div>
+
+          <!-- Messages scroll container -->
+          <div class="item-chat-messages" id="chat-messages-container">
+            <div class="chat-bubble system">
+              <i data-lucide="shield-check" style="width:13px;height:13px;display:inline-block;vertical-align:middle;margin-right:3px;"></i>
+              Official LostLink Handover Channel. Discuss verification, handover location, or security desk deposit safely.
+            </div>
+          </div>
+
+          <!-- Chat Input -->
+          <div class="item-chat-footer">
+            <div class="chat-quick-chips">
+              <button type="button" class="chat-chip" onclick="insertQuickMessage('Is the item currently at the campus security desk?')">📍 Deposited at security?</button>
+              <button type="button" class="chat-chip" onclick="insertQuickMessage('I have my SRM physical student ID card ready for verification.')">🪪 I have my SRM ID</button>
+              <button type="button" class="chat-chip" onclick="insertQuickMessage('Can we meet near Tech Park ground floor reception?')">🏛️ Meet at Tech Park?</button>
+              <button type="button" class="chat-chip" onclick="insertQuickMessage('Can you confirm the identifying marks (e.g. keychain / color)?')">🔑 Confirm identifying marks</button>
+            </div>
+            <form id="item-chat-form" class="flex gap-2">
+              <input type="text" class="input" id="item-chat-input" placeholder="Type a message to coordinate handover..." required autocomplete="off" style="flex:1;">
+              <button type="submit" class="btn btn-primary" id="btn-send-item-msg">
+                <i data-lucide="send"></i> Send
+              </button>
+            </form>
+          </div>
+        </div>
+
+        <!-- SIMILAR / RELATED ITEMS SECTION -->
+        <section class="section-sm" style="border-top:1px solid var(--border); margin-top:var(--space-12);">
+          <div class="flex-between items-center" style="margin-bottom:var(--space-6);">
+            <div>
+              <h3>Similar Items</h3>
+              <p class="text-secondary text-sm">Other items reported in the same category</p>
+            </div>
+            <a href="browse.html" class="btn btn-ghost btn-sm">Browse all <i data-lucide="arrow-right"></i></a>
+          </div>
+          <div class="grid grid-3" id="similar-grid"></div>
+        </section>
+
+      </div>
+    </main>
+
+    <!-- QUICK FOUND MODAL (1-Click Fast Reporting for Found Items) -->
+    <div class="modal-backdrop" id="quick-found-modal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(15, 23, 42, 0.7); z-index:9999; align-items:center; justify-content:center; padding:var(--space-4); backdrop-filter:blur(5px);">
+      <div class="modal-card card" style="max-width:540px; width:100%; max-height:92vh; overflow-y:auto; padding:var(--space-6); position:relative; box-shadow:var(--shadow-xl); border:1.5px solid var(--border); animation:modalSlideUp 0.25s cubic-bezier(0.16,1,0.3,1);">
+        <button type="button" class="btn btn-ghost btn-sm" id="btn-close-modal" style="position:absolute; top:var(--space-4); right:var(--space-4); padding:4px 8px;" aria-label="Close modal">
+          <i data-lucide="x"></i>
+        </button>
+
+        <div id="qf-form-container">
+          <div style="margin-bottom:var(--space-4);">
+            <span class="badge badge-accent" style="margin-bottom:var(--space-2);"><i data-lucide="zap"></i> Fast Found Report (No Full Details Needed)</span>
+            <h2 style="font-size:var(--text-xl);">I Found This Item!</h2>
+            <p class="text-secondary text-sm">We'll link your report directly to the lost report so you don't have to fill out categories, colors, or descriptions.</p>
+          </div>
+
+          <!-- Matched Item Preview Card -->
+          <div class="card" style="padding:var(--space-3) var(--space-4); background:var(--bg-secondary); margin-bottom:var(--space-5); display:flex; gap:var(--space-3); align-items:center;">
+            <div id="qf-thumb-box" style="width:48px; height:48px; border-radius:var(--radius-md); background:var(--bg-card); display:flex; align-items:center; justify-content:center; border:1px solid var(--border); flex-shrink:0; overflow:hidden;">
+              <i data-lucide="package" id="qf-thumb-icon" style="width:22px; height:22px; color:var(--primary);"></i>
+              <img id="qf-thumb" src="" alt="Item preview" style="display:none; width:100%; height:100%; object-fit:cover;">
+            </div>
+            <div style="flex:1;">
+              <span class="badge badge-lost" style="font-size:10px; padding:1px 6px;">MATCHING LOST REPORT</span>
+              <h4 id="qf-item-title" style="font-size:var(--text-sm); margin-top:2px;">—</h4>
+              <span class="text-xs text-secondary" id="qf-item-loc"><i data-lucide="map-pin" style="width:11px;height:11px;display:inline-block;vertical-align:middle;"></i> <span>—</span></span>
+            </div>
+          </div>
+
+          <form id="quick-found-form">
+            <!-- Current Location -->
+            <div class="form-group" style="margin-bottom:var(--space-4);">
+              <label class="form-label" for="qf-location">Where is the item right now? <span class="required">*</span></label>
+              <div class="select-wrapper">
+                <select id="qf-location" required>
+                  <!-- Populated by script -->
+                </select>
+              </div>
+            </div>
+
+            <!-- Current Possession -->
+            <div class="form-group" style="margin-bottom:var(--space-4);">
+              <label class="form-label">Possession / Handover Status <span class="required">*</span></label>
+              <div style="display:flex; flex-direction:column; gap:var(--space-2); margin-top:var(--space-1);">
+                <label class="filter-option" style="cursor:pointer; padding:var(--space-3); border:1.5px solid var(--border); border-radius:var(--radius-md); background:var(--bg);">
+                  <input type="radio" name="qf-possession" value="security" checked>
+                  <div>
+                    <div style="font-weight:600; font-size:var(--text-sm);"><i data-lucide="shield-check" style="width:14px;height:14px;display:inline-block;vertical-align:middle;color:var(--success);"></i> Handed to Campus Security / Helpdesk (Recommended)</div>
+                    <div class="text-xs text-secondary">Deposited at building reception/desk for safe verified collection.</div>
+                  </div>
+                </label>
+                <label class="filter-option" style="cursor:pointer; padding:var(--space-3); border:1.5px solid var(--border); border-radius:var(--radius-md); background:var(--bg);">
+                  <input type="radio" name="qf-possession" value="with_me">
+                  <div>
+                    <div style="font-weight:600; font-size:var(--text-sm);"><i data-lucide="user-check" style="width:14px;height:14px;display:inline-block;vertical-align:middle;color:var(--primary-500);"></i> I have it safely with me</div>
+                    <div class="text-xs text-secondary">I will hand it over when the owner verifies ownership on LostLink.</div>
+                  </div>
+                </label>
+              </div>
+            </div>
+
+            <!-- Optional Note -->
+            <div class="form-group" style="margin-bottom:var(--space-5);">
+              <label class="form-label" for="qf-note">Quick note to the owner <span class="text-xs text-secondary">(Optional)</span></label>
+              <input type="text" class="input" id="qf-note" placeholder="e.g. Left with the ground floor security counter.">
+            </div>
+
+            <!-- Submit Button -->
+            <button type="submit" class="btn btn-primary btn-block btn-lg" id="btn-submit-quick-found">
+              <i data-lucide="check-circle-2"></i> Submit Found Report Now
+            </button>
+
+            <div style="text-align:center; margin-top:var(--space-3);">
+              <a href="#" id="qf-full-form-link" class="text-xs text-secondary" style="text-decoration:underline;">Need to upload photos or add full details? Open standard wizard</a>
+            </div>
+          </form>
+        </div>
+
+        <!-- Success inside modal -->
+        <div id="qf-success" style="display:none; text-align:center; padding:var(--space-6) 0;">
+          <div style="width:64px; height:64px; background:var(--success-light); color:var(--success); border-radius:var(--radius-full); display:flex; align-items:center; justify-content:center; margin:0 auto var(--space-4); font-size:32px;">
+            <i data-lucide="check" style="width:36px;height:36px;"></i>
+          </div>
+          <h3 style="font-size:var(--text-xl);">Report Submitted &amp; Matched!</h3>
+          <p class="text-secondary text-sm" style="margin:var(--space-2) auto var(--space-6); max-width:380px;">
+            Your found report has been directly linked to this lost item with <strong>98% confidence</strong>. The owner has been notified to verify and collect.
+          </p>
+          <div class="flex gap-3 justify-center" style="flex-wrap:wrap;">
+            <a href="#" id="qf-open-inbox-btn" class="btn btn-accent btn-lg"><i data-lucide="message-square"></i> Open Handover Chat with Owner</a>
+            <a href="#" id="qf-view-match-btn" class="btn btn-secondary"><i data-lucide="sparkles"></i> View Match</a>
+            <button type="button" class="btn btn-ghost" id="qf-btn-done">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+      <div class="container">
+        <div class="footer-grid">
+          <div class="footer-brand">
+            <a href="index.html" class="logo">
+              <div class="logo-icon"><i data-lucide="link"></i></div>
+              LostLink
+            </a>
+            <p>The unified lost & found system for SRMIST Kattankulathur.</p>
+          </div>
+          <div class="footer-col">
+            <h4>Product</h4>
+            <a href="browse.html">Browse items</a>
+            <a href="report.html">Report an item</a>
+            <a href="index.html#how-it-works">How it works</a>
+          </div>
+          <div class="footer-col">
+            <h4>Support</h4>
+            <a href="#">Help Center</a>
+            <a href="#">Contact us</a>
+            <a href="#">Privacy Policy</a>
+          </div>
+          <div class="footer-col">
+            <h4>Connect</h4>
+            <a href="#">Instagram</a>
+            <a href="#">Twitter</a>
+            <a href="#">Email</a>
+          </div>
+        </div>
+        <div class="footer-bottom">
+          <span>© 2026 LostLink — SRMIST KTR. All rights reserved.</span>
+          <span>Built as a UID course project.</span>
+        </div>
+      </div>
+    </footer>
+  </div>
+
+  <script src="js/data.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/main.js"></script>
+  <script src="js/chatbot.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', async () => {
+      const idParam = getParam('id');
+      const itemId = idParam ? parseInt(idParam, 10) : 1;
+
+      let item = null;
+      if (typeof LostLinkAPI !== 'undefined') {
+        item = await LostLinkAPI.getItemById(itemId);
+      }
+      if (!item && typeof ITEMS !== 'undefined') {
+        item = ITEMS.find(i => i.id === itemId);
+      }
+
+      if (!item) {
+        document.title = 'Item Not Found — LostLink';
+        const mainContainer = document.querySelector('.container.section-sm');
+        if (mainContainer) {
+          mainContainer.innerHTML = `
+            <div class="card" style="padding:var(--space-12); text-align:center; max-width:600px; margin:var(--space-8) auto;">
+              <div class="empty-state-icon" style="margin:0 auto var(--space-4);"><i data-lucide="help-circle"></i></div>
+              <h2>Item Report Not Found</h2>
+              <p class="text-secondary" style="margin-top:var(--space-2); margin-bottom:var(--space-6);">
+                The item report you are looking for (ID #${itemId}) does not exist or may have been resolved.
+              </p>
+              <div class="flex justify-center gap-3">
+                <a href="browse.html" class="btn btn-primary"><i data-lucide="search"></i> Browse Campus Items</a>
+                <a href="report.html" class="btn btn-secondary"><i data-lucide="plus"></i> File New Report</a>
+              </div>
+            </div>
+          `;
+          if (typeof lucide !== 'undefined') lucide.createIcons();
+        }
+        return;
+      }
+
+      // Update page title & breadcrumb
+      document.title = `${item.title} — LostLink`;
+      const crumb = document.getElementById('crumb-title');
+      if (crumb) crumb.textContent = item.title;
+
+      // Populate Images (Strictly real uploaded photos only; never random fallback illustrations)
+      const galleryBox = document.getElementById('gallery-main-box') || document.querySelector('.gallery-main');
+      const hasRealPhoto = item.image && typeof item.image === 'string' && item.image.trim() !== '' && !item.image.includes('assets/images/items/item');
+
+      if (galleryBox) {
+        if (hasRealPhoto) {
+          galleryBox.innerHTML = '';
+          const img = document.createElement('img');
+          img.id = 'main-image';
+          img.src = item.image;
+          img.alt = item.title || 'Item photo';
+          img.style.width = '100%';
+          img.style.height = '100%';
+          img.style.maxHeight = '460px';
+          img.style.objectFit = 'contain';
+          img.style.display = 'block';
+          img.style.borderRadius = 'var(--radius-lg)';
+          img.onerror = () => {
+            galleryBox.innerHTML = renderNoPhotoPlaceholder(item);
+            if (typeof lucide !== 'undefined') lucide.createIcons();
+          };
+          galleryBox.appendChild(img);
+        } else {
+          galleryBox.innerHTML = renderNoPhotoPlaceholder(item);
+        }
+      }
+
+      // Thumbnails (if reporter uploaded multiple photos)
+      let photosArray = [];
+      if (Array.isArray(item.images)) {
+        photosArray = item.images.filter(img => img && typeof img === 'string' && img.trim() !== '' && !img.includes('assets/images/items/item'));
+      } else if (typeof item.images === 'string' && item.images.startsWith('[')) {
+        try {
+          const parsed = JSON.parse(item.images);
+          if (Array.isArray(parsed)) {
+            photosArray = parsed.filter(img => img && typeof img === 'string' && img.trim() !== '' && !img.includes('assets/images/items/item'));
+          }
+        } catch(e) {}
+      }
+      if (photosArray.length === 0 && hasRealPhoto) {
+        photosArray = [item.image];
+      }
+
+      const thumbList = document.getElementById('thumb-list');
+      if (thumbList && photosArray.length > 1) {
+        thumbList.style.display = 'flex';
+        thumbList.innerHTML = photosArray.map((imgUrl, idx) => `
+          <div class="gallery-thumb ${idx === 0 ? 'active' : ''}" data-src="${imgUrl}">
+            <img src="${imgUrl}" alt="${escapeHtml(item.title)} view ${idx + 1}">
+          </div>
+        `).join('');
+
+        thumbList.querySelectorAll('.gallery-thumb').forEach(thumb => {
+          thumb.addEventListener('click', () => {
+            thumbList.querySelectorAll('.gallery-thumb').forEach(t => t.classList.remove('active'));
+            thumb.classList.add('active');
+            const mainImg = document.getElementById('main-image');
+            if (mainImg) mainImg.src = thumb.dataset.src;
+          });
+        });
+      } else if (thumbList) {
+        thumbList.style.display = 'none';
+      }
+
+      // Title & Posted
+      document.getElementById('item-title').textContent = item.title;
+      document.getElementById('item-posted-time').textContent = `Reported ${item.postedAt || 'Recently'}`;
+
+      // Badges
+      const typeBadge = document.getElementById('item-type-badge');
+      typeBadge.className = `badge badge-${item.type}`;
+      typeBadge.textContent = item.type === 'lost' ? 'Lost Item' : 'Found Item';
+
+      const statusBadge = document.getElementById('item-status-badge');
+      statusBadge.className = `badge badge-${item.status}`;
+      statusBadge.textContent = (item.status || 'reported').toUpperCase();
+
+      // Lifecycle Timeline mapping
+      const tlMap = {
+        'reported': 1,
+        'matched': 2,
+        'verified': 3,
+        'collected': 4
+      };
+      const activeStage = tlMap[item.status] || 1;
+      const steps = [
+        { id: 'tl-reported', stage: 1 },
+        { id: 'tl-matched', stage: 2 },
+        { id: 'tl-verified', stage: 3 },
+        { id: 'tl-collected', stage: 4 }
+      ];
+      steps.forEach(s => {
+        const el = document.getElementById(s.id);
+        if (!el) return;
+        el.classList.remove('completed', 'active');
+        if (s.stage < activeStage) {
+          el.classList.add('completed');
+        } else if (s.stage === activeStage) {
+          el.classList.add('active');
+        }
+      });
+
+      // Clear, High-Contrast Metadata 2x2 Grid
+      const setMetaField = (id, icon, text) => {
+        const el = document.getElementById(id);
+        if (!el) return;
+        el.innerHTML = `<i data-lucide="${icon}"></i> <span>${escapeHtml(text || '—')}</span>`;
+      };
+
+      setMetaField('meta-location', 'map-pin', item.location || 'SRMIST KTR Campus');
+
+      const dateStr = formatDate(item.date);
+      const timeStr = item.time ? ` at ${formatTime(item.time)}` : '';
+      setMetaField('meta-date', 'calendar', `${dateStr}${timeStr}`);
+
+      let categoryName = item.category;
+      if (typeof CATEGORIES !== 'undefined' && Array.isArray(CATEGORIES)) {
+        const catObj = CATEGORIES.find(c => c.id === item.category);
+        if (catObj) categoryName = catObj.name;
+      }
+      setMetaField('meta-category', 'tag', categoryName || 'General');
+
+      setMetaField('meta-color', 'palette', item.color || 'Unspecified');
+
+      // Description
+      document.getElementById('item-desc').textContent = item.description || 'No detailed description provided.';
+
+      // Reporter
+      const reporterName = (item.user && item.user.name) || 'SRM Student';
+      const reporterAvatar = (item.user && item.user.avatar) || 'ST';
+      document.getElementById('reporter-name').textContent = reporterName;
+      document.getElementById('reporter-avatar').textContent = reporterAvatar;
+
+      // Claim button behavior
+      const claimBtn = document.getElementById('claim-button');
+      if (item.type === 'found') {
+        claimBtn.innerHTML = '<i data-lucide="shield-check"></i> This is mine (Claim Item)';
+        claimBtn.href = `claim.html?id=${item.id}`;
+      } else {
+        claimBtn.innerHTML = '<i data-lucide="check-circle-2"></i> I found this item!';
+        claimBtn.href = `report.html?foundMatchFor=${item.id}`;
+        claimBtn.className = 'btn btn-accent btn-lg';
+
+        // Setup 1-click Quick Found Modal (no full details needed!)
+        setupQuickFoundModal(item);
+        claimBtn.addEventListener('click', (e) => {
+          e.preventDefault();
+          openQuickFoundModal();
+        });
+      }
+
+      // Share button
+      const shareBtn = document.getElementById('share-button');
+      if (shareBtn) {
+        shareBtn.addEventListener('click', () => {
+          if (navigator.clipboard) {
+            navigator.clipboard.writeText(window.location.href);
+            showToast('success', 'Link Copied', 'Item link has been copied to your clipboard.');
+          } else {
+            showToast('info', 'Share Link', window.location.href);
+          }
+        });
+      }
+
+      // Similar items
+      const similarGrid = document.getElementById('similar-grid');
+      if (similarGrid) {
+        const allItems = typeof ITEMS !== 'undefined' ? ITEMS : [];
+        const similar = allItems
+          .filter(i => i.id !== item.id && (i.category === item.category || i.location === item.location))
+          .slice(0, 3);
+        if (similar.length > 0) {
+          similarGrid.innerHTML = similar.map(renderItemCard).join('');
+        } else {
+          similarGrid.parentElement.style.display = 'none';
+        }
+      }
+
+      // Initialize Direct Chat & Finder Claims Panel
+      initItemChat(item);
+      checkPendingClaims(item);
+
+      if (typeof lucide !== 'undefined') lucide.createIcons();
+    });
+
+    function setupQuickFoundModal(item) {
+      const modal = document.getElementById('quick-found-modal');
+      const closeBtn = document.getElementById('btn-close-modal');
+      const fullFormLink = document.getElementById('qf-full-form-link');
+      const form = document.getElementById('quick-found-form');
+      const locSelect = document.getElementById('qf-location');
+      const doneBtn = document.getElementById('qf-btn-done');
+
+      // Populate preview in modal
+      const thumb = document.getElementById('qf-thumb');
+      const thumbIcon = document.getElementById('qf-thumb-icon');
+      const title = document.getElementById('qf-item-title');
+      const loc = document.querySelector('#qf-item-loc span');
+
+      const hasModalPhoto = item.image && item.image.trim() !== '' && !item.image.includes('assets/images/items/item');
+      if (hasModalPhoto && thumb) {
+        thumb.src = item.image;
+        thumb.style.display = 'block';
+        if (thumbIcon) thumbIcon.style.display = 'none';
+      } else {
+        if (thumb) thumb.style.display = 'none';
+        if (thumbIcon) {
+          thumbIcon.style.display = 'block';
+          thumbIcon.setAttribute('data-lucide', getCategoryIcon(item.category));
+        }
+      }
+      if (title) title.textContent = item.title;
+      if (loc) loc.textContent = item.location;
+
+      // Populate locations dropdown (20 SRM Locations)
+      if (locSelect) {
+        locSelect.innerHTML = '';
+        const locationsList = (typeof LOCATIONS !== 'undefined') ? LOCATIONS : [item.location];
+        locationsList.forEach(l => {
+          const opt = document.createElement('option');
+          opt.value = l;
+          opt.textContent = l;
+          if (l.toLowerCase() === (item.location || '').toLowerCase()) opt.selected = true;
+          locSelect.appendChild(opt);
+        });
+      }
+
+      if (fullFormLink) {
+        fullFormLink.href = `report.html?foundMatchFor=${item.id}`;
+      }
+
+      const closeModal = () => {
+        if (modal) modal.style.display = 'none';
+      };
+
+      if (closeBtn) closeBtn.addEventListener('click', closeModal);
+      if (doneBtn) doneBtn.addEventListener('click', closeModal);
+      if (modal) {
+        modal.addEventListener('click', (e) => {
+          if (e.target === modal) closeModal();
+        });
+      }
+
+      // Handle Quick Submit
+      if (form) {
+        form.addEventListener('submit', async (e) => {
+          e.preventDefault();
+          const submitBtn = document.getElementById('btn-submit-quick-found');
+          if (submitBtn) {
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<span class="spinner"></span> Submitting Found Report...';
+          }
+
+          const currentLoc = locSelect ? locSelect.value : item.location;
+          const posRadio = form.querySelector('input[name="qf-possession"]:checked');
+          const possession = posRadio ? posRadio.value : 'security';
+          const possessionText = possession === 'security' 
+            ? `Handed to Campus Security / Helpdesk Desk at ${currentLoc}` 
+            : `Finder has safely in possession on campus (${currentLoc})`;
+
+          const note = document.getElementById('qf-note')?.value.trim() || '';
+          const fullNote = note 
+            ? `${note} (Possession: ${possessionText})` 
+            : `Hi ${item.user ? item.user.name : 'there'}, I found your ${item.title} at ${currentLoc}! It's safe with me. Let's arrange a time to meet on campus.`;
+
+          let result = null;
+          if (typeof LostLinkAPI !== 'undefined' && LostLinkAPI.quickReportFound) {
+            result = await LostLinkAPI.quickReportFound(item.id, {
+              location: currentLoc,
+              note: fullNote,
+              image: ''
+            });
+          }
+
+          // Advance status badge on the current page to 'MATCHED'
+          const statusBadge = document.getElementById('item-status-badge');
+          if (statusBadge) {
+            statusBadge.className = 'badge badge-matched';
+            statusBadge.textContent = 'MATCHED';
+          }
+          const tlMatched = document.getElementById('tl-reported');
+          if (tlMatched) tlMatched.classList.add('completed');
+          const tlStage2 = document.getElementById('tl-matched');
+          if (tlStage2) tlStage2.classList.add('active');
+
+          // Show success inside modal
+          document.getElementById('qf-form-container').style.display = 'none';
+          const successDiv = document.getElementById('qf-success');
+          if (successDiv) {
+            successDiv.style.display = 'block';
+            const inboxBtn = document.getElementById('qf-open-inbox-btn');
+            if (inboxBtn) inboxBtn.href = `inbox.html?itemId=${item.id}`;
+            const matchBtn = document.getElementById('qf-view-match-btn');
+            if (matchBtn) matchBtn.href = `matches.html?reportId=${item.id}`;
+          }
+
+          showToast('success', 'Found Item Reported!', `Direct match established with "${item.title}".`);
+          if (typeof lucide !== 'undefined') lucide.createIcons();
+
+          // Smoothly navigate to inbox after 1.5 seconds if user doesn't click
+          setTimeout(() => {
+            if (modal.style.display !== 'none') {
+              window.location.href = `inbox.html?itemId=${item.id}`;
+            }
+          }, 1500);
+        });
+      }
+    }
+
+    function openQuickFoundModal() {
+      const modal = document.getElementById('quick-found-modal');
+      if (modal) {
+        modal.style.display = 'flex';
+        if (typeof lucide !== 'undefined') lucide.createIcons();
+      }
+    }
+
+    // ============================================
+    // DIRECT IN-APP MESSAGING & CLAIMS LOGIC
+    // ============================================
+    function insertQuickMessage(text) {
+      const input = document.getElementById('item-chat-input');
+      if (input) {
+        input.value = text;
+        input.focus();
+      }
+    }
+
+    async function checkPendingClaims(item) {
+      const panel = document.getElementById('finder-claims-panel');
+      if (!panel) return;
+
+      const currentUser = LostLinkAPI.getCurrentUser();
+      const isFinderOrAuthor = currentUser && item.user && (currentUser.email.toLowerCase() === item.user.email.toLowerCase());
+
+      const claims = await LostLinkAPI.getItemClaims(item.id);
+      if (claims && claims.length > 0) {
+        const pendingClaims = claims.filter(c => c.status === 'pending');
+        if (pendingClaims.length > 0) {
+          panel.style.display = 'block';
+          panel.innerHTML = `
+            <div class="card" style="border: 2px solid var(--primary-500); background: var(--bg-secondary); padding: var(--space-6); border-radius: var(--radius-xl); box-shadow: var(--shadow-md);">
+              <div class="flex-between items-center" style="flex-wrap: wrap; gap: var(--space-2); margin-bottom: var(--space-4);">
+                <div class="flex items-center gap-2">
+                  <span class="badge badge-accent"><i data-lucide="shield-alert"></i> Action Needed: Ownership Claim Received</span>
+                  <span class="text-xs text-secondary">${pendingClaims.length} pending verification</span>
+                </div>
+              </div>
+              ${pendingClaims.map(claim => `
+                <div style="background: var(--bg-card); border: 1.5px solid var(--border); border-radius: var(--radius-lg); padding: var(--space-5); margin-bottom: var(--space-3);">
+                  <div class="flex-between items-center" style="flex-wrap: wrap; gap: var(--space-3); margin-bottom: var(--space-3);">
+                    <div>
+                      <h4 style="font-size: var(--text-base); margin-bottom: 2px;">Claimant: ${claim.claimantName}</h4>
+                      <div class="text-xs text-secondary">
+                        <span>Reg No: <strong>${claim.claimantRegNo}</strong></span> • 
+                        <span>Email: <strong>${claim.claimantEmail}</strong></span> • 
+                        <span>Pass: <code>${claim.passCode}</code></span>
+                      </div>
+                    </div>
+                    <div class="flex gap-2">
+                      <button type="button" class="btn btn-primary btn-sm" onclick="approveClaim(${claim.id}, '${claim.claimantName}')">
+                        <i data-lucide="check-circle-2"></i> Approve Proof & Connect
+                      </button>
+                      <a href="#direct-chat-section" class="btn btn-secondary btn-sm" onclick="focusChatWith('${claim.claimantEmail}', '${claim.claimantName}')">
+                        <i data-lucide="message-square"></i> Message Claimant
+                      </a>
+                    </div>
+                  </div>
+                  <div style="background: var(--bg-secondary); border-left: 3.5px solid var(--primary-500); padding: var(--space-3) var(--space-4); border-radius: 0 var(--radius-md) var(--radius-md) 0;">
+                    <div class="text-xs text-secondary uppercase" style="font-weight: 700; margin-bottom: 2px;">Private Ownership Proof Provided:</div>
+                    <div style="font-size: var(--text-sm); font-weight: 600; color: var(--text-heading);">
+                      "${escapeHtml(claim.secretDetails)}"
+                    </div>
+                  </div>
+                </div>
+              `).join('')}
+            </div>
+          `;
+          if (typeof lucide !== 'undefined') lucide.createIcons();
+        }
+      }
+    }
+
+    window.approveClaim = async function(claimId, claimantName) {
+      const res = await LostLinkAPI.approveClaim(claimId);
+      if (res && res.success) {
+        showToast('success', 'Claim Approved!', `You confirmed ${claimantName}'s ownership. Handover chat is now active.`);
+        const statusBadge = document.getElementById('item-status-badge');
+        if (statusBadge) {
+          statusBadge.className = 'badge badge-verified';
+          statusBadge.textContent = 'VERIFIED';
+        }
+        const tlVerified = document.getElementById('tl-verified');
+        if (tlVerified) tlVerified.classList.add('active');
+
+        if (window.currentItem) {
+          checkPendingClaims(window.currentItem);
+          loadChatMessages(window.currentItem);
+        }
+      }
+    };
+
+    window.focusChatWith = function(email, name) {
+      currentChatRecipient = { name, email };
+      const nameEl = document.getElementById('chat-recipient-name');
+      if (nameEl) nameEl.textContent = `Chat with ${name}`;
+      const input = document.getElementById('item-chat-input');
+      if (input) input.focus();
+    };
+
+    function renderNoPhotoPlaceholder(item) {
+      const catIcon = (typeof getCategoryIcon !== 'undefined') ? getCategoryIcon(item.category) : 'package';
+      return `
+        <div class="item-detail-no-photo" style="display:flex; flex-direction:column; align-items:center; justify-content:center; min-height:340px; padding:var(--space-8); text-align:center; width:100%;">
+          <div style="width:72px; height:72px; border-radius:var(--radius-full); background:var(--bg-card); display:flex; align-items:center; justify-content:center; margin-bottom:var(--space-3); border:1.5px solid var(--border); box-shadow:var(--shadow-sm); color:var(--primary);">
+            <i data-lucide="${catIcon}" style="width:34px; height:34px;"></i>
+          </div>
+          <span style="font-weight:700; font-size:var(--text-base); color:var(--text-heading);">No Photo Uploaded</span>
+          <p class="text-xs text-secondary" style="margin-top:4px; max-width:280px;">Reporter provided descriptive campus details without a photo.</p>
+        </div>
+      `;
+    }
+
+    let chatPollingTimer = null;
+    let currentChatRecipient = null;
+
+    function initItemChat(item) {
+      window.currentItem = item;
+      const currentUser = LostLinkAPI.getCurrentUser();
+      const titleBadge = document.getElementById('chat-item-title-badge');
+      if (titleBadge) titleBadge.textContent = item.title;
+
+      const inboxLink = document.getElementById('btn-open-full-inbox');
+      if (inboxLink) inboxLink.href = `inbox.html?itemId=${item.id}`;
+
+      let recipientName = 'SRM Student';
+      let recipientEmail = '';
+      let recipientRole = 'Finder / Custodian';
+      let recipientAvatar = 'ST';
+
+      if (currentUser) {
+        if (item.user && item.user.email && currentUser.email.toLowerCase() !== item.user.email.toLowerCase()) {
+          recipientName = item.user.name;
+          recipientEmail = item.user.email;
+          recipientAvatar = item.user.avatar || 'ST';
+          recipientRole = item.type === 'lost' ? 'Owner (Lost Item)' : 'Finder (Safely on Campus)';
+        } else {
+          // Current user is the reporter of this item -> message counterparty
+          if (currentUser.email.toLowerCase().includes('rahul')) {
+            recipientName = 'Rishi Verma';
+            recipientEmail = 'rishi.v@srmist.edu.in';
+            recipientAvatar = 'RV';
+            recipientRole = 'Finder (Reported Blue Bag)';
+          } else {
+            recipientName = 'Rahul Sharma';
+            recipientEmail = 'rahul.sharma@srmist.edu.in';
+            recipientAvatar = 'RS';
+            recipientRole = 'Backpack Owner (Lost)';
+          }
+        }
+      } else {
+        if (item.user) {
+          recipientName = item.user.name;
+          recipientEmail = item.user.email;
+          recipientAvatar = item.user.avatar || 'ST';
+          recipientRole = item.type === 'lost' ? 'Item Owner' : 'Item Finder';
+        }
+      }
+
+      currentChatRecipient = { name: recipientName, email: recipientEmail };
+
+      const nameEl = document.getElementById('chat-recipient-name');
+      const roleEl = document.getElementById('chat-recipient-role');
+      const avatarEl = document.getElementById('chat-recipient-avatar');
+
+      if (nameEl) nameEl.textContent = `Chat with ${recipientName}`;
+      if (roleEl) roleEl.textContent = recipientRole;
+      if (avatarEl) avatarEl.textContent = recipientAvatar;
+
+      loadChatMessages(item);
+
+      const form = document.getElementById('item-chat-form');
+      const input = document.getElementById('item-chat-input');
+      const sendBtn = document.getElementById('btn-send-item-msg');
+
+      if (form) {
+        form.onsubmit = async (e) => {
+          e.preventDefault();
+          const text = input.value.trim();
+          if (!text) return;
+
+          const activeUser = LostLinkAPI.getCurrentUser() || (
+            (item.user && item.user.email === 'rahul.sharma@srmist.edu.in')
+              ? { id: 2, name: 'Rishi Verma', email: 'rishi.v@srmist.edu.in', avatar: 'RV' }
+              : { id: 1, name: 'Rahul Sharma', email: 'rahul.sharma@srmist.edu.in', avatar: 'RS' }
+          );
+
+          const senderName = activeUser.name;
+          const senderEmail = activeUser.email;
+
+          let recName = currentChatRecipient ? currentChatRecipient.name : 'SRM Student';
+          let recEmail = currentChatRecipient ? currentChatRecipient.email : '';
+
+          if (!recEmail || recEmail.toLowerCase() === senderEmail.toLowerCase()) {
+            if (item.user && item.user.email && item.user.email.toLowerCase() !== senderEmail.toLowerCase()) {
+              recName = item.user.name;
+              recEmail = item.user.email;
+            } else {
+              if (senderEmail.toLowerCase().includes('rahul')) {
+                recName = 'Rishi Verma';
+                recEmail = 'rishi.v@srmist.edu.in';
+              } else {
+                recName = 'Rahul Sharma';
+                recEmail = 'rahul.sharma@srmist.edu.in';
+              }
+            }
+          }
+
+          input.value = '';
+          input.focus();
+
+          if (sendBtn) {
+            sendBtn.disabled = true;
+          }
+
+          // Optimistically append bubble
+          appendChatBubble({
+            sender_name: senderName,
+            sender_email: senderEmail,
+            text,
+            created_at: new Date().toISOString()
+          }, activeUser);
+
+          try {
+            await LostLinkAPI.sendMessage(item.id, {
+              senderName,
+              senderEmail,
+              recipientName: recName,
+              recipientEmail: recEmail,
+              text
+            });
+          } catch (err) {
+            console.error('Failed to send message:', err);
+          } finally {
+            if (sendBtn) sendBtn.disabled = false;
+          }
+
+          loadChatMessages(item);
+        };
+      }
+
+      if (chatPollingTimer) clearInterval(chatPollingTimer);
+      chatPollingTimer = setInterval(() => {
+        loadChatMessages(item, true);
+      }, 3000);
+    }
+
+    async function loadChatMessages(item, isBackground = false) {
+      const container = document.getElementById('chat-messages-container');
+      if (!container) return;
+
+      const currentUser = LostLinkAPI.getCurrentUser();
+      const messages = await LostLinkAPI.getMessages(item.id, currentUser ? currentUser.email : '');
+
+      if (!messages) return;
+
+      // Dynamically discover counterparty from existing thread messages
+      if (messages.length > 0 && currentUser) {
+        const myEmail = currentUser.email.toLowerCase();
+        const otherMsg = [...messages].reverse().find(m => 
+          m.sender_email && m.sender_email.toLowerCase() !== myEmail &&
+          !m.sender_email.includes('system') &&
+          !m.sender_name.includes('Smart Match')
+        );
+        if (otherMsg) {
+          currentChatRecipient = {
+            name: otherMsg.sender_name,
+            email: otherMsg.sender_email
+          };
+          const nameEl = document.getElementById('chat-recipient-name');
+          if (nameEl) nameEl.textContent = `Chat with ${otherMsg.sender_name}`;
+          const avatarEl = document.getElementById('chat-recipient-avatar');
+          if (avatarEl) {
+            const initials = otherMsg.sender_name.split(' ').map(n=>n[0]).join('').substring(0, 2).toUpperCase();
+            avatarEl.textContent = initials || 'ST';
+          }
+        }
+      }
+
+      container.innerHTML = `
+        <div class="chat-bubble system">
+          <i data-lucide="shield-check" style="width:13px;height:13px;display:inline-block;vertical-align:middle;margin-right:3px;"></i>
+          Official LostLink Handover Channel for "${escapeHtml(item.title)}". Discuss handover and verify proof safely.
+        </div>
+      `;
+
+      messages.forEach(msg => {
+        appendChatBubble(msg, currentUser);
+      });
+
+      if (!isBackground) {
+        container.scrollTop = container.scrollHeight;
+      }
+      if (typeof lucide !== 'undefined') lucide.createIcons();
+    }
+
+    function appendChatBubble(msg, currentUser) {
+      const container = document.getElementById('chat-messages-container');
+      if (!container) return;
+
+      const myEmail = currentUser ? currentUser.email.toLowerCase() : '';
+      const isMine = myEmail && msg.sender_email && (msg.sender_email.toLowerCase() === myEmail);
+      const isSystem = msg.sender_email === 'system@lostlink.srmist.edu.in' || (msg.sender_name && msg.sender_name.includes('Smart Match'));
+
+      const bubble = document.createElement('div');
+      if (isSystem) {
+        bubble.className = 'chat-bubble system';
+        bubble.innerHTML = `<i data-lucide="zap" style="width:12px;height:12px;display:inline-block;vertical-align:middle;margin-right:3px;"></i> ${escapeHtml(msg.text)}`;
+      } else {
+        bubble.className = `chat-bubble ${isMine ? 'sent' : 'received'}`;
+        const timeFormatted = msg.created_at ? new Date(msg.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : 'Just now';
+        bubble.innerHTML = `
+          <div class="chat-sender">${isMine ? 'You' : escapeHtml(msg.sender_name)}</div>
+          <div>${escapeHtml(msg.text)}</div>
+          <div class="chat-time">${timeFormatted}</div>
+        `;
+      }
+
+      container.appendChild(bubble);
+      container.scrollTop = container.scrollHeight;
+    }
+
+    function escapeHtml(str) {
+      return (str || '').replace(/[&<>'"]/g, 
+        tag => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[tag] || tag)
+      );
+    }
+  </script>
+</body>
+</html>
+
+
+
+
+

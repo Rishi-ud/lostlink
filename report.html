@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Report an Item — LostLink</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/tokens.css">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/pages.css">
+  <link rel="stylesheet" href="css/chatbot.css">
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <meta name="description" content="Report a lost or found item on the SRMIST KTR campus. Our smart matching engine finds matches immediately.">
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+</head>
+<body>
+  <a href="#main" class="skip-to-content">Skip to content</a>
+
+  <div class="page-wrapper">
+    <!-- HEADER -->
+    <header class="header">
+      <div class="header-inner">
+        <a href="index.html" class="logo">
+          <div class="logo-icon"><i data-lucide="link"></i></div>
+          LostLink
+        </a>
+        <nav class="nav" role="navigation">
+          <a href="browse.html" class="nav-link">Browse items</a>
+          <a href="index.html#how-it-works" class="nav-link">How it works</a>
+        </nav>
+        <div class="header-actions">
+          <button class="theme-toggle" aria-label="Toggle dark mode">
+            <i data-lucide="sun" class="icon-sun" style="display:none;"></i>
+            <i data-lucide="moon" class="icon-moon"></i>
+          </button>
+          <a href="login.html" class="btn btn-secondary btn-sm">Log in</a>
+          <a href="signup.html" class="btn btn-primary btn-sm">Sign up</a>
+          <button class="mobile-menu-btn" aria-label="Toggle menu" aria-expanded="false">
+            <i data-lucide="menu"></i>
+            <i data-lucide="x" style="display:none;"></i>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- MAIN -->
+    <main id="main" class="main-content">
+      <div class="container section-sm">
+        <div class="report-page">
+
+          <!-- Header & Hick's Law Toggle -->
+          <div class="report-header">
+            <h1>Report an Item</h1>
+            <p class="text-secondary" style="margin-top:var(--space-2); margin-bottom:var(--space-6);">
+              Takes less than 2 minutes. Our algorithm starts searching for matches immediately.
+            </p>
+
+            <!-- Toggle (Lost vs Found) -->
+            <div class="toggle-pill" id="report-type-toggle" role="tablist" aria-label="Item report type">
+              <button type="button" class="toggle-pill-option active lost" data-type="lost" role="tab" aria-selected="true">
+                <i data-lucide="search"></i> I Lost an Item
+              </button>
+              <button type="button" class="toggle-pill-option found" data-type="found" role="tab" aria-selected="false">
+                <i data-lucide="package-check"></i> I Found an Item
+              </button>
+            </div>
+          </div>
+
+          <!-- Stepper -->
+          <div class="stepper" id="report-stepper" aria-label="Form progress">
+            <div class="step active" data-step="1">
+              <div class="step-circle">1</div>
+              <span class="step-label">Basics</span>
+            </div>
+            <div class="step-connector"></div>
+            <div class="step" data-step="2">
+              <div class="step-circle">2</div>
+              <span class="step-label">Details</span>
+            </div>
+            <div class="step-connector"></div>
+            <div class="step" data-step="3">
+              <div class="step-circle">3</div>
+              <span class="step-label">Location</span>
+            </div>
+            <div class="step-connector"></div>
+            <div class="step" data-step="4">
+              <div class="step-circle">4</div>
+              <span class="step-label">Review</span>
+            </div>
+          </div>
+
+          <!-- DIRECT MATCH FAST-TRACK BANNER (When matching a lost report) -->
+          <div class="card" id="direct-match-notice" style="display:none; padding:var(--space-5); margin-top:var(--space-6); background:var(--primary-50); border:1.5px solid var(--primary-300); border-radius:var(--radius-lg);">
+            <div class="flex-between items-center" style="flex-wrap:wrap; gap:var(--space-4);">
+              <div style="flex:1; min-width:260px;">
+                <span class="badge badge-accent" style="margin-bottom:var(--space-1);"><i data-lucide="zap"></i> 1-Click Fast Found Mode</span>
+                <h3 style="font-size:var(--text-lg); margin-top:4px;" id="dmn-title">Reporting Found Match</h3>
+                <p class="text-secondary text-sm" style="margin-top:2px;">
+                  All item details have been auto-populated from the lost report. You can submit directly without filling out the steps!
+                </p>
+              </div>
+              <button type="button" class="btn btn-primary btn-lg" id="btn-direct-submit" style="box-shadow:var(--shadow-md);">
+                <i data-lucide="check-circle-2"></i> 1-Click Submit Found Report
+              </button>
+            </div>
+          </div>
+
+          <!-- DEDICATED 1-CLICK FAST FOUND CARD (When reporting a found match for a lost item) -->
+          <div class="card" id="fast-found-card" style="display:none; padding:var(--space-8); margin-top:var(--space-4); border:2px solid var(--primary-400); box-shadow:var(--shadow-xl); background:var(--bg-card); border-radius:var(--radius-xl);">
+            <div style="display:flex; align-items:center; gap:var(--space-2); margin-bottom:var(--space-3); flex-wrap:wrap;">
+              <span class="badge badge-accent" style="font-size:12px; padding:4px 10px;"><i data-lucide="zap"></i> 1-Click Fast Found Mode</span>
+              <span class="badge badge-lost" style="font-size:11px;">Matching Lost Report</span>
+            </div>
+            <h2 style="font-size:var(--text-2xl); font-weight:800; margin-bottom:var(--space-2);">You Found a Reported Item!</h2>
+            <p class="text-secondary" style="margin-bottom:var(--space-6);">
+              All details have been retrieved from the lost report. You <strong>do not</strong> have to fill out categories, colors, or descriptions. Just confirm where you found it and start direct chat with the owner!
+            </p>
+
+            <!-- Matched Item Summary Box -->
+            <div class="card" style="padding:var(--space-4) var(--space-5); background:var(--bg-secondary); border:1px solid var(--border); border-radius:var(--radius-lg); margin-bottom:var(--space-6); display:flex; gap:var(--space-4); align-items:center;">
+              <div id="ff-thumb-container" style="width:60px; height:60px; border-radius:var(--radius-md); background:var(--bg-card); display:flex; align-items:center; justify-content:center; border:1px solid var(--border); flex-shrink:0; overflow:hidden;">
+                <i data-lucide="briefcase" id="ff-item-icon" style="width:28px; height:28px; color:var(--primary);"></i>
+                <img id="ff-item-img" src="" alt="Found Item" style="display:none; width:100%; height:100%; object-fit:cover;">
+              </div>
+              <div style="flex:1; min-width:0;">
+                <div class="text-xs text-secondary" style="font-weight:600; text-transform:uppercase;">Lost Report #<span id="ff-item-id">1</span></div>
+                <h3 id="ff-item-title" style="font-size:var(--text-lg); font-weight:700; margin:2px 0;">Navy Blue Wildcraft Backpack</h3>
+                <div style="display:flex; gap:var(--space-4); flex-wrap:wrap; font-size:var(--text-xs); color:var(--text-secondary); margin-top:4px;">
+                  <span><i data-lucide="user" style="width:12px;height:12px;display:inline-block;vertical-align:middle;"></i> Owner: <strong id="ff-item-owner" style="color:var(--text);">Rahul Sharma</strong></span>
+                  <span><i data-lucide="map-pin" style="width:12px;height:12px;display:inline-block;vertical-align:middle;"></i> Lost at: <strong id="ff-item-loc" style="color:var(--text);">TP</strong></span>
+                  <span><i data-lucide="palette" style="width:12px;height:12px;display:inline-block;vertical-align:middle;"></i> Color: <strong id="ff-item-color" style="color:var(--text);">Blue</strong></span>
+                </div>
+              </div>
+            </div>
+
+            <form id="fast-found-form">
+              <!-- Location Found -->
+              <div class="form-group" style="margin-bottom:var(--space-5);">
+                <label class="form-label" for="ff-location" style="font-weight:600;">Where did you find this item? <span class="required">*</span></label>
+                <div class="select-wrapper">
+                  <select id="ff-location" required class="input" style="font-size:var(--text-base);">
+                    <!-- Populated dynamically with 20 SRM locations -->
+                  </select>
+                </div>
+                <span class="form-hint">Select the SRM campus spot where you found or are keeping the item.</span>
+              </div>
+
+              <!-- Direct Note to Owner -->
+              <div class="form-group" style="margin-bottom:var(--space-5);">
+                <label class="form-label" for="ff-note" style="font-weight:600;">Message to Owner / Handover Note</label>
+                <textarea id="ff-note" class="input" rows="3" placeholder="e.g. Hi, I found your item! It is safe with me. Let's arrange a time to meet on campus."></textarea>
+                <span class="form-hint">This note will be automatically sent as a direct message to the owner in your Handover Inbox.</span>
+              </div>
+
+              <!-- Optional Photo Upload -->
+              <div class="form-group" style="margin-bottom:var(--space-6);">
+                <label class="form-label" style="font-weight:600;">Upload Photo of Found Item <span class="text-xs text-secondary">(Optional)</span></label>
+                <div class="file-upload" id="ff-drop-zone" style="padding:var(--space-4); cursor:pointer;">
+                  <input type="file" id="ff-file-input" accept="image/*" style="display:none;">
+                  <div class="file-upload-icon"><i data-lucide="camera"></i></div>
+                  <div class="file-upload-text"><strong>Click to upload photo</strong> of the found item</div>
+                  <div class="file-upload-hint">Only uploaded photos will be shown — no random pictures</div>
+                </div>
+                <div id="ff-photo-preview" style="display:none; margin-top:var(--space-3); align-items:center; gap:var(--space-3);">
+                  <img id="ff-photo-img" src="" alt="Found Item" style="width:64px; height:64px; border-radius:var(--radius-md); object-fit:cover; border:1.5px solid var(--primary);">
+                  <div>
+                    <div style="font-size:var(--text-xs); font-weight:600; color:var(--success);">✓ Photo Attached</div>
+                    <button type="button" class="btn btn-ghost btn-sm" id="ff-photo-remove" style="color:var(--error); padding:2px 6px; font-size:11px;">Remove photo</button>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Submit Button -->
+              <button type="submit" class="btn btn-primary btn-block btn-lg" id="btn-ff-submit" style="padding:var(--space-4); font-size:var(--text-base); font-weight:700; box-shadow:var(--shadow-md);">
+                <i data-lucide="send"></i> Confirm Found & Open Direct Chat with Owner
+              </button>
+            </form>
+
+            <div style="text-align:center; margin-top:var(--space-5); border-top:1px solid var(--border); padding-top:var(--space-4);">
+              <button type="button" class="btn btn-ghost btn-sm text-secondary" id="btn-toggle-full-wizard" style="font-size:12px;">
+                <i data-lucide="sliders-horizontal" style="width:13px;height:13px;"></i> Prefer to fill the multi-step form instead? Click here
+              </button>
+            </div>
+          </div>
+
+          <!-- FORM CONTAINER -->
+          <div class="card" style="padding:var(--space-8); margin-top:var(--space-6);" id="form-card">
+            <form id="report-multi-form" novalidate>
+
+              <!-- ===== STEP 1: ITEM BASICS ===== -->
+              <div class="report-form-step active" id="step-1">
+                <h3 style="margin-bottom:var(--space-2);">Step 1: Item Basics</h3>
+                <p class="text-secondary text-sm" style="margin-bottom:var(--space-6);">Start with the broad category and name of the item.</p>
+
+                <div class="form-group" style="margin-bottom:var(--space-5);">
+                  <label class="form-label" for="report-category">Category <span class="required">*</span></label>
+                  <div class="select-wrapper">
+                    <select id="report-category" required>
+                      <option value="">Select an item category</option>
+                    </select>
+                  </div>
+                  <span class="form-error" id="err-category" style="display:none;"><i data-lucide="alert-circle"></i> Please select a category.</span>
+                </div>
+
+                <div class="form-group" style="margin-bottom:var(--space-5);">
+                  <label class="form-label" for="report-title">Item Title / Model <span class="required">*</span></label>
+                  <input type="text" class="input" id="report-title" placeholder="e.g. Navy Blue Wildcraft Backpack, Casio fx-991EX" required>
+                  <span class="form-hint">Be specific so owners or finders can recognize it easily.</span>
+                  <span class="form-error" id="err-title" style="display:none;"><i data-lucide="alert-circle"></i> Please enter an item title (at least 3 characters).</span>
+                </div>
+
+                <div class="form-group">
+                  <label class="form-label" for="report-color">Primary Color <span class="required">*</span></label>
+                  <div class="select-wrapper">
+                    <select id="report-color" required>
+                      <option value="">Select primary color</option>
+                    </select>
+                  </div>
+                  <span class="form-error" id="err-color" style="display:none;"><i data-lucide="alert-circle"></i> Please select the primary color.</span>
+                </div>
+              </div>
+
+              <!-- ===== STEP 2: DETAILS & PHOTOS ===== -->
+              <div class="report-form-step" id="step-2">
+                <h3 style="margin-bottom:var(--space-2);">Step 2: Details & Photos</h3>
+                <p class="text-secondary text-sm" style="margin-bottom:var(--space-6);">Provide identifying details and add clear photos if available.</p>
+
+                <div class="form-group" style="margin-bottom:var(--space-6);">
+                  <label class="form-label" for="report-description">Detailed Description <span class="required">*</span></label>
+                  <textarea class="input" id="report-description" rows="4" placeholder="Describe branding, stickers, scratches, contents inside, or special identifying marks..." required></textarea>
+                  <span class="form-hint">Do not disclose sensitive security secrets (like laptop passwords).</span>
+                  <span class="form-error" id="err-desc" style="display:none;"><i data-lucide="alert-circle"></i> Please provide a brief description (at least 15 characters).</span>
+                </div>
+
+                <div class="form-group">
+                  <label class="form-label">Upload Photos (Optional but recommended)</label>
+                  <div class="file-upload" id="drop-zone">
+                    <input type="file" id="file-input" accept="image/*" multiple style="display:none;">
+                    <div class="file-upload-icon"><i data-lucide="upload-cloud"></i></div>
+                    <div class="file-upload-text"><strong>Click to upload</strong> or drag photos here</div>
+                    <div class="file-upload-hint">Supports JPG, PNG up to 5MB (Sample images will be previewed)</div>
+                  </div>
+                  <div class="file-preview-list" id="preview-list"></div>
+                </div>
+              </div>
+
+              <!-- ===== STEP 3: LOCATION & DATE ===== -->
+              <div class="report-form-step" id="step-3">
+                <h3 style="margin-bottom:var(--space-2);">Step 3: Campus Location & Date</h3>
+                <p class="text-secondary text-sm" style="margin-bottom:var(--space-6);">Where and when did this happen on the SRMIST KTR campus?</p>
+
+                <div class="form-group" style="margin-bottom:var(--space-5);">
+                  <label class="form-label" for="report-location">Campus Location / Block <span class="required">*</span></label>
+                  <div class="select-wrapper">
+                    <select id="report-location" required>
+                      <option value="">Select SRM campus location</option>
+                    </select>
+                  </div>
+                  <span class="form-error" id="err-location" style="display:none;"><i data-lucide="alert-circle"></i> Please choose the campus location.</span>
+                </div>
+
+                <div class="form-row">
+                  <div class="form-group">
+                    <label class="form-label" for="report-date">Date <span class="required">*</span></label>
+                    <input type="date" class="input" id="report-date" required onclick="if(this.showPicker){try{this.showPicker();}catch(e){}}">
+                    <span class="form-error" id="err-date" style="display:none;"><i data-lucide="alert-circle"></i> Please specify the date.</span>
+                  </div>
+                  <div class="form-group">
+                    <div class="flex-between">
+                      <label class="form-label" for="report-time-hour">Approximate Time</label>
+                      <span class="text-xs text-secondary">Optional</span>
+                    </div>
+                    <!-- Custom time selector — reliable on all browsers/OS without native --:-- bug -->
+                    <div class="time-select-row" id="time-select-row">
+                      <div class="select-wrapper">
+                        <select id="report-time-hour" aria-label="Hour">
+                          <option value="">HH</option>
+                          <option value="1">01</option>
+                          <option value="2">02</option>
+                          <option value="3">03</option>
+                          <option value="4">04</option>
+                          <option value="5">05</option>
+                          <option value="6">06</option>
+                          <option value="7">07</option>
+                          <option value="8">08</option>
+                          <option value="9">09</option>
+                          <option value="10">10</option>
+                          <option value="11">11</option>
+                          <option value="12">12</option>
+                        </select>
+                      </div>
+                      <span class="time-colon">:</span>
+                      <div class="select-wrapper">
+                        <select id="report-time-min" aria-label="Minutes">
+                          <option value="">MM</option>
+                          <option value="00">00</option>
+                          <option value="05">05</option>
+                          <option value="10">10</option>
+                          <option value="15">15</option>
+                          <option value="20">20</option>
+                          <option value="25">25</option>
+                          <option value="30">30</option>
+                          <option value="35">35</option>
+                          <option value="40">40</option>
+                          <option value="45">45</option>
+                          <option value="50">50</option>
+                          <option value="55">55</option>
+                        </select>
+                      </div>
+                      <div class="select-wrapper">
+                        <select id="report-time-ampm" aria-label="AM or PM">
+                          <option value="AM">AM</option>
+                          <option value="PM">PM</option>
+                        </select>
+                      </div>
+                    </div>
+                    <!-- Hidden field stores HH:MM 24hr value for form logic -->
+                    <input type="hidden" id="report-time" value="">
+                    <div style="display:flex; align-items:center; justify-content:space-between; margin-top:var(--space-2);">
+                      <div id="time-display-badge" class="time-display-badge" style="display:none;">
+                        <i data-lucide="clock" style="width:12px;height:12px;"></i>
+                        <span id="time-display-text">No time set</span>
+                      </div>
+                      <button type="button" class="btn btn-ghost btn-sm" id="btn-clear-time" style="display:none; font-size:var(--text-xs); padding:2px 8px; height:auto;">Clear time</button>
+                    </div>
+                    <span class="form-hint" style="font-size:var(--text-xs); margin-top:var(--space-2); display:block;">Or quick select:</span>
+                    <div class="time-presets" id="time-presets-container">
+                      <button type="button" class="time-preset-pill" data-time="09:30">Morning (9:30 AM)</button>
+                      <button type="button" class="time-preset-pill" data-time="13:15">Lunch (1:15 PM)</button>
+                      <button type="button" class="time-preset-pill" data-time="17:00">Evening (5:00 PM)</button>
+                      <button type="button" class="time-preset-pill" data-time="now">Current Time</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- ===== STEP 4: REVIEW & SUBMIT ===== -->
+              <div class="report-form-step" id="step-4">
+                <h3 style="margin-bottom:var(--space-2);">Step 4: Review Your Report</h3>
+                <p class="text-secondary text-sm" style="margin-bottom:var(--space-6);">Please confirm the information before submitting.</p>
+
+                <div class="review-section">
+                  <div class="review-section-header">
+                    <h4>Item Summary</h4>
+                    <button type="button" class="btn btn-ghost btn-sm" onclick="goToStep(1)">Edit Basics</button>
+                  </div>
+                  <div class="review-row">
+                    <span class="review-label">Report Type</span>
+                    <span class="review-value" id="rev-type">Lost Item</span>
+                  </div>
+                  <div class="review-row">
+                    <span class="review-label">Category</span>
+                    <span class="review-value" id="rev-category">—</span>
+                  </div>
+                  <div class="review-row">
+                    <span class="review-label">Item Title</span>
+                    <span class="review-value" id="rev-title">—</span>
+                  </div>
+                  <div class="review-row">
+                    <span class="review-label">Color</span>
+                    <span class="review-value" id="rev-color">—</span>
+                  </div>
+                </div>
+
+                <div class="review-section">
+                  <div class="review-section-header">
+                    <h4>Location & Date</h4>
+                    <button type="button" class="btn btn-ghost btn-sm" onclick="goToStep(3)">Edit Location</button>
+                  </div>
+                  <div class="review-row">
+                    <span class="review-label">Campus Location</span>
+                    <span class="review-value" id="rev-location">—</span>
+                  </div>
+                  <div class="review-row">
+                    <span class="review-label">Date & Time</span>
+                    <span class="review-value" id="rev-datetime">—</span>
+                  </div>
+                </div>
+
+                <div class="review-section">
+                  <div class="review-section-header">
+                    <h4>Description</h4>
+                    <button type="button" class="btn btn-ghost btn-sm" onclick="goToStep(2)">Edit Details</button>
+                  </div>
+                  <p class="text-sm text-secondary" id="rev-desc" style="white-space:pre-wrap;">—</p>
+                </div>
+              </div>
+
+              <!-- STEP ACTIONS -->
+              <div class="report-actions">
+                <button type="button" class="btn btn-secondary" id="btn-back" style="visibility:hidden;">
+                  <i data-lucide="arrow-left"></i> Back
+                </button>
+                <button type="button" class="btn btn-primary" id="btn-next">
+                  Continue <i data-lucide="arrow-right"></i>
+                </button>
+                <button type="submit" class="btn btn-primary" id="btn-submit" style="display:none;">
+                  <i data-lucide="check"></i> Submit Report
+                </button>
+              </div>
+
+            </form>
+          </div>
+
+          <!-- SUCCESS SCREEN (Hidden initially) -->
+          <div class="card success-screen" id="success-screen" style="display:none; margin-top:var(--space-6);">
+            <div class="success-icon">
+              <i data-lucide="check-circle-2"></i>
+            </div>
+            <h2>Report Submitted!</h2>
+            <p class="text-secondary" style="max-width:440px; margin:var(--space-3) auto 0;">
+              Your report has been logged into the LostLink database and our matching engine is now comparing it with existing campus items.
+            </p>
+
+            <div style="margin-top:var(--space-8); display:flex; flex-direction:column; gap:var(--space-3); max-width:320px; margin-left:auto; margin-right:auto;">
+              <a href="matches.html" id="view-matches-btn" class="btn btn-primary btn-lg">
+                <i data-lucide="sparkles"></i> View Smart Matches
+              </a>
+              <a href="dashboard.html" class="btn btn-secondary">
+                Go to My Dashboard
+              </a>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+      <div class="container">
+        <div class="footer-grid">
+          <div class="footer-brand">
+            <a href="index.html" class="logo">
+              <div class="logo-icon"><i data-lucide="link"></i></div>
+              LostLink
+            </a>
+            <p>The unified lost & found system for SRMIST Kattankulathur.</p>
+          </div>
+          <div class="footer-col">
+            <h4>Product</h4>
+            <a href="browse.html">Browse items</a>
+            <a href="report.html">Report an item</a>
+            <a href="index.html#how-it-works">How it works</a>
+          </div>
+          <div class="footer-col">
+            <h4>Support</h4>
+            <a href="#">Help Center</a>
+            <a href="#">Contact us</a>
+            <a href="#">Privacy Policy</a>
+          </div>
+          <div class="footer-col">
+            <h4>Connect</h4>
+            <a href="#">Instagram</a>
+            <a href="#">Twitter</a>
+            <a href="#">Email</a>
+          </div>
+        </div>
+        <div class="footer-bottom">
+          <span>© 2026 LostLink — SRMIST KTR. All rights reserved.</span>
+          <span>Built as a UID course project.</span>
+        </div>
+      </div>
+    </footer>
+  </div>
+
+  <script src="js/data.js?v=2.2"></script>
+  <script src="js/api.js?v=2.2"></script>
+  <script src="js/main.js?v=2.2"></script>
+  <script src="js/chatbot.js?v=2.2"></script>
+  <script src="js/report.js?v=2.2"></script>
+  <script>document.addEventListener('DOMContentLoaded', function(){ lucide.createIcons(); });</script>
+</body>
+</html>
+
+
+
+
+

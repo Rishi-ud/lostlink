@@ -1,0 +1,476 @@
+﻿<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Design System — LostLink</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/tokens.css">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/pages.css">
+  <link rel="stylesheet" href="css/chatbot.css">
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <meta name="description" content="LostLink design system: color tokens, typography scale, and component library.">
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+</head>
+<body>
+  <a href="#main" class="skip-to-content">Skip to content</a>
+
+  <div class="page-wrapper">
+    <!-- HEADER -->
+    <header class="header">
+      <div class="header-inner">
+        <a href="index.html" class="logo">
+          <div class="logo-icon"><i data-lucide="link"></i></div>
+          LostLink
+        </a>
+        <nav class="nav" role="navigation">
+          <a href="index.html" class="nav-link">Home</a>
+          <a href="browse.html" class="nav-link">Browse items</a>
+          <a href="#" class="nav-link active">Design System</a>
+        </nav>
+        <div class="header-actions">
+          <button class="theme-toggle" aria-label="Toggle dark mode">
+            <i data-lucide="sun" class="icon-sun" style="display:none;"></i>
+            <i data-lucide="moon" class="icon-moon"></i>
+          </button>
+          <button class="mobile-menu-btn" aria-label="Toggle menu" aria-expanded="false">
+            <i data-lucide="menu"></i>
+            <i data-lucide="x" style="display:none;"></i>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- MAIN -->
+    <main id="main" class="main-content">
+      <div class="container section">
+        <div class="section-header" style="text-align:left; margin-bottom:var(--space-16);">
+          <h1>Design System</h1>
+          <p style="margin-left:0;">Tokens, primitives, and composed components powering LostLink.</p>
+        </div>
+
+        <!-- ========== COLORS ========== -->
+        <section class="design-system-section">
+          <h2>Colors</h2>
+          <p class="text-secondary" style="margin-bottom:var(--space-6);">Primary blue for trust, warm amber accent for "found" success moments, and a slate neutral scale.</p>
+
+          <h4 style="margin-bottom:var(--space-4);">Primary</h4>
+          <div class="color-swatches" style="margin-bottom:var(--space-6);">
+            <div class="color-swatch"><div class="color-swatch-block" style="background:var(--primary-50);"></div><div class="color-swatch-label">50</div></div>
+            <div class="color-swatch"><div class="color-swatch-block" style="background:var(--primary-100);"></div><div class="color-swatch-label">100</div></div>
+            <div class="color-swatch"><div class="color-swatch-block" style="background:var(--primary-200);"></div><div class="color-swatch-label">200</div></div>
+            <div class="color-swatch"><div class="color-swatch-block" style="background:var(--primary-300);"></div><div class="color-swatch-label">300</div></div>
+            <div class="color-swatch"><div class="color-swatch-block" style="background:var(--primary-400);"></div><div class="color-swatch-label">400</div></div>
+            <div class="color-swatch"><div class="color-swatch-block" style="background:var(--primary-500);"></div><div class="color-swatch-label">500 ★</div></div>
+            <div class="color-swatch"><div class="color-swatch-block" style="background:var(--primary-600);"></div><div class="color-swatch-label">600</div></div>
+            <div class="color-swatch"><div class="color-swatch-block" style="background:var(--primary-700);"></div><div class="color-swatch-label">700</div></div>
+            <div class="color-swatch"><div class="color-swatch-block" style="background:var(--primary-800);"></div><div class="color-swatch-label">800</div></div>
+            <div class="color-swatch"><div class="color-swatch-block" style="background:var(--primary-900);"></div><div class="color-swatch-label">900</div></div>
+          </div>
+
+          <h4 style="margin-bottom:var(--space-4);">Accent (Warm Amber)</h4>
+          <div class="color-swatches" style="margin-bottom:var(--space-6);">
+            <div class="color-swatch"><div class="color-swatch-block" style="background:var(--accent-50);"></div><div class="color-swatch-label">50</div></div>
+            <div class="color-swatch"><div class="color-swatch-block" style="background:var(--accent-100);"></div><div class="color-swatch-label">100</div></div>
+            <div class="color-swatch"><div class="color-swatch-block" style="background:var(--accent-200);"></div><div class="color-swatch-label">200</div></div>
+            <div class="color-swatch"><div class="color-swatch-block" style="background:var(--accent-400);"></div><div class="color-swatch-label">400</div></div>
+            <div class="color-swatch"><div class="color-swatch-block" style="background:var(--accent-500);"></div><div class="color-swatch-label">500 ★</div></div>
+            <div class="color-swatch"><div class="color-swatch-block" style="background:var(--accent-600);"></div><div class="color-swatch-label">600</div></div>
+            <div class="color-swatch"><div class="color-swatch-block" style="background:var(--accent-700);"></div><div class="color-swatch-label">700</div></div>
+          </div>
+
+          <h4 style="margin-bottom:var(--space-4);">Semantic</h4>
+          <div class="color-swatches">
+            <div class="color-swatch"><div class="color-swatch-block" style="background:var(--success);"></div><div class="color-swatch-label">Success</div></div>
+            <div class="color-swatch"><div class="color-swatch-block" style="background:var(--success-light);"></div><div class="color-swatch-label">Success Lt</div></div>
+            <div class="color-swatch"><div class="color-swatch-block" style="background:var(--warning);"></div><div class="color-swatch-label">Warning</div></div>
+            <div class="color-swatch"><div class="color-swatch-block" style="background:var(--warning-light);"></div><div class="color-swatch-label">Warning Lt</div></div>
+            <div class="color-swatch"><div class="color-swatch-block" style="background:var(--error);"></div><div class="color-swatch-label">Error</div></div>
+            <div class="color-swatch"><div class="color-swatch-block" style="background:var(--error-light);"></div><div class="color-swatch-label">Error Lt</div></div>
+            <div class="color-swatch"><div class="color-swatch-block" style="background:var(--info);"></div><div class="color-swatch-label">Info</div></div>
+          </div>
+        </section>
+
+        <!-- ========== TYPOGRAPHY ========== -->
+        <section class="design-system-section">
+          <h2>Typography</h2>
+          <p class="text-secondary" style="margin-bottom:var(--space-8);">Plus Jakarta Sans for headings, Inter for body. Sizes follow a modular scale.</p>
+
+          <div class="component-demo">
+            <h1 style="margin-bottom:var(--space-4);">H1 · Lost something? Found something?</h1>
+            <h2 style="margin-bottom:var(--space-4);">H2 · Browse by Category</h2>
+            <h3 style="margin-bottom:var(--space-4);">H3 · How It Works</h3>
+            <h4 style="margin-bottom:var(--space-4);">H4 · Recently Found Items</h4>
+            <p class="text-lg" style="margin-bottom:var(--space-3);">Body Large · Our smart matching system connects reports automatically.</p>
+            <p style="margin-bottom:var(--space-3);">Body · Filing a report takes less than 2 minutes. Try it now.</p>
+            <p class="text-sm" style="margin-bottom:var(--space-3);">Body Small · Posted 2 hours ago · Central Library</p>
+            <p class="text-xs">Caption · WCAG AA · 12px · Medium weight</p>
+          </div>
+        </section>
+
+        <!-- ========== BUTTONS ========== -->
+        <section class="design-system-section">
+          <h2>Buttons</h2>
+          <p class="text-secondary" style="margin-bottom:var(--space-6);">Min-height 48px (Fitts's Law). Primary for main actions, secondary for alternatives, ghost for tertiary.</p>
+
+          <h4 style="margin-bottom:var(--space-4);">Variants</h4>
+          <div class="component-demo">
+            <div class="component-demo-row">
+              <button class="btn btn-primary"><i data-lucide="plus"></i> Report an item</button>
+              <button class="btn btn-secondary">Browse items</button>
+              <button class="btn btn-ghost">Cancel</button>
+              <button class="btn btn-accent"><i data-lucide="sparkles"></i> Found!</button>
+              <button class="btn btn-danger"><i data-lucide="trash-2"></i> Delete</button>
+            </div>
+
+            <h4 style="margin-bottom:var(--space-4);">Sizes</h4>
+            <div class="component-demo-row">
+              <button class="btn btn-primary btn-sm">Small</button>
+              <button class="btn btn-primary">Default (48px)</button>
+              <button class="btn btn-primary btn-lg">Large (56px)</button>
+            </div>
+
+            <h4 style="margin-bottom:var(--space-4);">States</h4>
+            <div class="component-demo-row">
+              <button class="btn btn-primary">Default</button>
+              <button class="btn btn-primary" disabled>Disabled</button>
+              <button class="btn btn-primary"><span class="spinner"></span> Loading</button>
+            </div>
+
+            <h4 style="margin-bottom:var(--space-4);">Icon Button</h4>
+            <div class="component-demo-row">
+              <button class="btn btn-secondary btn-icon" aria-label="Edit"><i data-lucide="pencil"></i></button>
+              <button class="btn btn-ghost btn-icon" aria-label="Share"><i data-lucide="share-2"></i></button>
+              <button class="btn btn-danger btn-icon btn-sm" aria-label="Delete"><i data-lucide="trash-2"></i></button>
+            </div>
+          </div>
+        </section>
+
+        <!-- ========== FORM ELEMENTS ========== -->
+        <section class="design-system-section">
+          <h2>Form Elements</h2>
+
+          <div class="component-demo">
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:var(--space-6); max-width:700px;">
+              <div class="form-group">
+                <label class="form-label">Item title <span class="required">*</span></label>
+                <input type="text" class="input" placeholder="e.g. Black leather wallet">
+                <span class="form-hint">Give your item a clear, descriptive name</span>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Category <span class="required">*</span></label>
+                <div class="select-wrapper">
+                  <select><option>Select a category</option><option>Keys</option><option>Bags</option><option>Electronics</option></select>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Error state</label>
+                <input type="text" class="input input-error" value="abc">
+                <span class="form-error"><i data-lucide="alert-circle"></i> Please enter a valid email address</span>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Description</label>
+                <textarea class="input" placeholder="Describe the item in detail..."></textarea>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ========== SEARCH BAR ========== -->
+        <section class="design-system-section">
+          <h2>Search Bar</h2>
+          <div class="component-demo">
+            <div class="search-bar" style="max-width:560px;">
+              <span class="search-icon"><i data-lucide="search"></i></span>
+              <input type="text" class="input" placeholder="Search for an item, e.g. black wallet">
+              <button class="search-clear" aria-label="Clear search"><i data-lucide="x"></i></button>
+            </div>
+          </div>
+        </section>
+
+        <!-- ========== BADGES ========== -->
+        <section class="design-system-section">
+          <h2>Badges</h2>
+          <div class="component-demo">
+            <div class="component-demo-row">
+              <span class="badge badge-lost">Lost</span>
+              <span class="badge badge-found">Found</span>
+              <span class="badge badge-pending">Pending</span>
+              <span class="badge badge-matched">Matched</span>
+              <span class="badge badge-collected">Collected</span>
+              <span class="badge badge-category">Electronics</span>
+            </div>
+          </div>
+        </section>
+
+        <!-- ========== TOGGLE ========== -->
+        <section class="design-system-section">
+          <h2>Toggle (Lost / Found)</h2>
+          <div class="component-demo">
+            <div class="toggle-pill">
+              <button class="toggle-pill-option active lost">
+                <i data-lucide="search"></i> Lost
+              </button>
+              <button class="toggle-pill-option found">
+                <i data-lucide="package-check"></i> Found
+              </button>
+            </div>
+          </div>
+        </section>
+
+        <!-- ========== STEPPER ========== -->
+        <section class="design-system-section">
+          <h2>Stepper (Report Flow)</h2>
+          <div class="component-demo">
+            <div class="stepper">
+              <div class="step completed">
+                <div class="step-circle"><i data-lucide="check" style="width:16px;height:16px;"></i></div>
+                <span class="step-label">Basics</span>
+              </div>
+              <div class="step-connector completed"></div>
+              <div class="step active">
+                <div class="step-circle">2</div>
+                <span class="step-label">Details</span>
+              </div>
+              <div class="step-connector"></div>
+              <div class="step">
+                <div class="step-circle">3</div>
+                <span class="step-label">Location</span>
+              </div>
+              <div class="step-connector"></div>
+              <div class="step">
+                <div class="step-circle">4</div>
+                <span class="step-label">Review</span>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ========== STATUS TIMELINE ========== -->
+        <section class="design-system-section">
+          <h2>Status Timeline</h2>
+          <div class="component-demo">
+            <div class="status-timeline" style="max-width:600px;margin:0 auto;">
+              <div class="timeline-step completed">
+                <div class="timeline-dot"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg></div>
+                <span class="timeline-label">Reported</span>
+                <div class="timeline-connector"></div>
+              </div>
+              <div class="timeline-step completed">
+                <div class="timeline-dot"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg></div>
+                <span class="timeline-label">Matched</span>
+                <div class="timeline-connector"></div>
+              </div>
+              <div class="timeline-step active">
+                <div class="timeline-dot"></div>
+                <span class="timeline-label">Verification</span>
+                <div class="timeline-connector"></div>
+              </div>
+              <div class="timeline-step">
+                <div class="timeline-dot"></div>
+                <span class="timeline-label">Collected</span>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ========== CARDS ========== -->
+        <section class="design-system-section">
+          <h2>Cards</h2>
+
+          <h4 style="margin-bottom:var(--space-4);">Item Cards</h4>
+          <div class="component-demo">
+            <div style="display:grid; grid-template-columns:repeat(auto-fill, minmax(260px, 1fr)); gap:var(--space-6);" id="demo-item-cards"></div>
+          </div>
+
+          <h4 style="margin-top:var(--space-8); margin-bottom:var(--space-4);">Category Cards</h4>
+          <div class="component-demo">
+            <div style="display:grid; grid-template-columns:repeat(auto-fill, minmax(140px, 1fr)); gap:var(--space-4);" id="demo-category-cards"></div>
+          </div>
+        </section>
+
+        <!-- ========== SKELETONS ========== -->
+        <section class="design-system-section">
+          <h2>Loading Skeletons</h2>
+          <div class="component-demo">
+            <div style="display:grid; grid-template-columns:repeat(auto-fill, minmax(260px, 1fr)); gap:var(--space-6);">
+              <div class="card">
+                <div class="skeleton skeleton-image"></div>
+                <div class="card-body">
+                  <div class="skeleton skeleton-heading"></div>
+                  <div class="skeleton skeleton-text short"></div>
+                </div>
+              </div>
+              <div class="card">
+                <div class="skeleton skeleton-image"></div>
+                <div class="card-body">
+                  <div class="skeleton skeleton-heading"></div>
+                  <div class="skeleton skeleton-text short"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ========== EMPTY STATE ========== -->
+        <section class="design-system-section">
+          <h2>Empty State</h2>
+          <div class="component-demo">
+            <div class="empty-state">
+              <div class="empty-state-icon"><i data-lucide="search-x"></i></div>
+              <h3>No items found</h3>
+              <p>Try adjusting your filters or search query to find what you're looking for.</p>
+              <button class="btn btn-primary">Clear filters</button>
+            </div>
+          </div>
+        </section>
+
+        <!-- ========== TOAST ========== -->
+        <section class="design-system-section">
+          <h2>Toast Notifications</h2>
+          <div class="component-demo">
+            <div class="component-demo-row">
+              <button class="btn btn-primary btn-sm" onclick="showToast('success','Report submitted!','Your item has been added to the system.')">Success toast</button>
+              <button class="btn btn-danger btn-sm" onclick="showToast('error','Something went wrong','Please try again later.')">Error toast</button>
+              <button class="btn btn-secondary btn-sm" onclick="showToast('info','New match found','A possible match was found for your wallet.')">Info toast</button>
+              <button class="btn btn-accent btn-sm" onclick="showToast('warning','Almost done','Please complete step 3 before submitting.')">Warning toast</button>
+            </div>
+          </div>
+        </section>
+
+        <!-- ========== FILE UPLOAD ========== -->
+        <section class="design-system-section">
+          <h2>File Upload</h2>
+          <div class="component-demo">
+            <div class="file-upload" style="max-width:480px;">
+              <div class="file-upload-icon"><i data-lucide="upload-cloud"></i></div>
+              <div class="file-upload-text"><strong>Click to upload</strong> or drag and drop</div>
+              <div class="file-upload-hint">PNG, JPG up to 5MB</div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ========== PROGRESS BAR ========== -->
+        <section class="design-system-section">
+          <h2>Progress Bar (Match Confidence)</h2>
+          <div class="component-demo" style="max-width:400px;">
+            <div style="margin-bottom:var(--space-4);">
+              <div class="flex-between" style="margin-bottom:var(--space-2);"><span class="text-sm">High confidence</span><span class="text-sm" style="font-weight:600;color:var(--success);">85%</span></div>
+              <div class="progress-bar"><div class="progress-fill success" style="width:85%;"></div></div>
+            </div>
+            <div style="margin-bottom:var(--space-4);">
+              <div class="flex-between" style="margin-bottom:var(--space-2);"><span class="text-sm">Medium confidence</span><span class="text-sm" style="font-weight:600;color:var(--accent-500);">55%</span></div>
+              <div class="progress-bar"><div class="progress-fill warning" style="width:55%;"></div></div>
+            </div>
+            <div>
+              <div class="flex-between" style="margin-bottom:var(--space-2);"><span class="text-sm">Low confidence</span><span class="text-sm" style="font-weight:600;">25%</span></div>
+              <div class="progress-bar"><div class="progress-fill" style="width:25%;"></div></div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ========== AVATARS ========== -->
+        <section class="design-system-section" style="border-bottom:none;">
+          <h2>Avatars</h2>
+          <div class="component-demo">
+            <div class="component-demo-row">
+              <div class="avatar avatar-sm">AM</div>
+              <div class="avatar">PS</div>
+              <div class="avatar avatar-lg">RK</div>
+            </div>
+          </div>
+        </section>
+
+      </div>
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+      <div class="container">
+        <div class="footer-grid">
+          <div class="footer-brand">
+            <a href="index.html" class="logo">
+              <div class="logo-icon"><i data-lucide="link"></i></div>
+              LostLink
+            </a>
+            <p>The unified lost & found system for SRMIST Kattankulathur. Report, match, and reclaim your belongings.</p>
+          </div>
+          <div class="footer-col">
+            <h4>Product</h4>
+            <a href="browse.html">Browse items</a>
+            <a href="report.html">Report an item</a>
+            <a href="#">How it works</a>
+          </div>
+          <div class="footer-col">
+            <h4>Support</h4>
+            <a href="#">Help Center</a>
+            <a href="#">Contact us</a>
+            <a href="#">Privacy Policy</a>
+          </div>
+          <div class="footer-col">
+            <h4>Connect</h4>
+            <a href="#">Instagram</a>
+            <a href="#">Twitter</a>
+            <a href="#">Email</a>
+          </div>
+        </div>
+        <div class="footer-bottom">
+          <span>© 2026 LostLink — SRMIST KTR. All rights reserved.</span>
+          <span>Built as a UID course project.</span>
+        </div>
+      </div>
+    </footer>
+  </div>
+
+  <!-- SCRIPTS -->
+  <script src="js/data.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/main.js"></script>
+  <script src="js/chatbot.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      if (typeof lucide !== 'undefined') lucide.createIcons();
+
+      // Render demo item cards
+      const itemGrid = document.getElementById('demo-item-cards');
+      if (itemGrid) {
+        itemGrid.innerHTML = ITEMS.slice(0, 3).map(renderItemCard).join('');
+        if (typeof lucide !== 'undefined') lucide.createIcons();
+      }
+
+      // Render demo category cards
+      const catGrid = document.getElementById('demo-category-cards');
+      if (catGrid) {
+        catGrid.innerHTML = CATEGORIES.slice(0, 4).map(cat => `
+          <a href="browse.html?category=${cat.id}" class="category-card">
+            <div class="category-icon"><i data-lucide="${cat.icon}"></i></div>
+            <span class="category-name">${cat.name}</span>
+            <span class="category-count">${cat.count} items</span>
+          </a>
+        `).join('');
+        if (typeof lucide !== 'undefined') lucide.createIcons();
+      }
+
+      // Toggle pill demo interactivity
+      document.querySelectorAll('.toggle-pill').forEach(pill => {
+        pill.querySelectorAll('.toggle-pill-option').forEach(option => {
+          option.addEventListener('click', () => {
+            pill.querySelectorAll('.toggle-pill-option').forEach(o => o.classList.remove('active'));
+            option.classList.add('active');
+          });
+        });
+      });
+    });
+  </script>
+</body>
+</html>
+
+
+
+
+

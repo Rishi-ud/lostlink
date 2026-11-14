@@ -1,0 +1,21 @@
+{
+  "name": "lostlink",
+  "version": "1.0.0",
+  "description": "LostLink — SRMIST Unified Lost & Found",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "build": "node -e \"console.log('LostLink Vercel build ready')\""
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "cors": "^2.8.6",
+    "express": "^5.3.0"
+  },
+  "optionalDependencies": {
+    "better-sqlite3": "^13.1.1"
+  }
+}

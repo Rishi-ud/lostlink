@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bg1" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1E293B"/>
+      <stop offset="100%" stop-color="#0F172A"/>
+    </linearGradient>
+    <linearGradient id="walletGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#2D3748"/>
+      <stop offset="50%" stop-color="#1A202C"/>
+      <stop offset="100%" stop-color="#111827"/>
+    </linearGradient>
+    <linearGradient id="cardGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#3B82F6"/>
+      <stop offset="100%" stop-color="#1D4ED8"/>
+    </linearGradient>
+    <filter id="shadow1" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="12" stdDeviation="16" flood-color="#000" flood-opacity="0.35"/>
+    </filter>
+  </defs>
+  <rect width="400" height="300" fill="url(#bg1)"/>
+  <circle cx="200" cy="150" r="110" fill="#3B82F6" opacity="0.06"/>
+  <!-- Card peeking out -->
+  <rect x="140" y="70" width="120" height="70" rx="8" fill="url(#cardGrad)" transform="rotate(-6 200 105)" filter="url(#shadow1)"/>
+  <rect x="150" y="82" width="40" height="15" rx="3" fill="#93C5FD" opacity="0.8" transform="rotate(-6 200 105)"/>
+  <circle cx="230" cy="115" r="8" fill="#F59E0B" opacity="0.9" transform="rotate(-6 200 105)"/>
+  <!-- Main Wallet Body -->
+  <rect x="90" y="105" width="220" height="135" rx="16" fill="url(#walletGrad)" filter="url(#shadow1)" stroke="#475569" stroke-width="2"/>
+  <!-- Wallet Stitching -->
+  <rect x="96" y="111" width="208" height="123" rx="12" fill="none" stroke="#64748B" stroke-width="1.5" stroke-dasharray="4,4"/>
+  <!-- Wallet Flap & Clasp -->
+  <path d="M 90 150 Q 200 175 310 150" stroke="#334155" stroke-width="3" fill="none"/>
+  <rect x="260" y="152" width="40" height="26" rx="6" fill="#1F2937" stroke="#64748B" stroke-width="1.5"/>
+  <circle cx="280" cy="165" r="5" fill="#D97706"/>
+  <text x="200" y="272" text-anchor="middle" font-family="system-ui, sans-serif" font-size="12" font-weight="600" fill="#94A3B8" letter-spacing="1">BLACK LEATHER WALLET</text>
+</svg>

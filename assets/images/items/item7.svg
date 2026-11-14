@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bg7" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#064E3B"/>
+      <stop offset="100%" stop-color="#022C22"/>
+    </linearGradient>
+    <linearGradient id="bookCover" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#059669"/>
+      <stop offset="100%" stop-color="#047857"/>
+    </linearGradient>
+    <filter id="shadow7" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="12" stdDeviation="16" flood-color="#000" flood-opacity="0.35"/>
+    </filter>
+  </defs>
+  <rect width="400" height="300" fill="url(#bg7)"/>
+  <!-- Book Pages side -->
+  <polygon points="120,60 130,55 285,55 275,60" fill="#E2E8F0"/>
+  <!-- Book Body -->
+  <g filter="url(#shadow7)">
+    <rect x="120" y="60" width="160" height="175" rx="6" fill="url(#bookCover)"/>
+    <!-- Spine line -->
+    <line x1="135" y1="60" x2="135" y2="235" stroke="#065F46" stroke-width="3"/>
+    <!-- Gold Title block -->
+    <rect x="145" y="85" width="120" height="45" rx="4" fill="#064E3B" stroke="#F59E0B" stroke-width="1.5"/>
+    <text x="205" y="102" text-anchor="middle" font-family="system-ui, sans-serif" font-size="9" font-weight="800" fill="#FDE68A">HIGHER ENGINEERING</text>
+    <text x="205" y="118" text-anchor="middle" font-family="system-ui, sans-serif" font-size="11" font-weight="800" fill="#FBBF24">MATHEMATICS</text>
+    <!-- Math symbols -->
+    <text x="205" y="165" text-anchor="middle" font-family="serif" font-size="28" fill="#A7F3D0" opacity="0.6">∫ f(x) dx = ∑ λ</text>
+    <text x="205" y="210" text-anchor="middle" font-family="system-ui, sans-serif" font-size="10" font-weight="600" fill="#E2E8F0">B.S. GREWAL</text>
+  </g>
+  <text x="200" y="270" text-anchor="middle" font-family="system-ui, sans-serif" font-size="12" font-weight="600" fill="#6EE7B7" letter-spacing="1">MATHEMATICS TEXTBOOK</text>
+</svg>

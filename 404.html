@@ -1,0 +1,71 @@
+﻿<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Page Not Found (404) — LostLink</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/tokens.css">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/pages.css">
+  <link rel="stylesheet" href="css/chatbot.css">
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <meta name="description" content="The page you are looking for could not be found.">
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+</head>
+<body>
+  <div class="page-wrapper">
+    <!-- HEADER -->
+    <header class="header">
+      <div class="header-inner">
+        <a href="index.html" class="logo">
+          <div class="logo-icon"><i data-lucide="link"></i></div>
+          LostLink
+        </a>
+        <div class="header-actions">
+          <button class="theme-toggle" aria-label="Toggle dark mode">
+            <i data-lucide="sun" class="icon-sun" style="display:none;"></i>
+            <i data-lucide="moon" class="icon-moon"></i>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- MAIN -->
+    <main class="main-content">
+      <div class="not-found-page">
+        <div class="container" style="max-width:540px;">
+          <div class="not-found-code">404</div>
+          <h2>Looks like this link is lost too</h2>
+          <p>The page or report you are looking for may have been moved, resolved, or never existed.</p>
+
+          <form action="browse.html" method="get" class="search-bar" style="margin:var(--space-6) auto 0;">
+            <span class="search-icon"><i data-lucide="search"></i></span>
+            <input type="text" name="q" class="input" placeholder="Search for items instead..." aria-label="Search items">
+          </form>
+
+          <div class="not-found-actions">
+            <a href="index.html" class="btn btn-primary btn-lg"><i data-lucide="home"></i> Back to Homepage</a>
+            <a href="browse.html" class="btn btn-secondary btn-lg"><i data-lucide="compass"></i> Browse Items</a>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <script src="js/data.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/main.js"></script>
+  <script src="js/chatbot.js"></script>
+  <script>document.addEventListener('DOMContentLoaded', function(){ lucide.createIcons(); });</script>
+</body>
+</html>
+
+
+
+
+

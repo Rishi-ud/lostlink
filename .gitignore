@@ -1,0 +1,6 @@
+node_modules/
+data/*.db-wal
+data/*.db-shm
+.vercel/
+.DS_Store
+*.log

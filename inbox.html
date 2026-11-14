@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Messages &amp; Handover Inbox — LostLink</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/tokens.css">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/pages.css">
+  <link rel="stylesheet" href="css/chatbot.css">
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <meta name="description" content="Coordinate safe handover and verify ownership with SRMIST finders and owners.">
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+</head>
+<body>
+  <a href="#main" class="skip-to-content">Skip to content</a>
+
+  <div class="page-wrapper">
+    <!-- HEADER -->
+    <header class="header">
+      <div class="header-inner">
+        <a href="index.html" class="logo">
+          <div class="logo-icon"><i data-lucide="link"></i></div>
+          LostLink
+        </a>
+        <nav class="nav" role="navigation">
+          <a href="browse.html" class="nav-link">Browse items</a>
+          <a href="inbox.html" class="nav-link active"><i data-lucide="message-square" style="width:14px;height:14px;display:inline-block;vertical-align:middle;margin-right:4px;"></i> Inbox</a>
+          <a href="dashboard.html" class="nav-link">My Dashboard</a>
+        </nav>
+        <div class="header-actions">
+          <button class="theme-toggle" aria-label="Toggle dark mode">
+            <i data-lucide="sun" class="icon-sun" style="display:none;"></i>
+            <i data-lucide="moon" class="icon-moon"></i>
+          </button>
+          <a href="login.html" class="btn btn-secondary btn-sm">Log in</a>
+          <a href="signup.html" class="btn btn-primary btn-sm">Sign up</a>
+          <button class="mobile-menu-btn" aria-label="Toggle menu" aria-expanded="false">
+            <i data-lucide="menu"></i>
+            <i data-lucide="x" style="display:none;"></i>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- MAIN INBOX CONTENT -->
+    <main id="main" class="main-content" style="padding-top:var(--space-4); padding-bottom:var(--space-8);">
+      <div class="container" style="max-width:1200px;">
+        
+        <!-- Header Banner -->
+        <div class="flex-between items-center" style="margin-bottom:var(--space-3); flex-wrap:wrap; gap:var(--space-3);">
+          <div>
+            <div class="flex items-center gap-2">
+              <h1 style="font-size:var(--text-2xl);">Handover Messages &amp; Inbox</h1>
+              <span class="badge badge-accent" id="inbox-user-pill"><i data-lucide="user"></i> Loading...</span>
+            </div>
+            <p class="text-secondary text-sm" style="margin-top:2px;">
+              Direct chat between item finders and verified owners to coordinate safe pickup on campus.
+            </p>
+          </div>
+          <div class="flex gap-2">
+            <a href="browse.html" class="btn btn-secondary btn-sm"><i data-lucide="search"></i> Browse Items</a>
+            <a href="dashboard.html" class="btn btn-ghost btn-sm"><i data-lucide="layout-dashboard"></i> Dashboard</a>
+          </div>
+        </div>
+
+        <!-- 2-PANE INBOX WRAPPER -->
+        <div class="inbox-container">
+          
+          <!-- LEFT SIDEBAR: CONVERSATION THREADS -->
+          <aside class="inbox-sidebar">
+            <div class="inbox-sidebar-header">
+              <div class="flex-between items-center" style="margin-bottom:var(--space-3);">
+                <div class="flex items-center gap-2">
+                  <h3 style="font-size:var(--text-base); margin:0;">Conversations</h3>
+                  <span class="badge badge-primary" id="sidebar-convo-count">0</span>
+                </div>
+                <button type="button" class="btn btn-ghost btn-sm" id="btn-refresh-inbox" title="Refresh messages" style="padding:4px 6px;">
+                  <i data-lucide="rotate-cw" style="width:14px;height:14px;"></i>
+                </button>
+              </div>
+              <div style="position:relative;">
+                <input type="text" class="input input-sm" id="inbox-search-input" placeholder="Search conversations..." style="padding-left:30px;">
+                <i data-lucide="search" style="position:absolute; left:9px; top:50%; transform:translateY(-50%); width:14px; height:14px; color:var(--text-secondary); pointer-events:none;"></i>
+              </div>
+            </div>
+
+            <!-- Conversations List -->
+            <div class="inbox-conversations-list" id="conversations-list-container">
+              <!-- Rendered by JS -->
+            </div>
+          </aside>
+
+          <!-- RIGHT MAIN CHAT VIEW -->
+          <section class="inbox-chat-view" id="inbox-chat-view">
+            
+            <!-- Chat Header -->
+            <div class="inbox-chat-header" id="chat-header-pane" style="display:none;">
+              <div class="flex items-center gap-3">
+                <div class="avatar" id="active-chat-avatar" style="width:42px; height:42px; font-size:14px;">ST</div>
+                <div>
+                  <h3 style="font-size:var(--text-base); margin-bottom:2px;" id="active-chat-name">Select a Conversation</h3>
+                  <div class="flex items-center gap-2">
+                    <span class="badge badge-found" id="active-chat-badge" style="font-size:10px; padding:1px 6px;">Verified Student</span>
+                    <span class="text-xs text-secondary" id="active-chat-email">--</span>
+                  </div>
+                </div>
+              </div>
+              <div>
+                <a href="#" id="btn-view-item-link" class="btn btn-secondary btn-sm" target="_blank">
+                  <i data-lucide="external-link"></i> View Item
+                </a>
+              </div>
+            </div>
+
+            <!-- Item Context Banner -->
+            <div class="inbox-item-banner" id="chat-item-banner" style="display:none;">
+              <div class="flex items-center gap-3">
+                <div id="banner-thumb-box" style="width:36px; height:36px; border-radius:var(--radius-sm); background:var(--bg-secondary); border:1px solid var(--border); display:flex; align-items:center; justify-content:center; flex-shrink:0; overflow:hidden;">
+                  <img id="banner-item-img" src="" alt="Item preview" style="display:none; width:100%; height:100%; object-fit:cover;">
+                  <i data-lucide="package" id="banner-item-icon" style="width:18px; height:18px; color:var(--primary);"></i>
+                </div>
+                <div>
+                  <span class="text-secondary" style="font-size:11px;">Discussing Item:</span>
+                  <strong id="banner-item-title" style="display:block; font-size:var(--text-sm);">—</strong>
+                </div>
+              </div>
+              <div class="flex items-center gap-3">
+                <span class="badge" id="banner-item-status">REPORTED</span>
+                <span class="text-secondary" id="banner-item-loc"><i data-lucide="map-pin" style="width:12px;height:12px;display:inline-block;vertical-align:middle;"></i> <span>—</span></span>
+              </div>
+            </div>
+
+            <!-- Messages Stream Area -->
+            <div class="inbox-messages-area" id="inbox-messages-container">
+              <div class="empty-state" style="margin:auto; text-align:center; padding:var(--space-8);">
+                <div class="empty-state-icon" style="margin:0 auto var(--space-4);"><i data-lucide="message-square"></i></div>
+                <h3>Select a Conversation</h3>
+                <p class="text-secondary" style="max-width:320px; margin:var(--space-2) auto 0;">
+                  Choose an active thread on the left to coordinate item collection and verify ownership.
+                </p>
+              </div>
+            </div>
+
+            <!-- Chat Input Footer -->
+            <div class="inbox-input-footer" id="chat-input-footer" style="display:none;">
+              <div class="chat-quick-chips">
+                <button type="button" class="chat-chip" onclick="insertInboxMessage('Is the item safely deposited at the campus security desk?')">📍 Deposited at security?</button>
+                <button type="button" class="chat-chip" onclick="insertInboxMessage('I have my original SRM physical student ID card ready.')">🪪 I have my SRM ID</button>
+                <button type="button" class="chat-chip" onclick="insertInboxMessage('Can we meet near Tech Park ground floor reception?')">🏛️ Meet at Tech Park?</button>
+                <button type="button" class="chat-chip" onclick="insertInboxMessage('Yes, the private identifying details (keychain/contents) match!')">🔑 Details match!</button>
+              </div>
+              <form id="inbox-chat-form" class="flex gap-2">
+                <input type="text" class="input" id="inbox-chat-input" placeholder="Type a message to coordinate handover..." required autocomplete="off" style="flex:1;">
+                <button type="submit" class="btn btn-primary" id="btn-inbox-send">
+                  <i data-lucide="send"></i> Send
+                </button>
+              </form>
+            </div>
+
+          </section>
+
+        </div>
+
+      </div>
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+      <div class="container">
+        <div class="footer-grid">
+          <div class="footer-brand">
+            <a href="index.html" class="logo">
+              <div class="logo-icon"><i data-lucide="link"></i></div>
+              LostLink
+            </a>
+            <p>The unified lost &amp; found system for SRMIST Kattankulathur.</p>
+          </div>
+          <div class="footer-col">
+            <h4>Product</h4>
+            <a href="browse.html">Browse items</a>
+            <a href="inbox.html">Handover Inbox</a>
+            <a href="report.html">Report an item</a>
+          </div>
+          <div class="footer-col">
+            <h4>Support</h4>
+            <a href="#">Help Center</a>
+            <a href="#">Security Office</a>
+          </div>
+          <div class="footer-col">
+            <h4>Campus</h4>
+            <a href="#">SRMIST KTR</a>
+            <a href="#">Tech Park Desk</a>
+          </div>
+        </div>
+        <div class="footer-bottom">
+          <span>© 2026 LostLink — SRMIST KTR. All rights reserved.</span>
+          <span>Built as a UID course project.</span>
+        </div>
+      </div>
+    </footer>
+  </div>
+
+  <script src="js/data.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/main.js"></script>
+  <script src="js/chatbot.js"></script>
+  <script>
+    let activeItem = null;
+    let activeRecipient = null;
+    let inboxPollingTimer = null;
+    let allConversations = [];
+
+    document.addEventListener('DOMContentLoaded', async () => {
+      await initInbox();
+    });
+
+    async function initInbox() {
+      const user = LostLinkAPI.getCurrentUser();
+      const userPill = document.getElementById('inbox-user-pill');
+
+      if (!user) {
+        if (userPill) userPill.innerHTML = '<i data-lucide="log-in"></i> Sign in to view messages';
+        showToast('warning', 'Login Required', 'Please sign in or select a demo account from the top menu.');
+        setTimeout(() => { window.location.href = 'login.html'; }, 800);
+        return;
+      }
+
+      if (userPill) {
+        userPill.innerHTML = `<i data-lucide="user-check"></i> ${escapeHtml(user.name)} (${escapeHtml(user.email.split('@')[0])})`;
+      }
+
+      // Refresh button
+      const refreshBtn = document.getElementById('btn-refresh-inbox');
+      if (refreshBtn) {
+        refreshBtn.addEventListener('click', () => loadConversations(true));
+      }
+
+      // Search input filter
+      const searchInput = document.getElementById('inbox-search-input');
+      if (searchInput) {
+        searchInput.addEventListener('input', (e) => {
+          const q = e.target.value.toLowerCase().trim();
+          filterConversations(q);
+        });
+      }
+
+      // Form submit
+      const chatForm = document.getElementById('inbox-chat-form');
+      if (chatForm) {
+        chatForm.addEventListener('submit', handleSendMessage);
+      }
+
+      await loadConversations();
+
+      // Check if URL specified itemId
+      const urlItemId = getParam('itemId') || getParam('id');
+      if (urlItemId) {
+        selectConversation(parseInt(urlItemId, 10));
+      } else if (allConversations.length > 0) {
+        // Auto-select first conversation
+        selectConversation(allConversations[0].item_id);
+      }
+
+      // Periodic polling for active chat
+      if (inboxPollingTimer) clearInterval(inboxPollingTimer);
+      inboxPollingTimer = setInterval(() => {
+        if (activeItem) {
+          loadActiveMessages(activeItem.id, true);
+        }
+      }, 3000);
+
+      if (typeof lucide !== 'undefined') lucide.createIcons();
+    }
+
+    async function loadConversations(showToastAlert = false) {
+      const user = LostLinkAPI.getCurrentUser();
+      if (!user) return;
+
+      const container = document.getElementById('conversations-list-container');
+      const countBadge = document.getElementById('sidebar-convo-count');
+
+      try {
+        allConversations = await LostLinkAPI.getConversations(user.email);
+      } catch (e) {
+        console.warn('getConversations error:', e);
+        allConversations = [];
+      }
+
+      // Fallback: If no messages in table yet, show user's active reported/claimed items so they can initiate chat!
+      if (allConversations.length === 0) {
+        const allItems = await LostLinkAPI.getItems();
+        // Include items created by user or items of interest
+        const userItems = allItems.filter(i => 
+          (i.user && i.user.email.toLowerCase() === user.email.toLowerCase()) || 
+          i.status === 'matched' || i.status === 'claimed' || i.status === 'verified'
+        );
+        allConversations = userItems.map(i => ({
+          item_id: i.id,
+          title: i.title,
+          type: i.type,
+          image: i.image,
+          location: i.location,
+          last_message: i.status === 'matched' ? 'Direct match established' : (i.description || 'Tap to open chat thread'),
+          last_time: i.date,
+          unread_count: 0
+        }));
+      }
+
+      if (countBadge) countBadge.textContent = allConversations.length;
+      renderConversationsList(allConversations);
+
+      if (showToastAlert) {
+        showToast('info', 'Inbox Refreshed', 'Fetched latest messages.');
+      }
+    }
+
+    function renderConversationsList(convos) {
+      const container = document.getElementById('conversations-list-container');
+      if (!container) return;
+
+      if (!convos || convos.length === 0) {
+        container.innerHTML = `
+          <div style="padding:var(--space-6); text-align:center; color:var(--text-secondary); font-size:var(--text-xs);">
+            <div style="font-size:24px; margin-bottom:var(--space-2);">💬</div>
+            No active conversations yet. Match with a report or claim an item to start coordinating!
+          </div>
+        `;
+        return;
+      }
+
+      container.innerHTML = convos.map(c => {
+        const hasRealPhoto = c.image && c.image.trim() !== '' && !c.image.includes('assets/images/items/item');
+        const imgBlock = hasRealPhoto
+          ? `<img src="${c.image}" alt="${escapeHtml(c.title)}" style="width:44px; height:44px; border-radius:var(--radius-md); object-fit:cover; flex-shrink:0;">`
+          : `<div class="item-thumb-no-photo"><i data-lucide="${getCategoryIcon(c.category)}"></i></div>`;
+
+        return `
+        <button type="button" class="conversation-card ${activeItem && activeItem.id === c.item_id ? 'active' : ''}" data-item-id="${c.item_id}" onclick="selectConversation(${c.item_id})">
+          ${imgBlock}
+          <div style="flex:1; min-width:0;">
+            <div class="flex-between items-center" style="gap:var(--space-2); margin-bottom:2px;">
+              <h4 style="font-size:var(--text-sm); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; margin:0;">${escapeHtml(c.title)}</h4>
+              ${c.unread_count > 0 ? `<span class="badge badge-error" style="font-size:10px; padding:1px 5px;">${c.unread_count} new</span>` : ''}
+            </div>
+            <p class="text-xs text-secondary" style="white-space:nowrap; overflow:hidden; text-overflow:ellipsis; margin:0 0 3px 0;">
+              ${escapeHtml(c.last_message || 'Handover conversation')}
+            </p>
+            <div class="flex items-center gap-2 text-xs text-secondary" style="font-size:11px;">
+              <span class="badge badge-${c.type}" style="font-size:9px; padding:1px 4px;">${c.type.toUpperCase()}</span>
+              <span><i data-lucide="map-pin" style="width:10px;height:10px;display:inline-block;vertical-align:middle;"></i> ${escapeHtml(c.location || 'Campus')}</span>
+            </div>
+          </div>
+        </button>
+        `;
+      }).join('');
+
+      if (typeof lucide !== 'undefined') lucide.createIcons();
+    }
+
+    function filterConversations(q) {
+      if (!q) {
+        renderConversationsList(allConversations);
+        return;
+      }
+      const filtered = allConversations.filter(c => 
+        c.title.toLowerCase().includes(q) || 
+        (c.last_message && c.last_message.toLowerCase().includes(q)) ||
+        (c.location && c.location.toLowerCase().includes(q))
+      );
+      renderConversationsList(filtered);
+    }
+
+    async function selectConversation(itemId) {
+      const item = await LostLinkAPI.getItemById(itemId);
+      if (!item) return;
+
+      activeItem = item;
+      const currentUser = LostLinkAPI.getCurrentUser();
+
+      // Highlight active in sidebar
+      document.querySelectorAll('.conversation-card').forEach(el => {
+        el.classList.toggle('active', el.dataset.itemId === String(itemId));
+      });
+
+      // Show header, banner, footer
+      document.getElementById('chat-header-pane').style.display = 'flex';
+      document.getElementById('chat-item-banner').style.display = 'flex';
+      document.getElementById('chat-input-footer').style.display = 'block';
+
+      // Determine recipient info
+      let recipientName = 'SRM Student';
+      let recipientEmail = '';
+      let recipientAvatar = 'ST';
+      let recipientRole = 'Finder / Custodian';
+
+      if (currentUser) {
+        if (item.user && item.user.email && currentUser.email.toLowerCase() !== item.user.email.toLowerCase()) {
+          recipientName = item.user.name;
+          recipientEmail = item.user.email;
+          recipientAvatar = item.user.avatar || 'ST';
+          recipientRole = item.type === 'lost' ? 'Item Owner' : 'Item Finder';
+        } else {
+          // Current user is the author, check if claims exist
+          const claims = await LostLinkAPI.getItemClaims(item.id);
+          if (claims && claims.length > 0) {
+            recipientName = claims[0].claimantName;
+            recipientEmail = claims[0].claimantEmail;
+            recipientAvatar = recipientName.substring(0, 2).toUpperCase();
+            recipientRole = 'Verified Claimant';
+          } else {
+            recipientName = 'Campus Student';
+            recipientRole = 'Interested Party';
+          }
+        }
+      }
+
+      activeRecipient = { name: recipientName, email: recipientEmail };
+
+      // Update header
+      document.getElementById('active-chat-name').textContent = `Chat with ${recipientName}`;
+      document.getElementById('active-chat-avatar').textContent = recipientAvatar;
+      document.getElementById('active-chat-badge').textContent = recipientRole;
+      document.getElementById('active-chat-email').textContent = recipientEmail;
+      document.getElementById('btn-view-item-link').href = `item-detail.html?id=${item.id}`;
+
+      // Update banner
+      const thumb = document.getElementById('banner-item-img');
+      const thumbIcon = document.getElementById('banner-item-icon');
+      const hasRealPhoto = item.image && item.image.trim() !== '' && !item.image.includes('assets/images/items/item');
+
+      if (hasRealPhoto && thumb) {
+        thumb.src = item.image;
+        thumb.style.display = 'block';
+        if (thumbIcon) thumbIcon.style.display = 'none';
+      } else {
+        if (thumb) thumb.style.display = 'none';
+        if (thumbIcon) {
+          thumbIcon.style.display = 'block';
+          thumbIcon.setAttribute('data-lucide', getCategoryIcon(item.category));
+        }
+      }
+      document.getElementById('banner-item-title').textContent = item.title;
+      const statusBadge = document.getElementById('banner-item-status');
+      if (statusBadge) {
+        statusBadge.className = `badge badge-${item.status || 'reported'}`;
+        statusBadge.textContent = (item.status || 'reported').toUpperCase();
+      }
+      document.querySelector('#banner-item-loc span').textContent = item.location;
+
+      // Load messages
+      await loadActiveMessages(item.id, false);
+      if (typeof lucide !== 'undefined') lucide.createIcons();
+    }
+
+    async function loadActiveMessages(itemId, isBackground = false) {
+      const container = document.getElementById('inbox-messages-container');
+      if (!container) return;
+
+      const currentUser = LostLinkAPI.getCurrentUser();
+      const messages = await LostLinkAPI.getMessages(itemId, currentUser ? currentUser.email : '');
+
+      if (!messages) return;
+
+      container.innerHTML = `
+        <div class="chat-bubble system">
+          <i data-lucide="shield-check" style="width:13px;height:13px;display:inline-block;vertical-align:middle;margin-right:3px;"></i>
+          Official LostLink Handover Channel. Verify identifying marks and arrange safe collection in public areas.
+        </div>
+      `;
+
+      messages.forEach(msg => {
+        appendInboxBubble(msg, currentUser);
+      });
+
+      if (!isBackground) {
+        container.scrollTop = container.scrollHeight;
+      }
+      if (typeof lucide !== 'undefined') lucide.createIcons();
+    }
+
+    function appendInboxBubble(msg, currentUser) {
+      const container = document.getElementById('inbox-messages-container');
+      if (!container) return;
+
+      const myEmail = currentUser ? currentUser.email.toLowerCase() : '';
+      const isMine = myEmail && msg.sender_email && (msg.sender_email.toLowerCase() === myEmail);
+      const isSystem = msg.sender_email === 'system@lostlink.srmist.edu.in' || (msg.sender_name && msg.sender_name.includes('Smart Match'));
+
+      const bubble = document.createElement('div');
+      if (isSystem) {
+        bubble.className = 'chat-bubble system';
+        bubble.innerHTML = `<i data-lucide="zap" style="width:12px;height:12px;display:inline-block;vertical-align:middle;margin-right:3px;"></i> ${escapeHtml(msg.text)}`;
+      } else {
+        bubble.className = `chat-bubble ${isMine ? 'sent' : 'received'}`;
+        const timeFormatted = msg.created_at ? new Date(msg.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : 'Just now';
+        bubble.innerHTML = `
+          <div class="chat-sender">${isMine ? 'You' : escapeHtml(msg.sender_name)}</div>
+          <div>${escapeHtml(msg.text)}</div>
+          <div class="chat-time">${timeFormatted}</div>
+        `;
+      }
+
+      container.appendChild(bubble);
+      container.scrollTop = container.scrollHeight;
+    }
+
+    async function handleSendMessage(e) {
+      e.preventDefault();
+      const input = document.getElementById('inbox-chat-input');
+      const text = input ? input.value.trim() : '';
+      if (!text || !activeItem) return;
+
+      const currentUser = LostLinkAPI.getCurrentUser();
+      const senderName = currentUser ? currentUser.name : 'SRM Student';
+      const senderEmail = currentUser ? currentUser.email : 'student@srmist.edu.in';
+
+      input.value = '';
+
+      // Optimistic append
+      appendInboxBubble({
+        sender_name: senderName,
+        sender_email: senderEmail,
+        text,
+        created_at: new Date().toISOString()
+      }, currentUser);
+
+      const payload = {
+        senderName,
+        senderEmail,
+        recipientName: activeRecipient ? activeRecipient.name : 'SRM Student',
+        recipientEmail: activeRecipient ? activeRecipient.email : '',
+        text
+      };
+
+      await LostLinkAPI.sendMessage(activeItem.id, payload);
+      loadActiveMessages(activeItem.id, false);
+      loadConversations();
+    }
+
+    function insertInboxMessage(text) {
+      const input = document.getElementById('inbox-chat-input');
+      if (input) {
+        input.value = text;
+        input.focus();
+      }
+    }
+
+    function escapeHtml(str) {
+      return (str || '').replace(/[&<>'"]/g, 
+        tag => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[tag] || tag)
+      );
+    }
+  </script>
+</body>
+</html>

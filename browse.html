@@ -1,0 +1,224 @@
+﻿<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Browse Items — LostLink</title>
+  <meta name="description" content="Browse all lost and found item reports from the SRMIST KTR campus. Filter by category, location, and date.">
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/tokens.css">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/pages.css">
+  <link rel="stylesheet" href="css/chatbot.css">
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+</head>
+<body>
+  <a href="#main" class="skip-to-content">Skip to content</a>
+
+  <div class="page-wrapper">
+    <!-- HEADER -->
+    <header class="header">
+      <div class="header-inner">
+        <a href="index.html" class="logo">
+          <div class="logo-icon"><i data-lucide="link"></i></div>
+          LostLink
+        </a>
+        <nav class="nav" role="navigation">
+          <a href="browse.html" class="nav-link active">Browse items</a>
+          <a href="index.html#how-it-works" class="nav-link">How it works</a>
+        </nav>
+        <div class="header-actions">
+          <button class="theme-toggle" aria-label="Toggle dark mode">
+            <i data-lucide="sun" class="icon-sun" style="display:none;"></i>
+            <i data-lucide="moon" class="icon-moon"></i>
+          </button>
+          <a href="login.html" class="btn btn-secondary btn-sm">Log in</a>
+          <a href="signup.html" class="btn btn-primary btn-sm">Sign up</a>
+          <button class="mobile-menu-btn" aria-label="Toggle menu" aria-expanded="false">
+            <i data-lucide="menu"></i>
+            <i data-lucide="x" style="display:none;"></i>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- MAIN -->
+    <main id="main" class="main-content">
+      <div class="container section-sm">
+
+        <!-- Page title + search -->
+        <div style="margin-bottom:var(--space-8);">
+          <h1>Browse Items</h1>
+          <p class="text-secondary" style="margin-top:var(--space-2);">Search through all lost and found reports on campus</p>
+          <div style="margin-top:var(--space-6); max-width:560px;">
+            <div class="search-bar">
+              <span class="search-icon"><i data-lucide="search"></i></span>
+              <input type="text" class="input" id="browse-search" placeholder="Search by name, description, location..." aria-label="Search items">
+              <button type="button" class="search-clear" aria-label="Clear search"><i data-lucide="x"></i></button>
+            </div>
+          </div>
+        </div>
+
+        <div class="browse-layout">
+          <!-- FILTER SIDEBAR -->
+          <aside class="filter-sidebar" id="filter-sidebar" role="complementary" aria-label="Filters">
+            <div class="flex-between" style="margin-bottom:var(--space-6);">
+              <h3 style="font-size:var(--text-lg);">Filters</h3>
+              <button class="btn btn-ghost btn-sm" id="clear-filters">Clear all</button>
+            </div>
+
+            <!-- Type filter -->
+            <div class="filter-group">
+              <h4>Type</h4>
+              <label class="filter-option">
+                <input type="radio" name="type" value="all" checked> All items
+              </label>
+              <label class="filter-option">
+                <input type="radio" name="type" value="lost"> Lost
+                <span class="filter-count" id="count-lost"></span>
+              </label>
+              <label class="filter-option">
+                <input type="radio" name="type" value="found"> Found
+                <span class="filter-count" id="count-found"></span>
+              </label>
+            </div>
+
+            <!-- Category filter -->
+            <div class="filter-group">
+              <h4>Category</h4>
+              <div id="category-filters">
+                <!-- JS will populate -->
+              </div>
+            </div>
+
+            <!-- Location filter -->
+            <div class="filter-group">
+              <h4>Location</h4>
+              <div class="select-wrapper">
+                <select id="location-filter" aria-label="Filter by location">
+                  <option value="">All locations</option>
+                </select>
+              </div>
+            </div>
+
+            <!-- Date filter -->
+            <div class="filter-group">
+              <h4>Date Range</h4>
+              <div class="form-group">
+                <label class="form-label text-sm">From</label>
+                <input type="date" class="input" id="date-from" style="min-height:40px;" onclick="if(this.showPicker){try{this.showPicker();}catch(e){}}">
+              </div>
+              <div class="form-group" style="margin-top:var(--space-2);">
+                <label class="form-label text-sm">To</label>
+                <input type="date" class="input" id="date-to" style="min-height:40px;" onclick="if(this.showPicker){try{this.showPicker();}catch(e){}}">
+              </div>
+            </div>
+
+            <!-- Mobile close -->
+            <button class="btn btn-primary btn-block" id="apply-filters-mobile" style="margin-top:var(--space-4); display:none;">
+              Apply Filters
+            </button>
+          </aside>
+
+          <!-- RESULTS -->
+          <div class="browse-results">
+            <div class="browse-header">
+              <div>
+                <span class="results-count">Showing <strong id="results-count">0</strong> items</span>
+                <button class="btn btn-secondary btn-sm filter-toggle-btn" id="filter-toggle">
+                  <i data-lucide="sliders-horizontal"></i> Filters
+                </button>
+              </div>
+              <div class="browse-sort">
+                <label for="sort-select">Sort by:</label>
+                <div class="select-wrapper">
+                  <select id="sort-select">
+                    <option value="newest">Newest first</option>
+                    <option value="oldest">Oldest first</option>
+                    <option value="a-z">A — Z</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            <!-- Item grid -->
+            <div class="grid grid-3" id="items-grid">
+              <!-- JS renders items here -->
+            </div>
+
+            <!-- Empty state -->
+            <div class="empty-state" id="empty-state" style="display:none;">
+              <div class="empty-state-icon"><i data-lucide="search-x"></i></div>
+              <h3>No items found</h3>
+              <p>Try adjusting your filters or search query to find what you're looking for.</p>
+              <button class="btn btn-primary" onclick="clearAllFilters()">Clear filters</button>
+            </div>
+
+            <!-- Skeleton loading -->
+            <div class="grid grid-3" id="skeleton-grid">
+              <!-- JS renders skeletons -->
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+      <div class="container">
+        <div class="footer-grid">
+          <div class="footer-brand">
+            <a href="index.html" class="logo">
+              <div class="logo-icon"><i data-lucide="link"></i></div>
+              LostLink
+            </a>
+            <p>The unified lost & found system for SRMIST Kattankulathur.</p>
+          </div>
+          <div class="footer-col">
+            <h4>Product</h4>
+            <a href="browse.html">Browse items</a>
+            <a href="report.html">Report an item</a>
+            <a href="index.html#how-it-works">How it works</a>
+          </div>
+          <div class="footer-col">
+            <h4>Support</h4>
+            <a href="#">Help Center</a>
+            <a href="#">Contact us</a>
+            <a href="#">Privacy Policy</a>
+          </div>
+          <div class="footer-col">
+            <h4>Connect</h4>
+            <a href="#">Instagram</a>
+            <a href="#">Twitter</a>
+            <a href="#">Email</a>
+          </div>
+        </div>
+        <div class="footer-bottom">
+          <span>© 2026 LostLink — SRMIST KTR. All rights reserved.</span>
+          <span>Built as a UID course project.</span>
+        </div>
+      </div>
+    </footer>
+  </div>
+
+  <script src="js/data.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/main.js"></script>
+  <script src="js/chatbot.js"></script>
+  <script src="js/browse.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      lucide.createIcons();
+    });
+  </script>
+</body>
+</html>
+
+
+

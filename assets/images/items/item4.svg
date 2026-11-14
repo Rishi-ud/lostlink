@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bg4" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0284C7"/>
+      <stop offset="100%" stop-color="#0369A1"/>
+    </linearGradient>
+    <linearGradient id="packBlue" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#2563EB"/>
+      <stop offset="100%" stop-color="#1E40AF"/>
+    </linearGradient>
+    <linearGradient id="packPocket" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#3B82F6"/>
+      <stop offset="100%" stop-color="#1D4ED8"/>
+    </linearGradient>
+    <filter id="shadow4" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="12" stdDeviation="15" flood-color="#000" flood-opacity="0.3"/>
+    </filter>
+  </defs>
+  <rect width="400" height="300" fill="#0C4A6E"/>
+  <circle cx="200" cy="140" r="100" fill="#38BDF8" opacity="0.1"/>
+  <!-- Top Handle -->
+  <path d="M 175 60 C 175 40 225 40 225 60" stroke="#1E293B" stroke-width="8" fill="none"/>
+  <!-- Main Bag Body -->
+  <rect x="120" y="55" width="160" height="180" rx="36" fill="url(#packBlue)" filter="url(#shadow4)"/>
+  <!-- Zipper track -->
+  <path d="M 130 90 Q 200 75 270 90" stroke="#1E293B" stroke-width="3" fill="none"/>
+  <!-- Front Pocket -->
+  <rect x="135" y="145" width="130" height="85" rx="16" fill="url(#packPocket)" stroke="#1E3A8A" stroke-width="2"/>
+  <path d="M 140 160 Q 200 155 260 160" stroke="#1E293B" stroke-width="3" fill="none"/>
+  <!-- White Brand Patch -->
+  <rect x="180" y="172" width="40" height="22" rx="3" fill="#FFF"/>
+  <rect x="185" y="177" width="30" height="4" fill="#DC2626"/>
+  <rect x="185" y="184" width="22" height="3" fill="#1E293B"/>
+  <text x="200" y="270" text-anchor="middle" font-family="system-ui, sans-serif" font-size="12" font-weight="600" fill="#BAE6FD" letter-spacing="1">JANSPORT BACKPACK</text>
+</svg>

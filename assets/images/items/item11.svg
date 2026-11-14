@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bg11" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0F172A"/>
+      <stop offset="100%" stop-color="#1E293B"/>
+    </linearGradient>
+    <linearGradient id="phoneScreen" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#06B6D4"/>
+      <stop offset="50%" stop-color="#3B82F6"/>
+      <stop offset="100%" stop-color="#9333EA"/>
+    </linearGradient>
+    <filter id="shadow11" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="14" stdDeviation="16" flood-color="#000" flood-opacity="0.4"/>
+    </filter>
+  </defs>
+  <rect width="400" height="300" fill="url(#bg11)"/>
+  <!-- Phone Body -->
+  <g filter="url(#shadow11)">
+    <rect x="145" y="45" width="110" height="195" rx="18" fill="#18181B" stroke="#3F3F46" stroke-width="2.5"/>
+    <!-- Glass Display -->
+    <rect x="150" y="52" width="100" height="181" rx="14" fill="url(#phoneScreen)"/>
+    <!-- Punch hole camera -->
+    <circle cx="200" cy="62" r="3" fill="#000"/>
+    <!-- Lock screen clock & date -->
+    <text x="200" y="105" text-anchor="middle" font-family="system-ui, sans-serif" font-size="24" font-weight="700" fill="#FFF">08:00</text>
+    <text x="200" y="122" text-anchor="middle" font-family="system-ui, sans-serif" font-size="9" font-weight="500" fill="#E0F2FE">Thu, 22 October</text>
+    <!-- Fingerprint icon -->
+    <circle cx="200" cy="190" r="14" fill="#FFF" opacity="0.2"/>
+    <circle cx="200" cy="190" r="8" fill="none" stroke="#FFF" stroke-width="1.5" opacity="0.8"/>
+  </g>
+  <text x="200" y="270" text-anchor="middle" font-family="system-ui, sans-serif" font-size="12" font-weight="600" fill="#94A3B8" letter-spacing="1">SAMSUNG GALAXY S24</text>
+</svg>

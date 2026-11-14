@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ownership Verification & Claim — LostLink</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/tokens.css">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/pages.css">
+  <link rel="stylesheet" href="css/chatbot.css">
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <meta name="description" content="Verify your ownership of a found item with our secure verification quiz.">
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+</head>
+<body>
+  <a href="#main" class="skip-to-content">Skip to content</a>
+
+  <div class="page-wrapper">
+    <!-- HEADER -->
+    <header class="header">
+      <div class="header-inner">
+        <a href="index.html" class="logo">
+          <div class="logo-icon"><i data-lucide="link"></i></div>
+          LostLink
+        </a>
+        <nav class="nav" role="navigation">
+          <a href="browse.html" class="nav-link">Browse items</a>
+          <a href="dashboard.html" class="nav-link">My Dashboard</a>
+        </nav>
+        <div class="header-actions">
+          <button class="theme-toggle" aria-label="Toggle dark mode">
+            <i data-lucide="sun" class="icon-sun" style="display:none;"></i>
+            <i data-lucide="moon" class="icon-moon"></i>
+          </button>
+          <a href="login.html" class="btn btn-secondary btn-sm">Log in</a>
+          <a href="signup.html" class="btn btn-primary btn-sm">Sign up</a>
+          <button class="mobile-menu-btn" aria-label="Toggle menu" aria-expanded="false">
+            <i data-lucide="menu"></i>
+            <i data-lucide="x" style="display:none;"></i>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- MAIN -->
+    <main id="main" class="main-content">
+      <div class="container section-sm">
+        <div class="claim-page">
+
+          <!-- Page Title -->
+          <div style="text-align:center; margin-bottom:var(--space-8);">
+            <div class="badge badge-pending" style="margin-bottom:var(--space-2); padding:var(--space-1) var(--space-4);">
+              <i data-lucide="shield-check"></i> Step 3 of 4: Ownership Verification
+            </div>
+            <h1>Claim Ownership</h1>
+            <p class="text-secondary" style="max-width:500px; margin:var(--space-2) auto 0;">
+              To prevent fraudulent claims, answer specific questions that only the true owner would know.
+            </p>
+          </div>
+
+          <!-- Item being claimed preview card -->
+          <div class="claim-item-preview card">
+            <img id="claim-item-img" src="" alt="Claim item photo">
+            <div style="flex:1;">
+              <span class="badge badge-found" id="claim-item-badge">Found Item</span>
+              <h3 style="font-size:var(--text-lg); margin-top:4px;" id="claim-item-title"></h3>
+              <div class="item-meta" style="font-size:var(--text-sm); color:var(--text-secondary); margin-top:4px;">
+                <span id="claim-item-loc"><i data-lucide="map-pin"></i> <span></span></span>
+                <span id="claim-item-date" style="margin-left:var(--space-3);"><i data-lucide="calendar"></i> <span></span></span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Status Timeline -->
+          <div class="card" style="padding:var(--space-5); margin-bottom:var(--space-8);">
+            <div class="status-timeline" style="padding:0;">
+              <div class="timeline-step completed">
+                <div class="timeline-dot"><i data-lucide="check" style="width:14px;height:14px;"></i></div>
+                <span class="timeline-label">Reported</span>
+                <div class="timeline-connector completed"></div>
+              </div>
+              <div class="timeline-step completed">
+                <div class="timeline-dot"><i data-lucide="check" style="width:14px;height:14px;"></i></div>
+                <span class="timeline-label">Matched</span>
+                <div class="timeline-connector completed"></div>
+              </div>
+              <div class="timeline-step active">
+                <div class="timeline-dot"><i data-lucide="shield-alert" style="width:14px;height:14px;display:block;color:var(--primary-500);"></i></div>
+                <span class="timeline-label">Verification</span>
+                <div class="timeline-connector"></div>
+              </div>
+              <div class="timeline-step">
+                <div class="timeline-dot"></div>
+                <span class="timeline-label">Collected</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Claim Form -->
+          <div class="card" style="padding:var(--space-8);" id="claim-form-card">
+            <form id="claim-form" novalidate>
+              <h3 style="margin-bottom:var(--space-4);">Verification Quiz</h3>
+              <p class="text-secondary text-sm" style="margin-bottom:var(--space-6);">
+                Answers are cross-checked against details provided by the finder or campus security.
+              </p>
+
+              <!-- SRM Roll Number -->
+              <div class="form-group" style="margin-bottom:var(--space-5);">
+                <label class="form-label" for="claim-reg-no">SRM Student Reg. / Employee ID <span class="required">*</span></label>
+                <input type="text" class="input" id="claim-reg-no" placeholder="e.g. RA2211003010189" required>
+                <span class="form-hint">Used to verify your identity against university records.</span>
+                <span class="form-error" id="err-reg-no" style="display:none;"><i data-lucide="alert-circle"></i> Please enter your valid SRM Registration Number.</span>
+              </div>
+
+              <!-- Private Ownership Proof (Secret Identifying Marks) -->
+              <div class="form-group" style="margin-bottom:var(--space-6); background:var(--bg-secondary); padding:var(--space-5); border-radius:var(--radius-lg); border:1.5px solid var(--primary-400);">
+                <label class="form-label" for="claim-secret-details" style="color:var(--text-heading); font-weight:700; font-size:var(--text-base); display:flex; align-items:center; gap:var(--space-2);">
+                  <i data-lucide="key" style="color:var(--primary-600); width:18px; height:18px;"></i> Private Identifying Details / Ownership Proof <span class="required">*</span>
+                </label>
+                <p class="text-xs text-secondary" style="margin-top:2px; margin-bottom:var(--space-3);">
+                  Provide hidden details only the true owner would know so the finder can verify your claim.
+                </p>
+                <textarea class="input" id="claim-secret-details" rows="3" placeholder="e.g. White keychain attached to the bag, Casio fx-991EX inside front pocket, scratch on bottom left..." required style="background:var(--bg);"></textarea>
+                <span class="form-hint">These private details are sent to the finder to verify your ownership.</span>
+                <span class="form-error" id="err-secret-details" style="display:none; margin-top:4px;"><i data-lucide="alert-circle"></i> Please provide private details proving your ownership (at least 5 characters).</span>
+              </div>
+
+              <!-- Dynamic Questions container -->
+              <div id="dynamic-questions">
+                <!-- Injected by script -->
+              </div>
+
+              <!-- Additional proof -->
+              <div class="form-group" style="margin-bottom:var(--space-6);">
+                <label class="form-label" for="claim-additional">Additional Contact or Pickup Notes <span class="text-xs text-secondary">(Optional)</span></label>
+                <textarea class="input" id="claim-additional" rows="2" placeholder="e.g. I can meet you at Tech Park ground floor or Java Green anytime after 3 PM."></textarea>
+              </div>
+
+              <!-- Declaration Checkbox -->
+              <div style="margin-bottom:var(--space-8);">
+                <label class="filter-option" style="align-items:flex-start; gap:var(--space-3); cursor:pointer;">
+                  <input type="checkbox" id="claim-agreement" required style="margin-top:3px;">
+                  <span class="text-sm text-secondary">
+                    I solemnly declare that I am the rightful owner of this item. I understand that submitting false claims violates the SRMIST Student Code of Conduct and will result in disciplinary action.
+                  </span>
+                </label>
+                <span class="form-error" id="err-agreement" style="display:none; margin-top:var(--space-2);"><i data-lucide="alert-circle"></i> You must agree to the ownership declaration.</span>
+              </div>
+
+              <!-- Submit -->
+              <div class="flex-between items-center">
+                <a href="browse.html" class="btn btn-ghost">Cancel</a>
+                <button type="submit" class="btn btn-primary btn-lg" id="btn-submit-claim">
+                  <i data-lucide="send"></i> Submit Verification Claim
+                </button>
+              </div>
+            </form>
+          </div>
+
+          <!-- SUCCESS & REVEAL CARD (Hidden initially) -->
+          <div class="card" id="claim-success-card" style="display:none; padding:var(--space-8); text-align:center;">
+            <div class="success-icon">
+              <i data-lucide="shield-check"></i>
+            </div>
+            <h2>Claim Submitted with Private Proof!</h2>
+            <p class="text-secondary" style="max-width:520px; margin:var(--space-3) auto 0;">
+              Your private ownership details have been sent to the finder. You can now chat directly with them below to verify details and arrange safe handover.
+            </p>
+
+            <!-- Verification Pass Box -->
+            <div class="card collection-pass" style="margin:var(--space-8) auto; max-width:480px; background:var(--bg-secondary); text-align:left; padding:var(--space-6); border:2px dashed var(--primary-400);">
+              <div class="flex-between items-center" style="margin-bottom:var(--space-4);">
+                <span class="badge badge-collected" id="pass-code-badge">Collection Pass #LL-8942</span>
+                <span class="badge badge-pending">Pending Finder Review</span>
+              </div>
+              <div style="display:flex; flex-direction:column; gap:var(--space-3); font-size:var(--text-sm);">
+                <div>
+                  <span class="text-secondary">Handover Location:</span>
+                  <div style="font-weight:600; color:var(--text-heading);"><i data-lucide="building" style="width:16px;height:16px;display:inline-block;vertical-align:middle;margin-right:4px;"></i> <span id="pass-location-val">Central Library — Helpdesk Counter 2</span></div>
+                </div>
+                <div>
+                  <span class="text-secondary">Custodian / Finder:</span>
+                  <div style="font-weight:600; color:var(--text-heading);"><i data-lucide="user" style="width:16px;height:16px;display:inline-block;vertical-align:middle;margin-right:4px;"></i> <span id="pass-custodian-val">Campus Security & Lost Property Desk</span></div>
+                </div>
+                <div>
+                  <span class="text-secondary">Contact Phone:</span>
+                  <div style="font-weight:600; color:var(--primary-600);"><i data-lucide="phone" style="width:16px;height:16px;display:inline-block;vertical-align:middle;margin-right:4px;"></i> +91 44 2741 7000 (SRM KTR Ext. 204)</div>
+                </div>
+                <div>
+                  <span class="text-secondary">What to bring:</span>
+                  <div style="font-weight:600; color:var(--text-heading);">Original SRM Physical Student ID Card</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="flex gap-4 justify-center" style="flex-wrap:wrap;">
+              <a href="#" id="btn-claim-chat" class="btn btn-primary btn-lg" style="box-shadow:var(--shadow-md);">
+                <i data-lucide="message-square"></i> Open Chat with Finder
+              </a>
+              <a href="dashboard.html" class="btn btn-secondary btn-lg">
+                <i data-lucide="layout-dashboard"></i> View in My Claims
+              </a>
+              <button type="button" class="btn btn-ghost" onclick="window.print()">
+                <i data-lucide="printer"></i> Print Pass
+              </button>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+      <div class="container">
+        <div class="footer-grid">
+          <div class="footer-brand">
+            <a href="index.html" class="logo">
+              <div class="logo-icon"><i data-lucide="link"></i></div>
+              LostLink
+            </a>
+            <p>The unified lost & found system for SRMIST Kattankulathur.</p>
+          </div>
+          <div class="footer-col">
+            <h4>Product</h4>
+            <a href="browse.html">Browse items</a>
+            <a href="report.html">Report an item</a>
+            <a href="index.html#how-it-works">How it works</a>
+          </div>
+          <div class="footer-col">
+            <h4>Support</h4>
+            <a href="#">Help Center</a>
+            <a href="#">Contact us</a>
+            <a href="#">Privacy Policy</a>
+          </div>
+          <div class="footer-col">
+            <h4>Connect</h4>
+            <a href="#">Instagram</a>
+            <a href="#">Twitter</a>
+            <a href="#">Email</a>
+          </div>
+        </div>
+        <div class="footer-bottom">
+          <span>© 2026 LostLink — SRMIST KTR. All rights reserved.</span>
+          <span>Built as a UID course project.</span>
+        </div>
+      </div>
+    </footer>
+  </div>
+
+  <script src="js/data.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/main.js"></script>
+  <script src="js/chatbot.js"></script>
+  <script src="js/claim.js"></script>
+  <script>document.addEventListener('DOMContentLoaded', function(){ lucide.createIcons(); });</script>
+</body>
+</html>
+
+
+
+
+

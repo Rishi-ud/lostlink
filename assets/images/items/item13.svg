@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bg13" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1E293B"/>
+      <stop offset="100%" stop-color="#0F172A"/>
+    </linearGradient>
+    <linearGradient id="headphoneBlack" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#334155"/>
+      <stop offset="50%" stop-color="#1E293B"/>
+      <stop offset="100%" stop-color="#0F172A"/>
+    </linearGradient>
+    <filter id="shadow13" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="14" stdDeviation="16" flood-color="#000" flood-opacity="0.4"/>
+    </filter>
+  </defs>
+  <rect width="400" height="300" fill="url(#bg13)"/>
+  <circle cx="200" cy="140" r="105" fill="#64748B" opacity="0.08"/>
+  <g filter="url(#shadow13)">
+    <!-- Headband Arch -->
+    <path d="M 130 150 C 130 75 270 75 270 150" fill="none" stroke="url(#headphoneBlack)" stroke-width="12" stroke-linecap="round"/>
+    <path d="M 150 110 C 170 95 230 95 250 110" fill="none" stroke="#64748B" stroke-width="4"/>
+    <!-- Left Ear Cup -->
+    <g transform="translate(100, 140)">
+      <rect x="0" y="0" width="45" height="70" rx="22" fill="#1E293B" stroke="#475569" stroke-width="1.5"/>
+      <rect x="8" y="6" width="30" height="58" rx="15" fill="#0F172A"/>
+    </g>
+    <!-- Right Ear Cup -->
+    <g transform="translate(255, 140)">
+      <rect x="0" y="0" width="45" height="70" rx="22" fill="#1E293B" stroke="#475569" stroke-width="1.5"/>
+      <rect x="8" y="6" width="30" height="58" rx="15" fill="#0F172A"/>
+    </g>
+  </g>
+  <text x="200" y="260" text-anchor="middle" font-family="system-ui, sans-serif" font-size="12" font-weight="600" fill="#94A3B8" letter-spacing="1">SONY WH-1000XM5 HEADPHONES</text>
+</svg>
