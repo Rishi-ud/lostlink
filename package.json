@@ -4,8 +4,7 @@
   "description": "LostLink — SRMIST Unified Lost & Found",
   "main": "server.js",
   "scripts": {
-    "start": "node server.js",
-    "build": "node -e \"console.log('LostLink Vercel build ready')\""
+    "start": "node server.js"
   },
   "keywords": [],
   "author": "",

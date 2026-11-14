@@ -78,7 +78,13 @@ const memoryStore = {
 function initMemoryStore() {
   // Load initial dataset from data/db.json if available
   let rawSeed = null;
-  const jsonPath = path.join(__dirname, 'data', 'db.json');
+  let jsonPath = path.join(__dirname, 'data', 'db.json');
+  if (!fs.existsSync(jsonPath)) {
+    jsonPath = path.join(process.cwd(), 'data', 'db.json');
+  }
+  if (!fs.existsSync(jsonPath)) {
+    jsonPath = path.join(__dirname, '..', 'data', 'db.json');
+  }
   if (fs.existsSync(jsonPath)) {
     try {
       rawSeed = JSON.parse(fs.readFileSync(jsonPath, 'utf8'));
